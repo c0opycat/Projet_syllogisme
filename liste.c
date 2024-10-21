@@ -82,4 +82,6 @@ void afficheListe(T_liste l)
         //lib�ration des pointeurs
         free(tmp);
     }
+
+    
 }
