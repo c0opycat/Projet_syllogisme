@@ -16,10 +16,6 @@ void display_quantifier(const T_liste ql)
     afficheListe(ql);
 }
 
-void test(){
-    printf("Test");
-}
-
 int main(int argc, char const *argv[])
 {
     T_liste quant_list;
