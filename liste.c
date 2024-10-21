@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
+#include <string.h>
 
 #include "liste.h"
 
@@ -12,10 +14,11 @@ bool listeVide(T_liste l){
     return (l==NULL);
 }
 
-T_liste ajoutEnTete(T_liste l, const char * mydata)
+T_liste ajoutEnTete(T_liste l, T_quantifier mydata)
 {
-    T_liste tmp = (T_liste)malloc(sizeof(struct T_cell));
-    tmp->data = (char *)malloc(sizeof(char));
+    T_liste tmp = (T_liste)malloc(sizeof(T_cellule));
+    tmp->data = (T_quantifier*)malloc(sizeof(T_quantifier));
+    tmp->data->quantifier_str = (char*)malloc(sizeof(char) * strlen(mydata.quantifier_str));
 
     *(tmp->data) = mydata;
 
@@ -28,8 +31,6 @@ T_liste ajoutEnTete(T_liste l, const char * mydata)
     }
 
     return tmp;
-    free(tmp);
-    free(tmp->data);
 }
 
 T_liste getptrNextCell(T_liste l)
@@ -37,16 +38,11 @@ T_liste getptrNextCell(T_liste l)
     if((listeVide(l)) || (l->suiv == NULL)){
         return NULL;
     }else{
-        T_liste tmp = l;
-
-        tmp = tmp->suiv;
-        return tmp;
-
-        free(tmp);
+        return l->suiv;
     }
 }
 
-char ** getPtrData(T_liste l)
+T_quantifier* getPtrData(T_liste l)
 {
     if(listeVide(l)){
         printf("Erreur getPtrData : liste vide\n");
@@ -67,14 +63,14 @@ void afficheListe(T_liste l)
         T_liste tmp = l;
 
         //cr�ation d'une variable qui contiendra le pointeur des donn�es d'une cellule
-        char** ptrData;
+        T_quantifier* ptrData;
 
         //parcours de la liste
         while(!(listeVide(tmp))){
             ptrData = getPtrData(tmp);
 
             //affichage des donn�es de la cellule
-            printf(*ptrData);
+            printf(ptrData->quantifier_str);
 
             tmp = getptrNextCell(tmp);
         }
@@ -84,4 +80,13 @@ void afficheListe(T_liste l)
     }
 
     
+}
+
+void main()
+{
+    T_liste test;
+    initListe(&test);
+    T_quantifier myd = {"Hello", false};
+    test = ajoutEnTete(test, myd);
+    afficheListe(test);
 }
