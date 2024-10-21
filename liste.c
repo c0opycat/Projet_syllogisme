@@ -27,6 +27,7 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
     tmp->prec = NULL;
 
     if(!(listeVide(l))){
+       
        l->prec = tmp;
     }
 
@@ -54,32 +55,73 @@ T_quantifier* getPtrData(T_liste l)
 
 void afficheListe(T_liste l)
 {
-    //erreur si liste vide
     if(listeVide(l)){
+        
         printf("Erreur afficheListe : liste vide");
     }else{
 
-        //copie de la liste
         T_liste tmp = l;
 
-        //cr�ation d'une variable qui contiendra le pointeur des donn�es d'une cellule
         T_quantifier* ptrData;
         
-        //parcours de la liste
         while(!(listeVide(tmp))){
+
             ptrData = getPtrData(tmp);
 
-            //affichage des donn�es de la cellule
             printf("%s\n", ptrData->quantifier_str);
 
             tmp = getptrNextCell(tmp);
         }
 
-        //lib�ration des pointeurs
         free(tmp);
-    }
+    }  
+}
 
-    
+int getNbreCell(T_liste l)
+{
+    if(listeVide(l)){
+        return 0;
+    }else{
+        int i = 0;
+
+        //copie et parcours de la liste avec incr�mentation du nombre de cellule
+        T_liste tmp = l;
+        while(!(listeVide(tmp))){
+            i += 1;
+            tmp = tmp->suiv;
+        }
+
+        free(tmp);
+
+        return i;
+    }
+}
+
+void afficheListePos(T_liste l)
+{
+    if(listeVide(l)){
+        
+        printf("Erreur afficheListe : liste vide");
+    }else{
+
+        T_liste tmp = l;
+
+        int tmpLen = getNbreCell(tmp);
+
+        T_quantifier* ptrData;
+        
+        for(int i = 1; i <= tmpLen; i++){
+
+            ptrData = getPtrData(tmp);
+
+            //ATTENTION : commence à partir de 1
+            printf("%d : %s\n", i, ptrData->quantifier_str);
+
+            tmp = getptrNextCell(tmp);
+        }
+
+        free(tmp);
+    }  
 }
 
 // void main()

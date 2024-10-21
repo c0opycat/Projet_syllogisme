@@ -19,17 +19,20 @@ T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
 //Arthur et Leïla
 void display_quantifier(const T_liste ql)
 {
-    afficheListe(ql);
+    afficheListePos(ql);
 }
 
 //Leïla
 bool choose_universal_quantifiers()
 {
     bool res = false;
+
     int a = 0;
+    
     printf("Tapez 1 pour ouvrir la liste des quantificateurs universels\n");
     printf("Tapez 2 pour ouvrir la liste des quantificateurs existentiels\n");
-    while((a != 1) || (a != 2))
+    
+    while((a != 1) && (a != 2))
     {
         scanf("%d", &a);
     }
@@ -38,8 +41,35 @@ bool choose_universal_quantifiers()
     {
         res = true;
     }
-
     return res;
+}
+
+//Leïla
+char* choose_quantifier(T_liste ql)
+{
+    // int ql_len =;
+    // T_liste tmp = ql;
+    // for(int i = 0; i < pos; i++)
+    // {
+    //     tmp = getptrNextCell(tmp);
+    // }
+    return NULL;
+}
+
+void input_simple_syllogism(T_liste uql, T_liste eql)
+{
+    bool uqList = choose_universal_quantifiers();
+
+    T_liste qList;
+
+    if(uqList)
+    {
+        qList = uql;
+    }
+    else
+    {
+        qList = eql;
+    }
 }
 
 int main()

@@ -27,7 +27,11 @@ T_liste getptrNextCell(T_liste l);
 
 T_quantifier* getPtrData(T_liste l);
 
+int getNbreCell(T_liste l);
+
 void afficheListe( T_liste l);
+
+void afficheListePos(T_liste l);
 
 
 
