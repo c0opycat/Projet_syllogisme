@@ -21,7 +21,7 @@ typedef struct
 T_liste add_quantifier(const T_quantifier quantifier, T_liste  ql );
 void display_quantifier(const T_liste  ql);
 bool choose_universal_quantifiers();
-char* choose_quantifier(T_liste ql);
+T_quantifier choose_quantifier(T_liste ql);
 void input_simple_syllogism(T_liste uql, T_liste eql);
 
 #endif
