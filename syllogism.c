@@ -12,8 +12,8 @@ analysis_proposition analysis_syllogism[3];
 //Arthur et Leïla
 T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
 {
-    ajoutEnTete(ql, quantifier);
-    return ql;
+    //ql = ajoutEnTete(ql, quantifier);
+    return ajoutEnTete(ql, quantifier);
 }
 
 //Arthur et Leïla
@@ -42,7 +42,7 @@ bool choose_universal_quantifiers()
     return res;
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
     T_liste quant_list;
     initListe(&quant_list);
@@ -50,8 +50,8 @@ int main(int argc, char const *argv[])
     T_quantifier test1 = {"Aucun", false};
     T_quantifier test2 = {"Tous", true};
 
-    add_quantifier(test1, quant_list);
-    add_quantifier(test2, quant_list);
+    quant_list = add_quantifier(test1, quant_list);
+    quant_list = add_quantifier(test2, quant_list);
 
     display_quantifier(quant_list);
 

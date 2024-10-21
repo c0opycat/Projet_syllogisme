@@ -14,7 +14,7 @@ bool listeVide(T_liste l){
     return (l==NULL);
 }
 
-T_liste ajoutEnTete(T_liste l, T_quantifier mydata)
+T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
 {
     T_liste tmp = (T_liste)malloc(sizeof(T_cellule));
     tmp->data = (T_quantifier*)malloc(sizeof(T_quantifier));
@@ -56,7 +56,7 @@ void afficheListe(T_liste l)
 {
     //erreur si liste vide
     if(listeVide(l)){
-        printf("Erreur afficheListeV2 : liste vide");
+        printf("Erreur afficheListe : liste vide");
     }else{
 
         //copie de la liste
@@ -64,13 +64,13 @@ void afficheListe(T_liste l)
 
         //cr�ation d'une variable qui contiendra le pointeur des donn�es d'une cellule
         T_quantifier* ptrData;
-
+        
         //parcours de la liste
         while(!(listeVide(tmp))){
             ptrData = getPtrData(tmp);
 
             //affichage des donn�es de la cellule
-            printf(ptrData->quantifier_str);
+            printf("%s\n", ptrData->quantifier_str);
 
             tmp = getptrNextCell(tmp);
         }
@@ -82,11 +82,11 @@ void afficheListe(T_liste l)
     
 }
 
-void main()
-{
-    T_liste test;
-    initListe(&test);
-    T_quantifier myd = {"Hello", false};
-    test = ajoutEnTete(test, myd);
-    afficheListe(test);
-}
+// void main()
+// {
+//     T_liste test;
+//     initListe(&test);
+//     T_quantifier myd = {"Hello", false};
+//     test = ajoutEnTete(test, myd);
+//     afficheListe(test);
+// }
