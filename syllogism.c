@@ -110,7 +110,7 @@ void display_syllogism(user_proposition p[3]){
 
 //Fonction de saisi d'un syllogisme avec le module a 7 demandes
 //Arthur
-void input_advenced_syllogism(T_liste uql, T_liste eql){
+void input_advanced_syllogism(T_liste uql, T_liste eql){
     bool uqList;
     T_quantifier quantifier;
     char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
@@ -418,7 +418,7 @@ void choose_input(T_liste uql, T_liste eql){
 
     if(a == 1){
         printf("Module à 7 demandes choisi\n");
-        input_advenced_syllogism(uql, eql);
+        input_advanced_syllogism(uql, eql);
     }else{
         printf("Module à 9 demandes choisi\n");
         input_simple_syllogism(uql, eql);
