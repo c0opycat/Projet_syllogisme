@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <time.h>
 #include <string.h>
-
 #include "liste.h"
 
 void initListe(T_liste *l){
@@ -27,7 +24,7 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
     tmp->prec = NULL;
 
     if(!(listeVide(l))){
-       
+
        l->prec = tmp;
     }
 
@@ -56,14 +53,14 @@ T_quantifier* getPtrData(T_liste l)
 void afficheListe(T_liste l)
 {
     if(listeVide(l)){
-        
+
         printf("Erreur afficheListe : liste vide");
     }else{
 
         T_liste tmp = l;
 
         T_quantifier* ptrData;
-        
+
         while(!(listeVide(tmp))){
 
             ptrData = getPtrData(tmp);
@@ -74,7 +71,7 @@ void afficheListe(T_liste l)
         }
 
         free(tmp);
-    }  
+    }
 }
 
 int getNbreCell(T_liste l)
@@ -100,7 +97,7 @@ int getNbreCell(T_liste l)
 void afficheListePos(T_liste l)
 {
     if(listeVide(l)){
-        
+
         printf("Erreur afficheListe : liste vide");
     }else{
 
@@ -109,7 +106,7 @@ void afficheListePos(T_liste l)
         int tmpLen = getNbreCell(tmp);
 
         T_quantifier* ptrData;
-        
+
         for(int i = 1; i <= tmpLen; i++){
 
             ptrData = getPtrData(tmp);
@@ -121,14 +118,5 @@ void afficheListePos(T_liste l)
         }
 
         free(tmp);
-    }  
+    }
 }
-
-// void main()
-// {
-//     T_liste test;
-//     initListe(&test);
-//     T_quantifier myd = {"Hello", false};
-//     test = ajoutEnTete(test, myd);
-//     afficheListe(test);
-// }

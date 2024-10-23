@@ -8,8 +8,6 @@
 
 #define MAX_STR_LEN 100
 
-user_proposition user_syllogism[3];
-analysis_proposition analysis_syllogism[3];
 
 T_liste create_list_quantifier(){
     T_liste l;
@@ -18,26 +16,26 @@ T_liste create_list_quantifier(){
 }
 
 
-//Arthur et Leïla
+//Arthur et Le�la
 T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
 {
     //ql = ajoutEnTete(ql, quantifier);
     return ajoutEnTete(ql, quantifier);
 }
 
-//Arthur et Leïla
+//Arthur et Le�la
 void display_quantifier(const T_liste ql)
 {
     afficheListePos(ql);
 }
 
-//Leïla
+//Le�la
 bool choose_universal_quantifiers()
 {
     bool res = false;
 
     int a = 0;
-    
+
     printf("Tapez 1 pour ouvrir la liste des quantificateurs universels\n");
     printf("Tapez 2 pour ouvrir la liste des quantificateurs existentiels\n");
 
@@ -53,7 +51,7 @@ bool choose_universal_quantifiers()
     return res;
 }
 
-//Leïla
+//Le�la
 T_quantifier choose_quantifier(T_liste ql)
 {
     const int ql_len = getNbreCell(ql);
@@ -73,10 +71,11 @@ T_quantifier choose_quantifier(T_liste ql)
     {
         tmp = getptrNextCell(tmp);
     }
-    
+
     return *(tmp->data);
 }
 
+//Arthur
 void pq(T_quantifier q){
     printf("%s - ", q.quantifier_str);
     if(q.affirmative){
@@ -104,19 +103,19 @@ void display_syllogism(user_proposition p[3]){
             printf("----------Conclusion----------\n");
             printf("%s - %s - %s\n", p[i].quantifier.quantifier_str , p[i].first_term, p[i].second_term);
         }
-        
+
     }
 }
 
-//Fonction de saisi d'un syllogisme avec le module a 7 demandes
+//Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //Arthur
-void input_advanced_syllogism(T_liste uql, T_liste eql){
+user_proposition input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     bool uqList;
     T_quantifier quantifier;
     char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
     int type = 0;
-   
-    ////Enregistrement des quantificateur des différentres parties du syllogisme
+
+    ////Enregistrement des quantificateur des diff�rentres parties du syllogisme
     printf("-----Première proposition-----\n");
 
      uqList = choose_universal_quantifiers();
@@ -158,24 +157,21 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
         quantifier = choose_quantifier(eql);
     }
     user_syllogism[2].quantifier = quantifier;
-    pq(user_syllogism[0].quantifier);
-    pq(user_syllogism[1].quantifier);
-    pq(user_syllogism[2].quantifier);
 
     //Enregistrement du sujet du syllogisme
     printf("Veuillez entrez le sujet de la conclusion : \n");
     scanf("%s", sujet_tmp);
-    
+
     int len = strlen(sujet_tmp);
-    char * sujet = malloc(len * sizeof(char));
+    char * sujet = (char*)malloc(len * sizeof(char));
     sujet = sujet_tmp;
 
-    //Enregistrement du prédicat du syllogisme
+    //Enregistrement du pr�dicat du syllogisme
     printf("Veuillez entrez le prédicat de la conclusion : \n");
     scanf("%s", predicat_tmp);
 
     len = strlen(predicat_tmp);
-    char * predicat = malloc(len * sizeof(char));
+    char * predicat = (char*)malloc(len * sizeof(char));
     predicat = predicat_tmp;
 
     //Enregistrement du moyen terme du syllogisme
@@ -183,7 +179,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
     scanf("%s", terme_tmp);
 
     len = strlen(terme_tmp);
-    char * terme = malloc(len * sizeof(char));
+    char * terme = (char*)malloc(len * sizeof(char));
     terme = terme_tmp;
 
     //Enregistrement du type du syllogisme
@@ -202,7 +198,6 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
         user_syllogism[2].first_term = sujet;
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
-        return;
     }
     if (type == 2)
     {
@@ -213,7 +208,6 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
         user_syllogism[2].first_term = sujet;
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
-        return;
     }
     if (type == 3)
     {
@@ -224,7 +218,6 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
         user_syllogism[2].first_term = sujet;
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
-        return;
     }
     if (type == 4)
     {
@@ -235,23 +228,23 @@ void input_advanced_syllogism(T_liste uql, T_liste eql){
         user_syllogism[2].first_term = sujet;
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
-        return;
     }
-    
+
+    return user_syllogism[3];
+
 }
 
-//ma fonction est très très moche au niveau de la gestion de la mémoire et juste en général mdr
-//je te conseille de pas la regarder 
-void input_simple_syllogism(T_liste uql, T_liste eql)
+//Le�la
+void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3])
 {
     bool uqList;
     T_quantifier quantifier;
-    char term[MAX_STR_LEN]; //GERER MIEUX L'ESPACE DE LA CHAINE DE CAR MAIS PAS CONNUE A L'AVANCE 
+    char term1_fst_prop[MAX_STR_LEN], term2_fst_prop[MAX_STR_LEN], term_scd_prop[MAX_STR_LEN];
     char s_or_p = 'a';
     int s_or_p2 = 0;
     printf("-----Module 9 demandes-----\n");
     printf("-----Première proposition-----\n");
-    
+
     uqList = choose_universal_quantifiers();
 
     if(uqList)
@@ -263,21 +256,24 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
         quantifier = choose_quantifier(eql);
     }
 
-    //ne marche pas à partir d'ici lol
     user_syllogism[0].quantifier = quantifier;
 
-    printf("Veuillez entrer le sujet (et le verbe qui suit)\n");
-    scanf("%s", term);
+    printf("Veuillez entrer le sujet de la première proposition\n");
+    scanf("%s", term1_fst_prop);
 
-    user_syllogism[0].first_term = term;
+    char* term1 = (char*)malloc(sizeof(char) * strlen(term1_fst_prop));
+    term1 = term1_fst_prop;
+    user_syllogism[0].first_term = term1;
 
-    printf("Veuillez entrer le prédicat\n");
-    scanf("%s", term);
+    printf("Veuillez entrer le prédicat de la premi�re proposition\n");
+    scanf("%s", term2_fst_prop);
 
-    user_syllogism[0].second_term = term;
-    
+    char* term2 = (char*)malloc(sizeof(char) * strlen(term2_fst_prop));
+    term2 = term2_fst_prop;
+    user_syllogism[0].second_term = term2;
+
     printf("-----Deuxième proposition-----\n");
-    
+
     uqList = choose_universal_quantifiers();
 
     if(uqList)
@@ -292,7 +288,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
     user_syllogism[1].quantifier = quantifier;
 
     printf("Le sujet est-il le sujet ou le prédicat de la première proposition ? \n");
-    printf("[o]:oui [n]:non\n"); 
+    printf("[o]:oui [n]:non\n");
 
     while((s_or_p != 'o') && (s_or_p != 'n'))
     {
@@ -309,7 +305,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
         {
             scanf("%d", &s_or_p2);
         }
-        
+
         if(s_or_p2 == 1)
         {
             user_syllogism[1].first_term = user_syllogism[0].first_term;
@@ -320,15 +316,20 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
         }
 
         printf("Veuillez entrer le prédicat \n");
-        scanf("%s", term);
-        user_syllogism[1].second_term = term;   
+        scanf("%s", term_scd_prop);
+
+        char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
+        term3 = term_scd_prop;
+        user_syllogism[1].second_term = term3;
     }
     else
     {
-        printf("Veuillez entrer le sujet (et le verbe qui suit)\n");
-        scanf("%s", term);
+        printf("Veuillez entrer le sujet\n");
+        scanf("%s", term_scd_prop);
 
-        user_syllogism[1].first_term = term;
+        char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
+        term3 = term_scd_prop;
+        user_syllogism[1].first_term = term3;
 
         printf("Veuillez choisir le prédicat\n");
         printf("[1]:%s\n", user_syllogism[0].first_term);
@@ -338,7 +339,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
         {
             scanf("%d", &s_or_p2);
         }
-        
+
         if(s_or_p2 == 1)
         {
             user_syllogism[1].second_term = user_syllogism[0].first_term;
@@ -350,7 +351,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
     }
 
     printf("-----Conclusion-----\n");
-    
+
     uqList = choose_universal_quantifiers();
 
     if(uqList)
@@ -375,7 +376,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
     if(s_or_p == 's')
     {
         user_syllogism[2].first_term = user_syllogism[1].first_term;
-        
+
         if(user_syllogism[0].first_term == user_syllogism[1].second_term)
         {
             user_syllogism[2].second_term = user_syllogism[0].second_term;
@@ -399,17 +400,13 @@ void input_simple_syllogism(T_liste uql, T_liste eql)
         }
     }
 
-    printf("%s\n", user_syllogism[0].first_term);
-    printf("%s\n", user_syllogism[0].second_term);
-    printf("%s\n", user_syllogism[1].first_term);
-    printf("%s\n", user_syllogism[1].second_term);
-    printf("%s\n", user_syllogism[2].first_term);
-    printf("%s\n", user_syllogism[2].second_term);
+    display_syllogism(user_syllogism);
 }
 
+
 //Arthur
-void choose_input(T_liste uql, T_liste eql){
-    printf("Tapez 1 pour choisire le module à 7 demandes\nTapez 2 pour choisire le module a 9 demandes\n");
+void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
+    printf("Tapez 1 pour choisire le module à 7 demandes\nTapez 2 pour choisire le module à 9 demandes\n");
     int a;
     while((a != 1) && (a != 2))
     {
@@ -418,29 +415,26 @@ void choose_input(T_liste uql, T_liste eql){
 
     if(a == 1){
         printf("Module à 7 demandes choisi\n");
-        input_advanced_syllogism(uql, eql);
+        input_advanced_syllogism(uql, eql, user_syllogism);
     }else{
         printf("Module à 9 demandes choisi\n");
-        input_simple_syllogism(uql, eql);
-    }    
+        input_simple_syllogism(uql, eql, user_syllogism);
+    }
 }
+
+
+/*
+void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3])
+{
+
+}
+*/
+
 
 int main()
 {
-    for(int i = 0; i < 3; i ++)
-    {
-        user_syllogism[i].first_term = (char*)malloc(sizeof(char) * 100); //GERER LA MEMOIRE
-        user_syllogism[i].second_term = (char*)malloc(sizeof(char) * 100); //GERER LA MEMOIRE
-        user_syllogism[i].quantifier.quantifier_str = (char*)malloc(sizeof(char) * 100);
-    }
-
-    T_liste quant_list1;
-    T_liste quant_list2;
-    //initListe(&quant_list1);
-    //initListe(&quant_list2);
-
-    quant_list1 = create_list_quantifier();
-    quant_list2 = create_list_quantifier();
+    T_liste quant_list1 = create_list_quantifier();
+    T_liste quant_list2 = create_list_quantifier();
 
     T_quantifier test1 = {"Aucun", false};
     T_quantifier test2 = {"Tous", true};
@@ -452,9 +446,16 @@ int main()
     display_quantifier(quant_list2);
 
     //input_simple_syllogism(quant_list2, quant_list1);
-    //input_advenced_syllogim(quant_list1, quant_list2);
+    //input_advenced_syllogim(quant_list2, quant_list1, user_syllogism);
 
-    choose_input(quant_list2, quant_list1);
+    user_proposition user_syllogism[3];
+    //choose_input(quant_list2, quant_list1, user_syllogism);
+
+    user_syllogism[3] = input_advanced_syllogism(quant_list2, quant_list1, user_syllogism);
+
+    display_syllogism(user_syllogism);
+
+
 
     return 0;
 }

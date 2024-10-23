@@ -1,11 +1,10 @@
-#ifndef LISTE
-#define LISTE
+#ifndef LISTE_H_INCLUDED
+#define LISTE_H_INCLUDED
 
 #include <stdbool.h>
 
 typedef struct T_quant{
 	char* quantifier_str;
-	//bool universal;
 	bool affirmative;
 }T_quantifier;
 
@@ -35,4 +34,4 @@ void afficheListePos(T_liste l);
 
 
 
-#endif 
+#endif // LISTE_H_INCLUDED
