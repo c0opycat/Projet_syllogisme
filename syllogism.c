@@ -109,7 +109,7 @@ void display_syllogism(user_proposition p[3]){
 
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //Arthur
-user_proposition input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
+void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     bool uqList;
     T_quantifier quantifier;
     char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
@@ -163,24 +163,24 @@ user_proposition input_advanced_syllogism(T_liste uql, T_liste eql, user_proposi
     scanf("%s", sujet_tmp);
 
     int len = strlen(sujet_tmp);
-    char * sujet = (char*)malloc(len * sizeof(char));
-    sujet = sujet_tmp;
+    char * sujet = (char*)malloc((len + 1) * sizeof(char));
+    strcpy(sujet, sujet_tmp);
 
     //Enregistrement du pr�dicat du syllogisme
     printf("Veuillez entrez le prédicat de la conclusion : \n");
     scanf("%s", predicat_tmp);
 
     len = strlen(predicat_tmp);
-    char * predicat = (char*)malloc(len * sizeof(char));
-    predicat = predicat_tmp;
+    char * predicat = (char*)malloc((len + 1) * sizeof(char));
+    strcpy(predicat, predicat_tmp);
 
     //Enregistrement du moyen terme du syllogisme
     printf("Veuillez entrez le moyen terme de la conclusion : \n");
     scanf("%s", terme_tmp);
 
     len = strlen(terme_tmp);
-    char * terme = (char*)malloc(len * sizeof(char));
-    terme = terme_tmp;
+    char * terme = (char*)malloc((len + 1) * sizeof(char));
+    strcpy(terme, terme_tmp);
 
     //Enregistrement du type du syllogisme
     printf("Entrez le type de voter syllogisme : \n");
@@ -229,9 +229,6 @@ user_proposition input_advanced_syllogism(T_liste uql, T_liste eql, user_proposi
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
     }
-
-    return user_syllogism[3];
-
 }
 
 //Le�la
@@ -451,11 +448,13 @@ int main()
     user_proposition user_syllogism[3];
     //choose_input(quant_list2, quant_list1, user_syllogism);
 
-    user_syllogism[3] = input_advanced_syllogism(quant_list2, quant_list1, user_syllogism);
+    input_advanced_syllogism(quant_list2, quant_list1, user_syllogism);
 
+
+    printf("\n------Affichage Main------\n\n");
     display_syllogism(user_syllogism);
 
-
+    //printf("sujet prémisser 1 : %s\n", user_syllogism[0].first_term);
 
     return 0;
 }
