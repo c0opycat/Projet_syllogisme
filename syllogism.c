@@ -107,9 +107,20 @@ void display_syllogism(user_proposition p[3]){
     }
 }
 
+void display_analysis(analysis_proposition p[3]){
+    int count = 2;
+    printf("------Display_analysis------\n");
+    for (int i = 0; i <= count; i++)
+    {
+        printf("First term : %c\nSecond term : %c\nAffirmative(0 = false) : %d\nUniversal(0 = false) : %d\n", p[i].first_term, p[i].second_term, p[i].affirmative, p[i].universal );
+        printf("--------------\n");
+    }
+    
+}
+
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //Arthur
-void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
+int input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     bool uqList;
     T_quantifier quantifier;
     char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
@@ -229,6 +240,8 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
         user_syllogism[2].second_term = predicat;
         display_syllogism(user_syllogism);
     }
+
+    return type;
 }
 
 //Le�la
@@ -420,21 +433,34 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
 }
 
 
-/*
 void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3])
 {
-
+    if(user_syllogism[0].first_term == user_syllogism[1].first_term){
+        printf("figure 3\n");
+        analysis_syllogism[0].first_term = 'M';
+        analysis_syllogism[0].second_term = 'P';
+        analysis_syllogism[0].universal = user_syllogism[0].quantifier.universal;
+        analysis_syllogism[0].affirmative = user_syllogism[0].quantifier.affirmative;
+        analysis_syllogism[1].first_term = 'M';
+        analysis_syllogism[1].second_term = 'S';
+        analysis_syllogism[1].universal = user_syllogism[1].quantifier.universal;
+        analysis_syllogism[1].affirmative = user_syllogism[1].quantifier.affirmative;
+        analysis_syllogism[2].first_term = 'S';
+        analysis_syllogism[2].second_term = 'P';
+        analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
+        analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
+    }
 }
-*/
 
+//j'ai fait que ça parce que je ne suis pas sur que c'est ce qu'il faut faire
 
 int main()
 {
     T_liste quant_list1 = create_list_quantifier();
     T_liste quant_list2 = create_list_quantifier();
 
-    T_quantifier test1 = {"Aucun", false};
-    T_quantifier test2 = {"Tous", true};
+    T_quantifier test1 = {"Aucun", true, false};
+    T_quantifier test2 = {"Tous", true, true};
 
     quant_list1 = add_quantifier(test1, quant_list1);
     quant_list2 = add_quantifier(test2, quant_list2);
@@ -448,13 +474,22 @@ int main()
     user_proposition user_syllogism[3];
     //choose_input(quant_list2, quant_list1, user_syllogism);
 
-    input_advanced_syllogism(quant_list2, quant_list1, user_syllogism);
+    int type = input_advanced_syllogism(quant_list2, quant_list1, user_syllogism);
 
+
+    analysis_proposition analysis_syllogism[3];
+
+    convert_to_analysis(user_syllogism, analysis_syllogism);
 
     printf("\n------Affichage Main------\n\n");
-    display_syllogism(user_syllogism);
+    printf("type = %d\n", type);
 
-    //printf("sujet prémisser 1 : %s\n", user_syllogism[0].first_term);
+    display_syllogism(user_syllogism);
+    display_analysis(analysis_syllogism);
+
+    printf("\n------Fin  Affichage------\n\n");
+
+    
 
     return 0;
 }

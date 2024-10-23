@@ -5,6 +5,7 @@
 
 typedef struct T_quant{
 	char* quantifier_str;
+    bool universal;
 	bool affirmative;
 }T_quantifier;
 
