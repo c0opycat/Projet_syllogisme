@@ -33,13 +33,49 @@ void display_quantifier(const T_liste ql)
     afficheListePos(ql);
 }
 
-
+//Arthur
+//fonction pour vider le buffer
 void clear_input_buffer() {
     int c;
     // Lire et jeter tous les caractères dans le tampon jusqu'à rencontrer un '\n' ou EOF
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+
+//Leïla
+//fonction pour lire une chaîne de caractères (espaces inclus)
+//retourne 0 si la chaîne a été lu correctement
+int myfgets(char* chaine)
+{
+    char* rc = NULL;
+
+    //récupère la chaîne de caractère
+    if(fgets(chaine, MAX_STR_LEN, stdin) != NULL)
+    {
+        //on cherche le \n dans la chaîne
+        rc = strchr(chaine, '\n');
+
+        if(rc != NULL)
+        {
+            //s'il est trouvé, on le remplace par \0 signifiant la fin de la chaîne
+            *rc = '\0';
+        }
+        else
+        {
+            //on vide le buffer si toute la chaîne n'a pas pu être récupérée
+            clear_input_buffer();
+        }
+
+        return 0;
+    }
+    else
+    {
+        //on vide le buffer s'il y a eu une erreur
+        clear_input_buffer();
+
+        return 1;
+    }
+}
 //Le�la
 //Demande de choisir entre quantificateurs universels et existentiels
 //Renvoie true si quantificateurs universels choisi
@@ -55,7 +91,7 @@ bool choose_universal_quantifiers()
     while((a != 1) && (a != 2))
     {
         scanf("%d", &a);
-        fflush(stdin);
+        clear_input_buffer();
     }
 
     if(a == 1)
@@ -194,8 +230,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
 
     //Enregistrement du sujet du syllogisme
     printf("Veuillez entrer le sujet de la conclusion : \n");
-    fgets(sujet_tmp, MAX_STR_LEN, stdin);
-    fflush(stdin);
+    myfgets(sujet_tmp);
 
     int len = strlen(sujet_tmp);
     char * sujet = (char*)malloc((len + 1) * sizeof(char));
@@ -203,8 +238,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
 
     //Enregistrement du pr�dicat du syllogisme
     printf("Veuillez entrer le prédicat de la conclusion : \n");
-    fgets(predicat_tmp, MAX_STR_LEN, stdin);
-    fflush(stdin);
+    myfgets(predicat_tmp);
 
     len = strlen(predicat_tmp);
     char * predicat = (char*)malloc((len + 1) * sizeof(char));
@@ -212,8 +246,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
 
     //Enregistrement du moyen terme du syllogisme
     printf("Veuillez entrer le moyen terme de la conclusion : \n");
-    fgets(terme_tmp, MAX_STR_LEN, stdin);
-    fflush(stdin);
+    myfgets(terme_tmp);
 
     len = strlen(terme_tmp);
     char * terme = (char*)malloc((len + 1) * sizeof(char));
@@ -224,7 +257,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
     while(!(type > 0 && type < 5))
     {
         scanf("%d", &type);
-        fflush(stdin);
+        clear_input_buffer();
     }
 
     if(type == 1)
@@ -291,16 +324,14 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     user_syllogism[0].quantifier = quantifier;
 
     printf("Veuillez entrer le sujet de la première proposition\n");
-    fgets(term1_fst_prop, MAX_STR_LEN, stdin);
-    fflush(stdin);
+    myfgets(term1_fst_prop);
 
     char* term1 = (char*)malloc(sizeof(char) * strlen(term1_fst_prop));
     strcpy(term1, term1_fst_prop);
     user_syllogism[0].first_term = term1;
 
     printf("Veuillez entrer le prédicat de la premi�re proposition\n");
-    fgets(term2_fst_prop, MAX_STR_LEN, stdin);
-    fflush(stdin);
+    myfgets(term2_fst_prop);
 
     char* term2 = (char*)malloc(sizeof(char) * strlen(term2_fst_prop));
     strcpy(term2, term2_fst_prop);
@@ -327,7 +358,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     while((s_or_p != 'o') && (s_or_p != 'n'))
     {
         scanf("%c", &s_or_p);
-        fflush(stdin);
+        clear_input_buffer();
     }
 
     if(s_or_p == 'o')
@@ -339,7 +370,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
             scanf("%d", &s_or_p2);
-            fflush(stdin);
+            clear_input_buffer();
         }
 
         if(s_or_p2 == 1)
@@ -352,8 +383,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         }
 
         printf("Veuillez entrer le prédicat \n");
-        fgets(term_scd_prop, MAX_STR_LEN, stdin);
-        fflush(stdin);
+        myfgets(term_scd_prop);
 
         char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
         strcpy(term3, term_scd_prop);
@@ -362,8 +392,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     else
     {
         printf("Veuillez entrer le sujet\n");
-        fgets(term_scd_prop, MAX_STR_LEN, stdin);
-        fflush(stdin);
+        myfgets(term_scd_prop);
 
         char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
         term3 = term_scd_prop;
@@ -376,7 +405,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
             scanf("%d", &s_or_p2);
-            fflush(stdin);
+            clear_input_buffer();
         }
 
         if(s_or_p2 == 1)
@@ -410,7 +439,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     while((s_or_p != 's') && (s_or_p != 'p'))
     {
         scanf("%c", &s_or_p);
-        fflush(stdin);
+        clear_input_buffer();
     }
 
     if(s_or_p == 's')
@@ -451,7 +480,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     while((a != 1) && (a != 2))
     {
         scanf("%d", &a);
-        fflush(stdin);
+        clear_input_buffer();
     }
 
     if(a == 1){
@@ -517,15 +546,17 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
 
 }
 
+/*
 
+//ne fonctionne pas ???
 void free_user_syl(user_proposition p[3]){
-    int count = 3;
+    int count = 2;
     for (int i = 0; i < count; i++)
     {
         free(p[i].first_term);
-        free(p[i].second_term);
     }
 }
+*/
 
 int main()
 {
@@ -547,8 +578,6 @@ int main()
 
     display_syllogism(user_syllogism);
     display_analysis(analysis_syllogism);
-
-    free_user_syl(user_syllogism);
 
     return 0;
 }
