@@ -435,6 +435,38 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
 
 void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3])
 {
+    if(user_syllogism[0].first_term == user_syllogism[1].second_term){
+        printf("figure 1\n");
+        analysis_syllogism[0].first_term = 'M';
+        analysis_syllogism[0].second_term = 'P';
+        analysis_syllogism[0].universal = user_syllogism[0].quantifier.universal;
+        analysis_syllogism[0].affirmative = user_syllogism[0].quantifier.affirmative;
+        analysis_syllogism[1].first_term = 'S';
+        analysis_syllogism[1].second_term = 'M';
+        analysis_syllogism[1].universal = user_syllogism[1].quantifier.universal;
+        analysis_syllogism[1].affirmative = user_syllogism[1].quantifier.affirmative;
+        analysis_syllogism[2].first_term = 'S';
+        analysis_syllogism[2].second_term = 'P';
+        analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
+        analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
+    }
+
+    if(user_syllogism[0].second_term == user_syllogism[1].second_term){
+        printf("figure 2\n");
+        analysis_syllogism[0].first_term = 'P';
+        analysis_syllogism[0].second_term = 'M';
+        analysis_syllogism[0].universal = user_syllogism[0].quantifier.universal;
+        analysis_syllogism[0].affirmative = user_syllogism[0].quantifier.affirmative;
+        analysis_syllogism[1].first_term = 'S';
+        analysis_syllogism[1].second_term = 'M';
+        analysis_syllogism[1].universal = user_syllogism[1].quantifier.universal;
+        analysis_syllogism[1].affirmative = user_syllogism[1].quantifier.affirmative;
+        analysis_syllogism[2].first_term = 'S';
+        analysis_syllogism[2].second_term = 'P';
+        analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
+        analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
+    }
+
     if(user_syllogism[0].first_term == user_syllogism[1].first_term){
         printf("figure 3\n");
         analysis_syllogism[0].first_term = 'M';
@@ -450,9 +482,24 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
         analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
         analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
     }
+
+    if(user_syllogism[0].second_term == user_syllogism[1].first_term){
+        printf("figure 4\n");
+        analysis_syllogism[0].first_term = 'P';
+        analysis_syllogism[0].second_term = 'M';
+        analysis_syllogism[0].universal = user_syllogism[0].quantifier.universal;
+        analysis_syllogism[0].affirmative = user_syllogism[0].quantifier.affirmative;
+        analysis_syllogism[1].first_term = 'M';
+        analysis_syllogism[1].second_term = 'S';
+        analysis_syllogism[1].universal = user_syllogism[1].quantifier.universal;
+        analysis_syllogism[1].affirmative = user_syllogism[1].quantifier.affirmative;
+        analysis_syllogism[2].first_term = 'S';
+        analysis_syllogism[2].second_term = 'P';
+        analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
+        analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
+    }
 }
 
-//j'ai fait que ça parce que je ne suis pas sur que c'est ce qu'il faut faire
 
 int main()
 {
