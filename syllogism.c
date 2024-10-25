@@ -498,7 +498,6 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
 {
     if(user_syllogism[0].first_term == user_syllogism[1].second_term)
     {
-        printf("figure 1\n");
         analysis_syllogism[0].first_term = 'M';
         analysis_syllogism[0].second_term = 'P';
         analysis_syllogism[1].first_term = 'S';
@@ -508,7 +507,6 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
     }
     else if(user_syllogism[0].second_term == user_syllogism[1].second_term)
     {
-        printf("figure 2\n");
         analysis_syllogism[0].first_term = 'P';
         analysis_syllogism[0].second_term = 'M';
         analysis_syllogism[1].first_term = 'S';
@@ -518,7 +516,6 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
     }
     else if(user_syllogism[0].first_term == user_syllogism[1].first_term)
     {
-        printf("figure 3\n");
         analysis_syllogism[0].first_term = 'M';
         analysis_syllogism[0].second_term = 'P';
         analysis_syllogism[1].first_term = 'M';
@@ -528,7 +525,6 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
     }
     else if(user_syllogism[0].second_term == user_syllogism[1].first_term)
     {
-        printf("figure 4\n");
         analysis_syllogism[0].first_term = 'P';
         analysis_syllogism[0].second_term = 'M';
         analysis_syllogism[1].first_term = 'M';
