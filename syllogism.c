@@ -8,8 +8,6 @@
 
 #define MAX_STR_LEN 100
 
-//test
-
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
 T_liste create_list_quantifier(){
