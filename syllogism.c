@@ -16,7 +16,6 @@ T_liste create_list_quantifier(){
     return l;
 }
 
-
 //Arthur et Le�la
 //Ajout du quantificateur quantifier à la liste ql
 //Retourne la liste ql modifiée
