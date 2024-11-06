@@ -606,20 +606,6 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
 
 }
 
-
-/*
-//ne fonctionne pas ???
-void free_user_syl(user_proposition p[3]){
-    for (int i = 0; i < 2; i++)
-    {
-        free(p[i].first_term);
-        free(p[i].second_term);
-        free(p[i].quantifier.quantifier_str);
-    }
-}
-*/
-
-
 void free_user_syl(user_proposition p[3]){
     if(p[0].first_term == p[1].second_term)
     {
