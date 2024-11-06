@@ -620,8 +620,37 @@ void free_user_syl(user_proposition p[3]){
 */
 
 
+void free_user_syl(user_proposition p[3]){
+    if(p[0].first_term == p[1].second_term)
+    {
+        free(p[2].first_term);
+        free(p[2].second_term);
+        free(p[0].first_term);
+    }
+    else if(p[0].second_term == p[1].second_term)
+    {
+        free(p[2].first_term);
+        free(p[2].second_term);
+        free(p[0].second_term);
+    }
+    else if(p[0].first_term == p[1].first_term)
+    {
+        free(p[2].first_term);
+        free(p[2].second_term);
+        free(p[0].first_term);
+    }
+    else if(p[0].second_term == p[1].first_term)
+    {
+        free(p[2].first_term);
+        free(p[2].second_term);
+        free(p[0].second_term);
+    }
+    
+}
+
 int main()
 {
+
     T_liste quant_list_u = create_list_quantifier();
     T_liste quant_list_e = create_list_quantifier();
 
@@ -643,7 +672,7 @@ int main()
     display_syllogism(user_syllogism);
     display_analysis(analysis_syllogism);
 
-    // free_user_syl(user_syllogism);
+    free_user_syl(user_syllogism);
     // display_syllogism(user_syllogism);
 
     return 0;
