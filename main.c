@@ -28,10 +28,10 @@ int main()
 
     bool v_tab[9];
     validation(analysis_syllogism, user_syllogism, v_tab);
-    
-    // free_user_syl(user_syllogism);
-    // free_list(quant_list_u);
-    // free_list(quant_list_e);
+
+    free_user_syl(user_syllogism);
+    free_list(quant_list_u);
+    free_list(quant_list_e);
     // display_syllogism(user_syllogism);
 
     return 0;

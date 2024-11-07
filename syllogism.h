@@ -26,7 +26,7 @@ void display_quantifier(const T_liste ql);
 
 T_quantifier choose_quantifier(T_liste ql);
 
-char* syl_to_string(user_proposition user_syllogism[3]);
+// char* syl_to_string(user_proposition user_syllogism[3]);
 
 void display_syllogism(user_proposition user_syllogism[3]);
 void display_analysis(analysis_proposition p[3]);

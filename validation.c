@@ -163,19 +163,19 @@ void validation (analysis_proposition AS[3],user_proposition US[3], bool v_tab[9
     v_tab[6]=Rpp(AS);
     v_tab[8]=(v_tab[0] && v_tab[1] && v_tab[2] && v_tab[3] && v_tab[4] && v_tab[5] && v_tab[6]);
 
-    char * syll = syl_to_string(US);
-
     if (v_tab[8] == true)
     {
-        printf("Le syllogisme\n%sest valide\n",syll);
+        printf("Le syllogisme\n");
+        display_syllogism(US);
+        printf("est valide\n");
         Ruu(AS);
         v_tab[7] = Ri(AS);
     }
     else 
-    {
-        printf("Le syllogisme\n%sest invalide\n",syll);
+    {  
+        printf("Le syllogisme\n");
+        display_syllogism(US);
+        printf("est invalide\n");
         v_tab[7] = false;
     }
-
-    free(syll);
 }

@@ -185,74 +185,82 @@ T_quantifier choose_quantifier(T_liste ql)
     return *(tmp->data);
 }
 
-//Leïla et Gabriel
-//renvoie une chaîne de caractères correspondant au syllogisme passé en paramètre
-char* syl_to_string(user_proposition user_syllogism[3])
-{
-    char* res = (char*)malloc(sizeof(char));
-    int len;
-    char* tmp;
+// //Leïla et Gabriel
+// //renvoie une chaîne de caractères correspondant au syllogisme passé en paramètre
+// char* syl_to_string(user_proposition user_syllogism[3])
+// {
+//     char* res = (char*)malloc(sizeof(char));
+//     int len = 0;
 
-    //3 itérations pour les 3 propositions
-    for(int i = 0; i < 3; i ++)
-    {
-        //mémorisation de la chaîne de caractère correspondant au quantificateur
-        tmp = user_syllogism[i].quantifier.quantifier_str;
+//     //3 itérations pour les 3 propositions
+//     for(int i = 0; i < 3; i ++)
+//     {
+//         //mémorisation de la longueur de la chaîne de caractère correspondant au quantificateur
+//         // + 1 pour un espace
+//         len = strlen(user_syllogism[i].quantifier.quantifier_str);
 
-        //mémorisation de la longueur de la chaîne de caractère correspondant au quantificateur
-        // + 1 pour un espace
-        len = strlen(tmp) + 1;
+//         //réallocation de la mémoire allouée pour la chaîne de caractère résultat
+//         res = realloc(res, strlen(res) + (sizeof(char) * len));
+
+//         //ajout du quantificateur à la chaîne résultat
+//         strcat(res, user_syllogism[i].quantifier.quantifier_str);
+
+//         //réallocation pour l'espace
+//         res = realloc(res, strlen(res) + 1);
+
+//         //ajout de l'espace
+//         strcat(res, " ");
+
+//         //2 itérations pour les 2 termes composants une proposition
+//         for(int j = 0; j < 2; j++)
+//         {
+//             if(j == 0)
+//             {
+//                 //premier terme
+//                 len = strlen(user_syllogism[i].first_term);
+
+//                 res = realloc(res, strlen(res) + (sizeof(char) * len));
+
+//                 strcat(res, user_syllogism[i].first_term);
+//             }
+//             else
+//             {
+//                 //second terme
+//                 len = strlen(user_syllogism[i].second_term);
+
+//                 res = realloc(res, strlen(res) + (sizeof(char) * len));
+
+//                 strcat(res, user_syllogism[i].second_term);
+//             }
+
+//             if(j == 0)
+//             {
+//                 //ajout d'un espace après le premier terme
+//                 res = realloc(res, strlen(res) + 1);
+//                 strcat(res, " ");
+//             }
+//             else
+//             {
+//                 if(i != 2)
+//                 {
+//                     //ajout d'un retour chariot après le second terme
+//                     res = realloc(res, strlen(res) + 1);
+//                     strcat(res, "\n");
+//                 }
+//             }
+//         }
+//     }
         
-        //réallocation de la mémoire allouée pour la chaîne de caractère résultat
-        res = realloc(res, strlen(res) + (sizeof(char) * len));
-
-        //ajout du quantificateur à la chaîne résultat
-        strcat(res, tmp);
-
-        //ajout de l'espace
-        strcat(res, " ");
-
-        //2 itérations pour les 2 termes composants une proposition
-        for(int j = 0; j < 2; j++)
-        {
-            if(j == 0)
-            {
-                //mémorisation du premier terme
-                tmp = user_syllogism[i].first_term;
-            }
-            else
-            {
-                //mémorisation du second terme
-                tmp = user_syllogism[i].second_term;
-            }
-            
-            //mémorisation de la longueur du terme + 1 pour le retour chariot ou l'espace
-            len = strlen(tmp) + 1;
-
-            res = realloc(res, strlen(res) + (sizeof(char) * len));
-
-            strcat(res, tmp);
-
-            if(j == 0)
-            {
-                //ajout d'un espace après le premier terme
-                strcat(res, " ");
-            }
-            else
-            {
-                //ajout d'un retour chariot après le second terme
-                strcat(res, "\n");
-            }
-        }
-    }
-        
-    return res;
-}
+//     return res;
+// }
 
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition
 void display_syllogism(user_proposition p[3]){
-   printf("%s\n", syl_to_string(p));
+   for(int i = 0; i < 3; i++)
+   {
+    printf("%s %s %s\n", p[i].quantifier.quantifier_str, p[i].first_term, p[i].second_term);
+   }
 }
 
 //Arthur
@@ -569,7 +577,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     
     printf("Tapez 1 pour choisir le module pour experts\nTapez 2 pour choisir le module pour novices\nTapez 3 pour ajouter un quantificateur\n");
-    int a;
+    int a = 0;
 
     while((a != 1) && (a != 2) && (a != 3))
     {
@@ -645,37 +653,32 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
 
 //Arthur
 //Fonction qui permet de libérer les ressources de nos user_proposition
-void free_user_syl(user_proposition p[3]){
+void free_user_syl(user_proposition p[3])
+{ 
+    free(p[2].first_term);
+    free(p[2].second_term);
+
     if(p[0].first_term == p[1].second_term)
     {
-        free(p[2].first_term);
-        free(p[2].second_term);
         free(p[0].first_term);
     }
     else if(p[0].second_term == p[1].second_term)
     {
-        free(p[2].first_term);
-        free(p[2].second_term);
         free(p[0].second_term);
     }
     else if(p[0].first_term == p[1].first_term)
     {
-        free(p[2].first_term);
-        free(p[2].second_term);
         free(p[0].first_term);
     }
     else if(p[0].second_term == p[1].first_term)
     {
-        free(p[2].first_term);
-        free(p[2].second_term);
         free(p[0].second_term);
     }
     
-    for(int i = 0; i < 2 ; i++)
-    {
-        free(p[i].quantifier.quantifier_str);
-    }
-
+    // for(int i = 0; i < 2 ; i++)
+    // {
+    //     free(p[i].quantifier.quantifier_str);
+    // }
 }
 
 
