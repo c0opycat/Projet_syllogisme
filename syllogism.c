@@ -127,14 +127,14 @@ void new_quantifier(T_liste *qlu, T_liste *qle)
     }
 }
 
-//Arthur et Le�la
+//Arthur et Leïla
 //Affiche la liste de quantificateurs ql
 void display_quantifier(const T_liste ql)
 {
     afficheListePos(ql);
 }
 
-//Le�la
+//Leïla
 //Demande de choisir entre quantificateurs universels et existentiels
 //Renvoie true si quantificateurs universels choisi
 bool choose_universal_quantifiers()
@@ -159,7 +159,7 @@ bool choose_universal_quantifiers()
     return res;
 }
 
-//Le�la
+//Leïla
 //Demande de choisir un quantificateur parmi ceux contenus dans la liste ql
 //Renvoie le quantificateur choisi
 T_quantifier choose_quantifier(T_liste ql)
@@ -185,24 +185,74 @@ T_quantifier choose_quantifier(T_liste ql)
     return *(tmp->data);
 }
 
+//Leïla et Gabriel
+//renvoie une chaîne de caractères correspondant au syllogisme passé en paramètre
+char* syl_to_string(user_proposition user_syllogism[3])
+{
+    char* res = (char*)malloc(sizeof(char));
+    int len;
+    char* tmp;
+
+    //3 itérations pour les 3 propositions
+    for(int i = 0; i < 3; i ++)
+    {
+        //mémorisation de la chaîne de caractère correspondant au quantificateur
+        tmp = user_syllogism[i].quantifier.quantifier_str;
+
+        //mémorisation de la longueur de la chaîne de caractère correspondant au quantificateur
+        // + 1 pour un espace
+        len = strlen(tmp) + 1;
+        
+        //réallocation de la mémoire allouée pour la chaîne de caractère résultat
+        res = realloc(res, strlen(res) + (sizeof(char) * len));
+
+        //ajout du quantificateur à la chaîne résultat
+        strcat(res, tmp);
+
+        //ajout de l'espace
+        strcat(res, " ");
+
+        //2 itérations pour les 2 termes composants une proposition
+        for(int j = 0; j < 2; j++)
+        {
+            if(j == 0)
+            {
+                //mémorisation du premier terme
+                tmp = user_syllogism[i].first_term;
+            }
+            else
+            {
+                //mémorisation du second terme
+                tmp = user_syllogism[i].second_term;
+            }
+            
+            //mémorisation de la longueur du terme + 1 pour le retour chariot ou l'espace
+            len = strlen(tmp) + 1;
+
+            res = realloc(res, strlen(res) + (sizeof(char) * len));
+
+            strcat(res, tmp);
+
+            if(j == 0)
+            {
+                //ajout d'un espace après le premier terme
+                strcat(res, " ");
+            }
+            else
+            {
+                //ajout d'un retour chariot après le second terme
+                strcat(res, "\n");
+            }
+        }
+    }
+        
+    return res;
+}
+
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition
 void display_syllogism(user_proposition p[3]){
-   int len = 2;
-    for (int i = 0; i <= len; i++)
-    {
-        if(i <= 1)
-        {
-            printf("----------Prémisse %d----------\n", i);
-            printf("%s - %s - %s\n", p[i].quantifier.quantifier_str , p[i].first_term, p[i].second_term);
-        }
-        else
-        {
-            printf("----------Conclusion----------\n");
-            printf("%s - %s - %s\n", p[i].quantifier.quantifier_str , p[i].first_term, p[i].second_term);
-        }
-
-    }
+   printf("%s\n", syl_to_string(p));
 }
 
 //Arthur
@@ -221,14 +271,14 @@ void display_analysis(analysis_proposition p[3]){
 
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
-//modifie le tableau user_syllogism passe en parametres
+//modifie le tableau user_syllogism passé en parametres
 void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     bool uqList;
     T_quantifier quantifier;
     char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
     int type = 0;
 
-    ////Enregistrement des quantificateur des diff�rentres parties du syllogisme
+    ////Enregistrement des quantificateur des différentres parties du syllogisme
     printf("-----Première proposition-----\n");
 
      uqList = choose_universal_quantifiers();
@@ -279,7 +329,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
     char * sujet = (char*)malloc((len + 1) * sizeof(char));
     strcpy(sujet, sujet_tmp);
 
-    //Enregistrement du pr�dicat du syllogisme
+    //Enregistrement du prédicat du syllogisme
     printf("Veuillez entrer le prédicat de la conclusion : \n");
     myfgets(predicat_tmp);
 
@@ -288,7 +338,7 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
     strcpy(predicat, predicat_tmp);
 
     //Enregistrement du moyen terme du syllogisme
-    printf("Veuillez entrer le moyen terme de la conclusion : \n");
+    printf("Veuillez entrer le moyen terme : \n");
     myfgets(terme_tmp);
 
     len = strlen(terme_tmp);
@@ -444,7 +494,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         myfgets(term_scd_prop);
 
         char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
-        term3 = term_scd_prop;
+        strcpy(term3, term_scd_prop);
         user_syllogism[1].first_term = term3;
 
         printf("Veuillez choisir le prédicat :\n");
@@ -628,52 +678,4 @@ void free_user_syl(user_proposition p[3]){
 
 }
 
-//Arthur
-//Fonction qui libère les ressourcres des listes
-void free_list(T_liste l) {
-    T_cellule *current = l;
-    T_cellule *next;
 
-    while (current != NULL) {
-        next = current->suiv;
-
-        if (current->data != NULL) {
-            free(current->data);
-        }
-
-        free(current);
-        current = next;
-    }
-}
-
-int main()
-{
-
-    T_liste quant_list_u = create_list_quantifier();
-    T_liste quant_list_e = create_list_quantifier();
-
-    T_quantifier test1 = {"Aucun", true, false};
-    T_quantifier test2 = {"Tous", true, true};
-    T_quantifier test3 = {"Chacun", false, true};
-
-    quant_list_u = add_quantifier(test1, quant_list_u);
-    quant_list_u = add_quantifier(test2, quant_list_u);
-    quant_list_e = add_quantifier(test3, quant_list_e);
-
-    user_proposition user_syllogism[3];
-    analysis_proposition analysis_syllogism[3];
-
-    choose_input(quant_list_u, quant_list_e, user_syllogism);
-
-    convert_to_analysis(user_syllogism, analysis_syllogism);
-
-    display_syllogism(user_syllogism);
-    display_analysis(analysis_syllogism);
-
-    free_user_syl(user_syllogism);
-    free_list(quant_list_u);
-    free_list(quant_list_e);
-    // display_syllogism(user_syllogism);
-
-    return 0;
-}

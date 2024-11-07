@@ -17,11 +17,7 @@ bool isUniversal (analysis_proposition analysis_syllogism)
 //Retourne true si la proposition est particulière
 bool isParticular (analysis_proposition analysis_syllogism)
 {
-    if (analysis_syllogism.universal == true)
-    {return false;}
-    else return true;
-
-    //return !(analysis_syllogism.universal);
+   return !(analysis_syllogism.universal);
 }
 
 //Retourne true si la proposition est affirmative
@@ -33,11 +29,7 @@ bool isAffirmative (analysis_proposition analysis_syllogism)
 //Retourne true si la proposition est négative
 bool isNegative (analysis_proposition analysis_syllogism)
 {
-    if (analysis_syllogism.affirmative == true)
-    {return false;}
-    else return true;
-
-    //return !(analysis_syllogism.affirmative);
+    return !(analysis_syllogism.affirmative);
 }
 
 //Retourne le type (SPM) du premier terme
@@ -54,7 +46,7 @@ char secTerm (analysis_proposition analysis_syllogism)
 
 //convertit le résultat booleén d'un test de validité en une chaîne de caractère affichable
 char * boolToStr(bool valid){
-    if (valid == true)
+    if(valid)
     {return "est respectée";}
     else {return "n'est pas respectée";}
 }
@@ -92,9 +84,9 @@ bool Rnn (analysis_proposition AS[3])
 //Règle de passation de la négation :Vérifie que si une prémisse est négative, la conclusion est négative
 bool Rpn (analysis_proposition AS[3])
 {
-    if (isNegative(AS[2]))
+    if (isNegative(AS[0]) || isNegative(AS[1]))
     {
-        bool valid = (isNegative(AS[0]) || isNegative(AS[1]));
+        bool valid = (isNegative(AS[2]));
         printf("la règle de la passation de la négation %s\n",boolToStr(valid));
         return valid;
     }
@@ -142,7 +134,7 @@ void Ruu (analysis_proposition AS[3])
     if (isUniversal(AS[0]) && isUniversal(AS[1]))
     {
         if (isParticular(AS[2]))
-        {printf("Les deux prémisses étant universelles, le syllogisme serait valide si la conclusion était universelle");}
+        {printf("Les deux prémisses étant universelles, le syllogisme serait valide si la conclusion était universelle\n");}
     }
 }
 
@@ -152,33 +144,38 @@ void Ruu (analysis_proposition AS[3])
 
 bool Ri(analysis_proposition AS[3])
 {
-    printf("L'existence est une conclusion faible, une conclusion universelle est possible");
+    printf("La conclusion est faible, une conclusion universelle est possible\n");
     return true;
 }
 
 //Fonction de validation appelant les règles
-bool * validation (analysis_proposition AS[3],user_proposition US[3])
+void validation (analysis_proposition AS[3],user_proposition US[3], bool v_tab[9])
 {
-    bool * v_tab;
-    v_tab = malloc(9*sizeof(bool));
-    v_tab[0]=Rmt(AS);
+    bool res;
+    res = Rmt(AS);
+
+    v_tab[0]=res;
     v_tab[1]=Rlh(AS);
     v_tab[2]=Rnn(AS);
     v_tab[3]=Rpn(AS);
     v_tab[4]=Raa(AS);
     v_tab[5]=Rpu(AS);
     v_tab[6]=Rpp(AS);
-    v_tab[7]=Ri(AS);
-    v_tab[8]=(Rmt(AS)&&Rlh(AS)&&Rnn(AS)&&Rpn(AS)&&Raa(AS)&&Rpu(AS)&&Rpp(AS)&&Ri(AS));
+    v_tab[8]=(v_tab[0] && v_tab[1] && v_tab[2] && v_tab[3] && v_tab[4] && v_tab[5] && v_tab[6]);
+
     char * syll = syl_to_string(US);
+
     if (v_tab[8] == true)
-    {printf("Le syllogisme <%s> est valide",syll);}
-    else printf("Le syllogisme <%s> est invalide",syll);
-    Ruu(AS);
-    Ri(AS);
-    return v_tab;
-}
-int main()
-{
-    return EXIT_SUCCESS;
+    {
+        printf("Le syllogisme\n%sest valide\n",syll);
+        Ruu(AS);
+        v_tab[7] = Ri(AS);
+    }
+    else 
+    {
+        printf("Le syllogisme\n%sest invalide\n",syll);
+        v_tab[7] = false;
+    }
+
+    free(syll);
 }

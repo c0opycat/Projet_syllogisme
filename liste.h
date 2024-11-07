@@ -33,6 +33,8 @@ void afficheListe( T_liste l);
 
 void afficheListePos(T_liste l);
 
+void free_list(T_liste l); 
+
 
 
 #endif // LISTE_H_INCLUDED

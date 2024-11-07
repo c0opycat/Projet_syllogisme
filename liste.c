@@ -120,3 +120,21 @@ void afficheListePos(T_liste l)
         free(tmp);
     }
 }
+
+//Arthur
+//Fonction qui libère les ressourcres des listes
+void free_list(T_liste l) {
+    T_liste current = l;
+    T_liste next;
+
+    while (getptrNextCell(current) != NULL) {
+        next = getptrNextCell(current);
+
+        if (current->data != NULL) {
+            free(current->data);
+        }
+
+        free(current);
+        current = next;
+    }
+}

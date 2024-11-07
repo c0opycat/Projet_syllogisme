@@ -18,22 +18,24 @@ typedef struct
     bool affirmative;
 }analysis_proposition;
 
+
 T_liste create_list_quantifier();
 T_liste add_quantifier(const T_quantifier quantifier, T_liste ql);
 
 void display_quantifier(const T_liste ql);
 
-bool choose_universal_quantifiers();
 T_quantifier choose_quantifier(T_liste ql);
+
+char* syl_to_string(user_proposition user_syllogism[3]);
 
 void display_syllogism(user_proposition user_syllogism[3]);
 void display_analysis(analysis_proposition p[3]);
 
-void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]);
-void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]);
 void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]);
 
 void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3]);
+
+void free_user_syl(user_proposition p[3]);
 
 
 #endif // SYLLOGISM_H_INCLUDED
