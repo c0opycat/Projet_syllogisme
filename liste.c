@@ -15,7 +15,6 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
 {
     T_liste tmp = (T_liste)malloc(sizeof(T_cellule));
     tmp->data = (T_quantifier*)malloc(sizeof(T_quantifier));
-    tmp->data->quantifier_str = (char*)malloc(sizeof(char) * strlen(mydata.quantifier_str));
 
     *(tmp->data) = mydata;
 
