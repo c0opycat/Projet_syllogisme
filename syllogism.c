@@ -185,21 +185,6 @@ T_quantifier choose_quantifier(T_liste ql)
     return *(tmp->data);
 }
 
-/*
-//Arthur
-//fonction de test
-void pq(T_quantifier q){
-    printf("%s - ", q.quantifier_str);
-    if(q.affirmative){
-        printf("True\n");
-    }else{
-        printf("False\n");
-    }
-}
-*/
-
-
-
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition
 void display_syllogism(user_proposition p[3]){
@@ -542,10 +527,12 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
         clear_input_buffer();
     }
 
-    if(a == 1){
+    if(a == 1)
+    {
         printf("Module pour experts choisi\n");
         input_advanced_syllogism(uql, eql, user_syllogism);
-    }else if (a == 2){
+    }else if (a == 2)
+    {
         printf("Module pour novices choisi\n");
         input_simple_syllogism(uql, eql, user_syllogism);
     }
@@ -606,6 +593,8 @@ void convert_to_analysis(user_proposition user_syllogism[3], analysis_propositio
 
 }
 
+//Arthur
+//Fonction qui permet de libérer les ressources de nos user_proposition
 void free_user_syl(user_proposition p[3]){
     if(p[0].first_term == p[1].second_term)
     {
@@ -632,6 +621,29 @@ void free_user_syl(user_proposition p[3]){
         free(p[0].second_term);
     }
     
+    for(int i = 0; i < 2 ; i++)
+    {
+        free(p[i].quantifier.quantifier_str);
+    }
+
+}
+
+//Arthur
+//Fonction qui libère les ressourcres des listes
+void free_list(T_liste l) {
+    T_cellule *current = l;
+    T_cellule *next;
+
+    while (current != NULL) {
+        next = current->suiv;
+
+        if (current->data != NULL) {
+            free(current->data);
+        }
+
+        free(current);
+        current = next;
+    }
 }
 
 int main()
@@ -659,6 +671,8 @@ int main()
     display_analysis(analysis_syllogism);
 
     free_user_syl(user_syllogism);
+    free_list(quant_list_u);
+    free_list(quant_list_e);
     // display_syllogism(user_syllogism);
 
     return 0;
