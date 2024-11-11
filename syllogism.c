@@ -674,11 +674,6 @@ void free_user_syl(user_proposition p[3])
     {
         free(p[0].second_term);
     }
-    
-    // for(int i = 0; i < 2 ; i++)
-    // {
-    //     free(p[i].quantifier.quantifier_str);
-    // }
 }
 
 

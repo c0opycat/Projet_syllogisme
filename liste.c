@@ -136,4 +136,7 @@ void free_list(T_liste l) {
         free(current);
         current = next;
     }
+
+    //libération de la dernière case
+    free(current);
 }

@@ -24,7 +24,6 @@ int main()
     convert_to_analysis(user_syllogism, analysis_syllogism);
 
     display_syllogism(user_syllogism);
-    display_analysis(analysis_syllogism);
 
     bool v_tab[9];
     validation(analysis_syllogism, user_syllogism, v_tab);
@@ -32,7 +31,6 @@ int main()
     free_user_syl(user_syllogism);
     free_list(quant_list_u);
     free_list(quant_list_e);
-    //display_syllogism(user_syllogism);
 
     return 0;
 }
