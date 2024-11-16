@@ -1,7 +1,8 @@
 #ifndef QUANTIFIER_H_INCLUDED
 #define QUANTIFIER_H_INCLUDED
 
-#include "syllogism.h"
+#include <stdbool.h>
+#include "liste.h"
 
 //Structure de données représentant un quantificateur
 typedef struct T_quant{

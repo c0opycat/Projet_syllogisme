@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utils.h"
 #include "quantifier.h"
-#include "syllogism.h"
 
 
 //universal quantifier
