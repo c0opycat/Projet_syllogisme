@@ -1,5 +1,6 @@
 #include "syllogism.h"
 #include "validation.h"
+#include "quantifier.h"
 
 #include <stdio.h>
 
@@ -8,13 +9,8 @@ int main()
     T_liste quant_list_u = create_list_quantifier();
     T_liste quant_list_e = create_list_quantifier();
 
-    T_quantifier test1 = {"Aucun", true, false};
-    T_quantifier test2 = {"Tous", true, true};
-    T_quantifier test3 = {"Chacun", false, true};
-
-    quant_list_u = add_quantifier(test1, quant_list_u);
-    quant_list_u = add_quantifier(test2, quant_list_u);
-    quant_list_e = add_quantifier(test3, quant_list_e);
+    quant_list_u = generate_list_quanti_u(quant_list_u);
+    quant_list_e = generate_list_quanti_e(quant_list_e);
 
     user_proposition user_syllogism[3];
     analysis_proposition analysis_syllogism[3];
