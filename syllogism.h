@@ -3,6 +3,8 @@
 
 #include "liste.h"
 
+
+//Structure de données représentant un syllogisme lors de sa saisie
 typedef struct
 {
     char * first_term;
@@ -10,6 +12,8 @@ typedef struct
     T_quantifier quantifier;
 }user_proposition;
 
+
+//Structure de données représentant un syllogisme lors de son analyse
 typedef struct
 {
     char first_term;
@@ -19,14 +23,6 @@ typedef struct
 }analysis_proposition;
 
 
-T_liste create_list_quantifier();
-T_liste add_quantifier(const T_quantifier quantifier, T_liste ql);
-
-void display_quantifier(const T_liste ql);
-
-T_quantifier choose_quantifier(T_liste ql);
-
-// char* syl_to_string(user_proposition user_syllogism[3]);
 
 void display_syllogism(user_proposition user_syllogism[3]);
 void display_analysis(analysis_proposition p[3]);

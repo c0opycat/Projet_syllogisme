@@ -1,16 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "liste.h"
 
+
+//Initialisation d'une liste
 void initListe(T_liste *l){
     *l=NULL;
 }
 
+//Retourne true si la liste est vide
 bool listeVide(T_liste l){
     return (l==NULL);
 }
 
+
+//Ajout d'un élément en tête d'une liste
 T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
 {
     T_liste tmp = (T_liste)malloc(sizeof(T_cellule));
@@ -30,6 +36,7 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
     return tmp;
 }
 
+//Retourne le pointeur vers la cellule suivante de la liste
 T_liste getptrNextCell(T_liste l)
 {
     if((listeVide(l)) || (l->suiv == NULL)){
@@ -39,6 +46,7 @@ T_liste getptrNextCell(T_liste l)
     }
 }
 
+//Retourne le pointeur vers l'élément contenu dans la cellule
 T_quantifier* getPtrData(T_liste l)
 {
     if(listeVide(l)){
@@ -49,30 +57,33 @@ T_quantifier* getPtrData(T_liste l)
     }
 }
 
-void afficheListe(T_liste l)
-{
-    if(listeVide(l)){
 
-        printf("Erreur afficheListe : liste vide");
-    }else{
+// //Affiche les quantificateurs de chaque cellule de la liste
+// void afficheListe(T_liste l)
+// {
+//     if(listeVide(l)){
 
-        T_liste tmp = l;
+//         printf("Erreur afficheListe : liste vide");
+//     }else{
 
-        T_quantifier* ptrData;
+//         T_liste tmp = l;
 
-        while(!(listeVide(tmp))){
+//         T_quantifier* ptrData;
 
-            ptrData = getPtrData(tmp);
+//         while(!(listeVide(tmp))){
 
-            printf("%s\n", ptrData->quantifier_str);
+//             ptrData = getPtrData(tmp);
 
-            tmp = getptrNextCell(tmp);
-        }
+//             printf("%s\n", ptrData->quantifier_str);
 
-        free(tmp);
-    }
-}
+//             tmp = getptrNextCell(tmp);
+//         }
 
+//         free(tmp);
+//     }
+// }
+
+//Retourne le nombre d'éléments dans la liste
 int getNbreCell(T_liste l)
 {
     if(listeVide(l)){
@@ -80,7 +91,7 @@ int getNbreCell(T_liste l)
     }else{
         int i = 0;
 
-        //copie et parcours de la liste avec incr�mentation du nombre de cellule
+        //copie et parcours de la liste avec incrémentation du nombre de cellule
         T_liste tmp = l;
         while(!(listeVide(tmp))){
             i += 1;
@@ -93,6 +104,7 @@ int getNbreCell(T_liste l)
     }
 }
 
+//Affiche chaque élément de la liste avec sa position
 void afficheListePos(T_liste l)
 {
     if(listeVide(l)){
@@ -121,7 +133,7 @@ void afficheListePos(T_liste l)
 }
 
 //Arthur
-//Fonction qui libère les ressourcres des listes
+//Fonction qui libère les ressourcres d'une liste
 void free_list(T_liste l) {
     T_liste current = l;
     T_liste next;
