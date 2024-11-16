@@ -92,45 +92,52 @@ char * boolToStr(bool valid){
 //Règles du moyen terme : vérifie si le moyen terme est universel dans une prémisse au moins
 bool Rmt (analysis_proposition AS[3])
 {
+    bool valid = false;
+
     for (int i = 0; i < 2; i++)
     {
-    if (isE(AS[n]) || (isA(AS[i]) && fstTerm(AS[i]) == "M") || (isO(AS[i]) && secTerm(AS[i]) == "M"))
-    {
-        return true;
+        if (isE(AS[i]) || (isA(AS[i]) && fstTerm(AS[i]) == 'M') || (isO(AS[i]) && secTerm(AS[i]) == 'M'))
+        {
+            valid = true;
+            return valid;
+        }
     }
-    else return false;
-    }
+
+    return valid;
 }
 
 //Règle du latius hos : vérifie que si un terme est universel dans la conclusion il l'est dans la prémisse
 bool Rlhfst(analysis_proposition AS[3])
 {
+    bool valid = true;
+
     if (isFstTermU(AS[2]))
     {
         char a = fstTerm(AS[2]);
-        for (int i = 0; i < 2; i++)
-        {
-        if ((isFstTermU(AS[i])&&fstTerm(AS[i])==a) || (isSecTermU(AS[i])&&secTerm(AS[i])==a))
-        {return true;}
-        else return false;
+        if ((isFstTermU(AS[1])&&fstTerm(AS[1])==a) || (isSecTermU(AS[1])&&secTerm(AS[1])==a))
+        {  
+            valid = true;
         }
+        else valid = false;
     }
-    else return true;
+    
+    return valid;
 }
 
 bool Rlhsec(analysis_proposition AS[3])
 {
+    bool valid = true;
     if (isSecTermU(AS[2]))
     {
         char a = secTerm(AS[2]);
-        for (int i = 0; i < 2; i++)
+        if ((isFstTermU(AS[0])&&fstTerm(AS[0])==a) || (isSecTermU(AS[0])&&secTerm(AS[0])==a))
         {
-        if ((isFstTermU(AS[i])&&fstTerm(AS[i])==a) || (isSecTermU(AS[i])&&secTerm(AS[i])==a))
-        {return true;}
-        else return false;
+            valid = true;
         }
+        else valid = false;
     }
-    else return true;
+    
+    return valid;
 }
 
 bool Rlh (analysis_proposition AS[3])
@@ -208,6 +215,21 @@ bool Ruu (analysis_proposition AS[3])
     else return true;
 }
 
+
+//Fonction de validation appelant les premières règles
+void validationStep1 (analysis_proposition AS[3], bool v_tab[10])
+{
+    v_tab[0]=Rmt(AS);
+    v_tab[1]=Rlh(AS);
+    v_tab[2]=Rnn(AS);
+    v_tab[3]=Rpn(AS);
+    v_tab[4]=Raa(AS);
+    v_tab[5]=Rpu(AS);
+    v_tab[6]=Rpp(AS);
+    v_tab[7]=Ruu(AS);
+    v_tab[8]=(v_tab[0] && v_tab[1] && v_tab[2] && v_tab[3] && v_tab[4] && v_tab[5] && v_tab[6]&&v_tab[7]);
+}
+
 //Module de validation de l'intérêt
     //Pour les syllogisme ayant une conclusion particulière
     //Teste la validité avec une conclusion universelle
@@ -232,20 +254,6 @@ bool Ri(analysis_proposition AS[3])
     }
     //Le syllogisme ne remplit pas les conditions pour cette vérification 
     else return true;
-}
-
-//Fonction de validation appelant les premières règles
-void validationStep1 (analysis_proposition AS[3], bool v_tab[10])
-{
-    v_tab[0]=Rmt(AS);
-    v_tab[1]=Rlh(AS);
-    v_tab[2]=Rnn(AS);
-    v_tab[3]=Rpn(AS);
-    v_tab[4]=Raa(AS);
-    v_tab[5]=Rpu(AS);
-    v_tab[6]=Rpp(AS);
-    v_tab[7]=Ruu(AS);
-    v_tab[8]=(v_tab[0] && v_tab[1] && v_tab[2] && v_tab[3] && v_tab[4] && v_tab[5] && v_tab[6]&&v_tab[7]);
 }
 
 //Fonction appelant la règle d'interêt d'un syllogisme dans le cas où ce syllogisme est valide
@@ -313,9 +321,9 @@ void displayResults (bool v_tab[10],user_proposition US[3])
 
 //Fonction de validation complète d'un syllogisme
 //Et affichage du résultat
-void validation(analysis_proposition AS[3], user_proposition US[3], v_tab[10])
+void validation(analysis_proposition AS[3], user_proposition US[3], bool v_tab[10])
 {
     validationStep1(AS,v_tab);
     validationStep2(AS,v_tab);
-    displayResults(US);
+    displayResults(v_tab, US);
 }

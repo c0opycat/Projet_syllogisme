@@ -2,16 +2,24 @@
 #define LISTE_H_INCLUDED
 
 #include <stdbool.h>
-#include <quantifier.h>
 
+//Structure de données représentant un quantificateur
+typedef struct T_quant{
+	char* quantifier_str;
+    bool universal;
+	bool affirmative;
+}T_quantifier;
 
+//Structure de données représentant une cellule
 typedef struct T_cell{
     struct T_cell *suiv;
     struct T_cell *prec;
     T_quantifier* data;   
 } T_cellule;
 
+//Structure de données représentant une liste
 typedef T_cellule *T_liste;
+
 
 void initListe(T_liste *l);
 

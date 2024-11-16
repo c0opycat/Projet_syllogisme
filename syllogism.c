@@ -8,6 +8,8 @@
 #include "liste.h"
 #include "syllogism.h"
 
+#define MAX_STR_LEN 100
+
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition
 void display_syllogism(user_proposition p[3]){

@@ -1,28 +1,22 @@
 #ifndef SYLLOGISM_H_INCLUDED
 #define SYLLOGISM_H_INCLUDED
 
-#include "liste.h"
-
-
 //Structure de données représentant un syllogisme lors de sa saisie
-typedef struct
+typedef struct us
 {
     char * first_term;
     char * second_term;
     T_quantifier quantifier;
 }user_proposition;
 
-
 //Structure de données représentant un syllogisme lors de son analyse
-typedef struct
+typedef struct as
 {
     char first_term;
     char second_term;
     bool universal;
     bool affirmative;
 }analysis_proposition;
-
-
 
 void display_syllogism(user_proposition user_syllogism[3]);
 void display_analysis(analysis_proposition p[3]);

@@ -1,4 +1,5 @@
 #include "quantifier.h"
+#include "liste.h"
 #include "syllogism.h"
 #include "validation.h"
 
@@ -21,7 +22,7 @@ int main()
 
     convert_to_analysis(user_syllogism, analysis_syllogism);
     
-    bool v_tab[9];
+    bool v_tab[10];
     validation(analysis_syllogism, user_syllogism, v_tab);
 
 

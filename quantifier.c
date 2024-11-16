@@ -1,10 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utils.h"
 #include "quantifier.h"
-
+#include "liste.h"
 
 //universal quantifier
 T_quantifier uq1 = {"Aucun", true, false};
