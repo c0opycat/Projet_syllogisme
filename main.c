@@ -9,8 +9,8 @@ int main()
     T_liste quant_list_u = create_list_quantifier();
     T_liste quant_list_e = create_list_quantifier();
 
-    quant_list_u = generate_list_quanti_u(quant_list_u);
-    quant_list_e = generate_list_quanti_e(quant_list_e);
+    quant_list_u = init_list_quanti(quant_list_u, true);
+    quant_list_e = init_list_quanti(quant_list_e, false);
 
     user_proposition user_syllogism[3];
     analysis_proposition analysis_syllogism[3];
