@@ -302,7 +302,7 @@ void displayResults (bool v_tab[10],user_proposition US[3])
     }
     if (v_tab[9]== false)
     {
-        printf("Il n'est pas intéressant car sa conclusion pourrait être universelle");
+        printf("Il n'est pas intéressant car sa conclusion pourrait être universelle\n");
     }
     
     if (v_tab[8] == true)
