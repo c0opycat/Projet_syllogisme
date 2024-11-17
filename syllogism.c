@@ -345,12 +345,14 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
     {
         printf("Module pour experts choisi\n");
         input_advanced_syllogism(uql, eql, user_syllogism);
-    }else if (a == 2)
+    }
+    else if (a == 2)
     {
         printf("Module pour novices choisi\n");
         input_simple_syllogism(uql, eql, user_syllogism);
     }
-    else{
+    else
+    {
         printf("Ajout d'un quantificateur choisi\n");
         new_quantifier(&uql, &eql);
         choose_input(uql, eql, user_syllogism);

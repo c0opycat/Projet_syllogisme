@@ -103,7 +103,8 @@ void display_quantifier(const T_liste ql)
 }
 
 //Arthur
-//Fonction qui prend une liste en parametre ainsi qu'un booleen et qui remplit celle-ci des quantificateur déclarés plus tôt avant de renvoyer cette meme liste remplit
+//Prend en parametre une liste de quantificateurs et un booleen(true si il s'agit de la liste de quantificateurs universels, false sinon)
+//Renvoie la meme liste contenant les quantificateurs déclarés plus tot
 T_liste init_list_quanti(T_liste l, bool isUniversal)
 {
     if(isUniversal)
