@@ -179,3 +179,12 @@ T_quantifier choose_quantifier(T_liste ql)
     }
     return *(tmp->data);
 }
+
+//Fonction qui modifie le quantificateur passé en paramètre avec la saisie utilisateur
+void set_quantifier(T_quantifier* q, T_liste uql, T_liste eql)
+{
+    T_quantifier quantifier;
+    quantifier = choose_universal_quantifiers() ? choose_quantifier(uql) : choose_quantifier(eql);
+    
+    *q = quantifier;
+}

@@ -18,8 +18,14 @@ typedef struct as
     bool affirmative;
 }analysis_proposition;
 
+bool isUniversal (analysis_proposition analysis_syllogism);
+bool isParticular (analysis_proposition analysis_syllogism);
+bool isAffirmative (analysis_proposition analysis_syllogism);
+bool isNegative (analysis_proposition analysis_syllogism);
+char fstTerm (analysis_proposition analysis_syllogism);
+char scdTerm (analysis_proposition analysis_syllogism);
+
 void display_syllogism(user_proposition user_syllogism[3]);
-void display_analysis(analysis_proposition p[3]);
 
 void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]);
 

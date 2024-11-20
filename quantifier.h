@@ -14,5 +14,6 @@ T_liste init_list_quanti(T_liste l, bool isUniversal);
 
 bool choose_universal_quantifiers();
 T_quantifier choose_quantifier(T_liste ql);
+void set_quantifier(T_quantifier* q, T_liste uql, T_liste eql);
 
 #endif

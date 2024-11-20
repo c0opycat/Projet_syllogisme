@@ -48,3 +48,41 @@ int myfgets(char* chaine)
     }
 }
 
+//Fonction de récupération de la chaîne de caractère saisie par l'utilisateur
+//Retourne la chaîne de caractère lue
+char* read_str()
+{
+    char term_tmp[MAX_STR_LEN];
+    
+    myfgets(term_tmp);
+    int len = strlen(term_tmp);
+    
+    char * term = (char*)malloc((len + 1) * sizeof(char));
+    strcpy(term, term_tmp);
+
+    return term;
+}
+
+//Fonction de récupération du caractère saisi par l'utilisateur
+//Retourne le caractère lu
+char read_char()
+{
+    char res;
+
+    scanf("%c", &res);
+    clear_input_buffer();
+
+    return res;
+}
+
+//Fonction de récupération de l'entier saisi par l'utilisateur
+//Retourne l'entier lu
+int read_int()
+{
+    int res;
+
+    scanf("%d", &res);
+    clear_input_buffer();
+
+    return res;
+}

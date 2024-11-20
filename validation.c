@@ -8,43 +8,6 @@
 #include "syllogism.h"
 #include "validation.h"
 
-//Getter
-//Retourne true si la proposition est universelle
-bool isUniversal (analysis_proposition analysis_syllogism)
-{
-    return analysis_syllogism.universal;
-}
-
-//Retourne true si la proposition est particulière
-bool isParticular (analysis_proposition analysis_syllogism)
-{
-    return !(analysis_syllogism.universal);
-}
-
-//Retourne true si la proposition est affirmative
-bool isAffirmative (analysis_proposition analysis_syllogism)
-{
-    return analysis_syllogism.affirmative;
-}
-
-//Retourne true si la proposition est négative
-bool isNegative (analysis_proposition analysis_syllogism)
-{
-    return !(analysis_syllogism.affirmative);
-}
-
-//Retourne le type (SPM) du premier terme
-char fstTerm (analysis_proposition analysis_syllogism)
-{
-    return analysis_syllogism.first_term;
-}
-
-//Retourne le type (SPM) du second terme
-char secTerm (analysis_proposition analysis_syllogism)
-{
-    return analysis_syllogism.second_term;
-}
-
 
 //Retourne true si la proposition est de type A
 bool isA(analysis_proposition AS)
@@ -96,7 +59,7 @@ bool Rmt (analysis_proposition AS[3])
 
     for (int i = 0; i < 2; i++)
     {
-        if (isE(AS[i]) || (isA(AS[i]) && fstTerm(AS[i]) == 'M') || (isO(AS[i]) && secTerm(AS[i]) == 'M'))
+        if (isE(AS[i]) || (isA(AS[i]) && fstTerm(AS[i]) == 'M') || (isO(AS[i]) && scdTerm(AS[i]) == 'M'))
         {
             valid = true;
             return valid;
@@ -114,7 +77,7 @@ bool Rlhfst(analysis_proposition AS[3])
     if (isFstTermU(AS[2]))
     {
         char a = fstTerm(AS[2]);
-        if ((isFstTermU(AS[1])&&fstTerm(AS[1])==a) || (isSecTermU(AS[1])&&secTerm(AS[1])==a))
+        if ((isFstTermU(AS[1])&&fstTerm(AS[1])==a) || (isSecTermU(AS[1])&&scdTerm(AS[1])==a))
         {  
             valid = true;
         }
@@ -129,8 +92,8 @@ bool Rlhsec(analysis_proposition AS[3])
     bool valid = true;
     if (isSecTermU(AS[2]))
     {
-        char a = secTerm(AS[2]);
-        if ((isFstTermU(AS[0])&&fstTerm(AS[0])==a) || (isSecTermU(AS[0])&&secTerm(AS[0])==a))
+        char a = scdTerm(AS[2]);
+        if ((isFstTermU(AS[0])&&fstTerm(AS[0])==a) || (isSecTermU(AS[0])&&scdTerm(AS[0])==a))
         {
             valid = true;
         }

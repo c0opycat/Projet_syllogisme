@@ -58,31 +58,6 @@ T_quantifier* getPtrData(T_liste l)
 }
 
 
-// //Affiche les quantificateurs de chaque cellule de la liste
-// void afficheListe(T_liste l)
-// {
-//     if(listeVide(l)){
-
-//         printf("Erreur afficheListe : liste vide");
-//     }else{
-
-//         T_liste tmp = l;
-
-//         T_quantifier* ptrData;
-
-//         while(!(listeVide(tmp))){
-
-//             ptrData = getPtrData(tmp);
-
-//             printf("%s\n", ptrData->quantifier_str);
-
-//             tmp = getptrNextCell(tmp);
-//         }
-
-//         free(tmp);
-//     }
-// }
-
 //Retourne le nombre d'éléments dans la liste
 int getNbreCell(T_liste l)
 {

@@ -10,158 +10,212 @@
 
 #define MAX_STR_LEN 100
 
+//Getter
+//Retourne le premier terme d'une user_proposition
+char* get_user_fst_term(user_proposition user_prop)
+{
+    return user_prop.first_term;
+}
+
+//Retourne le second terme d'une user_proposition
+char* get_user_scd_term(user_proposition user_prop)
+{
+    return user_prop.second_term;
+}
+
+//Retourne le quantificateur d'une user_proposition
+T_quantifier get_user_quantifier(user_proposition user_prop)
+{
+    return user_prop.quantifier;
+}
+
+//Retourne true si la proposition est universelle
+bool isUniversal (analysis_proposition analysis_syllogism)
+{
+    return analysis_syllogism.universal;
+}
+
+//Retourne true si la proposition est particulière
+bool isParticular (analysis_proposition analysis_syllogism)
+{
+    return !(analysis_syllogism.universal);
+}
+
+//Retourne true si la proposition est affirmative
+bool isAffirmative (analysis_proposition analysis_syllogism)
+{
+    return analysis_syllogism.affirmative;
+}
+
+//Retourne true si la proposition est négative
+bool isNegative (analysis_proposition analysis_syllogism)
+{
+    return !(analysis_syllogism.affirmative);
+}
+
+//Retourne le type (SPM) du premier terme
+char fstTerm (analysis_proposition analysis_syllogism)
+{
+    return analysis_syllogism.first_term;
+}
+
+//Retourne le type (SPM) du second terme
+char scdTerm (analysis_proposition analysis_syllogism)
+{
+    return analysis_syllogism.second_term;
+}
+
+//Setter
+//Setter du premier terme d'une user_proposition
+void set_user_fst_term(user_proposition* user_prop, char* term)
+{
+    user_prop->first_term = term;
+}
+
+//Setter du second terme d'une user_proposition
+void set_user_scd_term(user_proposition* user_prop, char* term)
+{
+    user_prop->second_term = term;
+}
+
+//Setter des termes d'une user_proposition
+void set_user_prop(user_proposition* user_prop, char* fst, char* scd)
+{
+    set_user_fst_term(user_prop, fst);
+    set_user_scd_term(user_prop, scd);
+}
+
+//Setter du premier terme d'une analysis_proposition
+void set_analysis_fst_term(analysis_proposition* analysis_prop, char term)
+{
+    analysis_prop->first_term = term;
+}
+
+//Setter du second terme d'une analysis_proposition
+void set_analysis_scd_term(analysis_proposition* analysis_prop, char term)
+{
+    analysis_prop->second_term = term;
+}
+
+//Setter des termes d'une analysis_proposition
+void set_analysis_prop(analysis_proposition* analysis_prop, char fst, char scd)
+{
+    set_analysis_fst_term(analysis_prop, fst);
+    set_analysis_scd_term(analysis_prop, scd);
+}
+
+//Setter du quantificateur d'une analysis_proposition
+void set_analysis_prop_quantifier(analysis_proposition* analysis_prop, bool universal)
+{
+    analysis_prop->universal = universal;
+}
+
+//Setter du qualificateur d'une analysis_proposition
+void set_analysis_prop_qualifier(analysis_proposition* analysis_prop, bool affirmative)
+{
+    analysis_prop->affirmative = affirmative;
+}
+
+
+//Fonction qui détermine et renvoie la figure du syllogisme
+int get_type(user_proposition user_syllogism[3])
+{
+    int type;
+
+    if(get_user_fst_term(user_syllogism[0]) == get_user_scd_term(user_syllogism[1]))
+    {
+        type = 1;
+    }
+    else if(get_user_scd_term(user_syllogism[0]) == get_user_scd_term(user_syllogism[1]))
+    {
+        type = 2;
+    }
+    else if(get_user_fst_term(user_syllogism[0]) == get_user_fst_term(user_syllogism[1]))
+    {
+        type = 3;
+    }
+    else if(get_user_scd_term(user_syllogism[0]) == get_user_fst_term(user_syllogism[1]))
+    {
+        type = 4;
+    }
+
+    return type;
+}
+
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition
 void display_syllogism(user_proposition p[3]){
    for(int i = 0; i < 3; i++)
    {
-    printf("%s %s %s\n", p[i].quantifier.quantifier_str, p[i].first_term, p[i].second_term);
+    printf("%s %s %s\n", get_user_quantifier(p[i]).quantifier_str, get_user_fst_term(p[i]), get_user_scd_term(p[i]));
    }
 }
-
-//Arthur
-//Fonction d'affichage des valeurs contenues dans les 3 analysis_proposition
-void display_analysis(analysis_proposition p[3]){
-    int count = 2;
-    printf("------Display_analysis------\n");
-    for (int i = 0; i <= count; i++)
-    {
-        printf("First term : %c\nSecond term : %c\nAffirmative(0 = false) : %d\nUniversal(0 = false) : %d\n", p[i].first_term, p[i].second_term, p[i].affirmative, p[i].universal );
-        printf("--------------\n");
-    }
-
-}
-
 
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //modifie le tableau user_syllogism passé en parametres
 void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
-    bool uqList;
-    T_quantifier quantifier;
-    char sujet_tmp[MAX_STR_LEN], predicat_tmp[MAX_STR_LEN], terme_tmp[MAX_STR_LEN];
     int type = 0;
 
     ////Enregistrement des quantificateur des différentres parties du syllogisme
     printf("-----Première proposition-----\n");
 
-     uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-    user_syllogism[0].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[0].quantifier), uql, eql);
 
     printf("-----Deuxième proposition-----\n");
 
-     uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-    user_syllogism[1].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[1].quantifier), uql, eql);
 
     printf("-----Conclusion-----\n");
 
-     uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-    user_syllogism[2].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[2].quantifier), uql, eql);
 
     //Enregistrement du sujet du syllogisme
     printf("Veuillez entrer le sujet de la conclusion : \n");
-    myfgets(sujet_tmp);
-
-    int len = strlen(sujet_tmp);
-    char * sujet = (char*)malloc((len + 1) * sizeof(char));
-    strcpy(sujet, sujet_tmp);
-
+    
+    char* sujet = read_str();
+    
     //Enregistrement du prédicat du syllogisme
     printf("Veuillez entrer le prédicat de la conclusion : \n");
-    myfgets(predicat_tmp);
-
-    len = strlen(predicat_tmp);
-    char * predicat = (char*)malloc((len + 1) * sizeof(char));
-    strcpy(predicat, predicat_tmp);
+    
+    char* predicat = read_str();
 
     //Enregistrement du moyen terme du syllogisme
     printf("Veuillez entrer le moyen terme : \n");
-    myfgets(terme_tmp);
-
-    len = strlen(terme_tmp);
-    char * terme = (char*)malloc((len + 1) * sizeof(char));
-    strcpy(terme, terme_tmp);
+    
+    char* terme = read_str();
 
     //Enregistrement du type du syllogisme
     printf("Entrez le type de votre syllogisme : \n");
     while(!(type > 0 && type < 5))
     {
-        scanf("%d", &type);
-        clear_input_buffer();
+        type = read_int();
     }
 
-    if(type == 1)
+    if(type == 1 || type == 3)
     {
-        user_syllogism[0].first_term = terme;
-        user_syllogism[0].second_term = predicat;
-        user_syllogism[1].first_term = sujet;
-        user_syllogism[1].second_term = terme;
-        user_syllogism[2].first_term = sujet;
-        user_syllogism[2].second_term = predicat;
+        set_user_prop(&(user_syllogism[0]), terme, predicat);
     }
-    if (type == 2)
+    if(type == 1 || type == 2)
     {
-        user_syllogism[0].first_term = predicat;
-        user_syllogism[0].second_term = terme;
-        user_syllogism[1].first_term = sujet;
-        user_syllogism[1].second_term = terme;
-        user_syllogism[2].first_term = sujet;
-        user_syllogism[2].second_term = predicat;
+        set_user_prop(&(user_syllogism[1]), sujet, terme);
     }
-    if (type == 3)
+    if(type == 2 || type == 4)
     {
-        user_syllogism[0].first_term = terme;
-        user_syllogism[0].second_term = predicat;
-        user_syllogism[1].first_term = terme;
-        user_syllogism[1].second_term = sujet;
-        user_syllogism[2].first_term = sujet;
-        user_syllogism[2].second_term = predicat;
+        set_user_prop(&(user_syllogism[0]), predicat, terme);
     }
-    if (type == 4)
+    if(type == 3 || type == 4)
     {
-        user_syllogism[0].first_term = predicat;
-        user_syllogism[0].second_term = terme;
-        user_syllogism[1].first_term = terme;
-        user_syllogism[1].second_term = sujet;
-        user_syllogism[2].first_term = sujet;
-        user_syllogism[2].second_term = predicat;
+        set_user_prop(&(user_syllogism[1]), terme, sujet);
     }
+    
+    set_user_prop(&(user_syllogism[2]), sujet, predicat);
 }
 
 //Leïla
 //Fonction de saisie à 8 demandes (modifie le tableau user_syllogism en parametre)
 void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3])
 {
-    bool uqList;
-    T_quantifier quantifier;
-    char term1_fst_prop[MAX_STR_LEN], term2_fst_prop[MAX_STR_LEN], term_scd_prop[MAX_STR_LEN];
     char s_or_p = 'a';
     int s_or_p2 = 0;
     bool f1_or_f2;
@@ -169,55 +223,28 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     printf("-----Module à 8 demandes-----\n");
     printf("-----Première proposition-----\n");
 
-    uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-
-    user_syllogism[0].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[0].quantifier), uql, eql);
 
     printf("Veuillez entrer le sujet de la première proposition\n");
-    myfgets(term1_fst_prop);
-
-    char* term1 = (char*)malloc(sizeof(char) * strlen(term1_fst_prop));
-    strcpy(term1, term1_fst_prop);
-    user_syllogism[0].first_term = term1;
+    
+    char* term1 = read_str();
 
     printf("Veuillez entrer le prédicat de la première proposition\n");
-    myfgets(term2_fst_prop);
+    
+    char* term2 = read_str();
 
-    char* term2 = (char*)malloc(sizeof(char) * strlen(term2_fst_prop));
-    strcpy(term2, term2_fst_prop);
-    user_syllogism[0].second_term = term2;
+    set_user_prop(&(user_syllogism[0]), term1, term2);
 
     printf("-----Deuxième proposition-----\n");
 
-    uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-
-    user_syllogism[1].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[1].quantifier), uql, eql);
 
     printf("Le sujet est-il le sujet ou le prédicat de la première proposition ? \n");
     printf("[o]:oui [n]:non\n");
 
     while((s_or_p != 'o') && (s_or_p != 'n'))
     {
-        scanf("%c", &s_or_p);
-        clear_input_buffer();
+        s_or_p = read_char();
     }
 
     if(s_or_p == 'o')
@@ -225,103 +252,82 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         f1_or_f2 = false;
 
         printf("Veuillez choisir le sujet :\n");
-        printf("[1]:%s\n", user_syllogism[0].first_term);
-        printf("[2]:%s\n", user_syllogism[0].second_term);
+        printf("[1]:%s\n", get_user_fst_term(user_syllogism[0]));
+        printf("[2]:%s\n", get_user_scd_term(user_syllogism[0]));
 
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
-            scanf("%d", &s_or_p2);
-            clear_input_buffer();
-        }
-
-        if(s_or_p2 == 1)
-        {
-            user_syllogism[1].first_term = user_syllogism[0].first_term;
-        }
-        else
-        {
-            user_syllogism[1].first_term = user_syllogism[0].second_term;
+            s_or_p2 = read_int();
         }
 
         printf("Veuillez entrer le prédicat :\n");
-        myfgets(term_scd_prop);
+        
+        char* term3 = read_str();
 
-        char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
-        strcpy(term3, term_scd_prop);
-        user_syllogism[1].second_term = term3;
+        if(s_or_p2 == 1)
+        {
+            set_user_prop(&(user_syllogism[1]), term1, term3);
+        }
+        else
+        {
+            set_user_prop(&(user_syllogism[1]), term2, term3);
+        }
     }
     else
     {
         f1_or_f2 = true;
 
         printf("Veuillez entrer le sujet : \n");
-        myfgets(term_scd_prop);
-
-        char* term3 = (char*)malloc(sizeof(char) * strlen(term_scd_prop));
-        strcpy(term3, term_scd_prop);
-        user_syllogism[1].first_term = term3;
+        
+        char* term3 = read_str();
 
         printf("Veuillez choisir le prédicat :\n");
-        printf("[1]:%s\n", user_syllogism[0].first_term);
-        printf("[2]:%s\n", user_syllogism[0].second_term);
+        printf("[1]:%s\n", get_user_fst_term(user_syllogism[0]));
+        printf("[2]:%s\n", get_user_scd_term(user_syllogism[0]));
 
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
-            scanf("%d", &s_or_p2);
-            clear_input_buffer();
+            s_or_p2 = read_int();
         }
 
         if(s_or_p2 == 1)
         {
-            user_syllogism[1].second_term = user_syllogism[0].first_term;
+            set_user_prop(&(user_syllogism[1]), term3, term1);
         }
         else
         {
-            user_syllogism[1].second_term = user_syllogism[0].second_term;
+            set_user_prop(&(user_syllogism[1]), term3, term2);
         }
     }
 
     printf("-----Conclusion-----\n");
 
-    uqList = choose_universal_quantifiers();
-
-    if(uqList)
-    {
-        quantifier = choose_quantifier(uql);
-    }
-    else
-    {
-        quantifier = choose_quantifier(eql);
-    }
-
-    user_syllogism[2].quantifier = quantifier;
+    set_quantifier(&(user_syllogism[2].quantifier), uql, eql);
 
     if(f1_or_f2)
     {
         printf("Le sujet de la conclusion est donc le sujet de la deuxième proposition.\n");
-        user_syllogism[2].first_term = user_syllogism[1].first_term;
-
-        if(user_syllogism[0].first_term == user_syllogism[1].second_term)
+ 
+        if(get_type(user_syllogism) == 1)
         {
-            user_syllogism[2].second_term = user_syllogism[0].second_term;
+            set_user_prop(&(user_syllogism[2]), get_user_fst_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
         }
         else
         {
-            user_syllogism[2].second_term = user_syllogism[0].first_term;
+            set_user_prop(&(user_syllogism[2]), get_user_fst_term(user_syllogism[1]), get_user_fst_term(user_syllogism[0]));
         }
     }
     else
     {
         printf("Le sujet de la conclusion est donc le prédicat de la deuxième proposition.\n");
-        user_syllogism[2].first_term = user_syllogism[1].second_term;
 
-        if(user_syllogism[1].first_term == user_syllogism[0].first_term)
+        if(get_type(user_syllogism) == 3)
         {
-            user_syllogism[2].second_term = user_syllogism[0].second_term;
+            set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
         }
         else
-        {
-            user_syllogism[2].second_term = user_syllogism[0].first_term;
+        {   
+            set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_fst_term(user_syllogism[0]));
         }
     }
 }
@@ -337,8 +343,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
 
     while((a != 1) && (a != 2) && (a != 3))
     {
-        scanf("%d", &a);
-        clear_input_buffer();
+        a = read_int();
     }
 
     if(a == 1)
@@ -363,50 +368,32 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
 //Converti un tableau de 3 user_proposition et un tableau de 3 analysis_proposition
 void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3])
 {
-    if(user_syllogism[0].first_term == user_syllogism[1].second_term)
-    {
-        analysis_syllogism[0].first_term = 'M';
-        analysis_syllogism[0].second_term = 'P';
-        analysis_syllogism[1].first_term = 'S';
-        analysis_syllogism[1].second_term = 'M';
-        analysis_syllogism[2].first_term = 'S';
-        analysis_syllogism[2].second_term = 'P';
-    }
-    else if(user_syllogism[0].second_term == user_syllogism[1].second_term)
-    {
-        analysis_syllogism[0].first_term = 'P';
-        analysis_syllogism[0].second_term = 'M';
-        analysis_syllogism[1].first_term = 'S';
-        analysis_syllogism[1].second_term = 'M';
-        analysis_syllogism[2].first_term = 'S';
-        analysis_syllogism[2].second_term = 'P';
-    }
-    else if(user_syllogism[0].first_term == user_syllogism[1].first_term)
-    {
-        analysis_syllogism[0].first_term = 'M';
-        analysis_syllogism[0].second_term = 'P';
-        analysis_syllogism[1].first_term = 'M';
-        analysis_syllogism[1].second_term = 'S';
-        analysis_syllogism[2].first_term = 'S';
-        analysis_syllogism[2].second_term = 'P';
-    }
-    else if(user_syllogism[0].second_term == user_syllogism[1].first_term)
-    {
-        analysis_syllogism[0].first_term = 'P';
-        analysis_syllogism[0].second_term = 'M';
-        analysis_syllogism[1].first_term = 'M';
-        analysis_syllogism[1].second_term = 'S';
-        analysis_syllogism[2].first_term = 'S';
-        analysis_syllogism[2].second_term = 'P';
-    }
+    int type = get_type(user_syllogism);
 
-    analysis_syllogism[0].universal = user_syllogism[0].quantifier.universal;
-    analysis_syllogism[0].affirmative = user_syllogism[0].quantifier.affirmative;
-    analysis_syllogism[1].universal = user_syllogism[1].quantifier.universal;
-    analysis_syllogism[1].affirmative = user_syllogism[1].quantifier.affirmative;
-    analysis_syllogism[2].universal = user_syllogism[2].quantifier.universal;
-    analysis_syllogism[2].affirmative = user_syllogism[2].quantifier.affirmative;
+    if(type == 1 || type == 3)
+    {
+        set_analysis_prop(&(analysis_syllogism[0]), 'M', 'P');
+    }
+    if(type == 1 || type == 2)
+    {
+        set_analysis_prop(&(analysis_syllogism[1]), 'S', 'M');
+    }
+    if(type == 2 || type == 4)
+    {
+        set_analysis_prop(&(analysis_syllogism[0]), 'P', 'M');
+    }
+    if(type == 3 || type == 4)
+    {
+        set_analysis_prop(&(analysis_syllogism[1]), 'M', 'S');
+    }
+    
+    set_analysis_prop(&(analysis_syllogism[2]), 'S', 'P');
 
+    for(int i = 0; i < 3; i++)
+    {
+        set_analysis_prop_quantifier(&(analysis_syllogism[i]), isUniversal(analysis_syllogism[i]));
+        set_analysis_prop_quantifier(&(analysis_syllogism[i]), isAffirmative(analysis_syllogism[i]));
+    } 
 }
 
 //Arthur
@@ -416,19 +403,21 @@ void free_user_syl(user_proposition p[3])
     free(p[2].first_term);
     free(p[2].second_term);
 
-    if(p[0].first_term == p[1].second_term)
+    int type = get_type(p);
+
+    if(type == 1)
     {
         free(p[0].first_term);
     }
-    else if(p[0].second_term == p[1].second_term)
+    else if(type == 2)
     {
         free(p[0].second_term);
     }
-    else if(p[0].first_term == p[1].first_term)
+    else if(type == 3)
     {
         free(p[0].first_term);
     }
-    else if(p[0].second_term == p[1].first_term)
+    else if(type == 4)
     {
         free(p[0].second_term);
     }
