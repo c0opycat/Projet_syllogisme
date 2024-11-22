@@ -15,6 +15,7 @@ bool isA(analysis_proposition AS)
     return (AS.universal == true && AS.affirmative == true);
 }
 
+
 //Retourne true si la proposition est de type E
 bool isE(analysis_proposition AS)
 {
@@ -31,6 +32,27 @@ bool isI(analysis_proposition AS)
 bool isO(analysis_proposition AS)
 {
     return (AS.universal == false && AS.affirmative == false);
+}
+
+char get_char_type(analysis_proposition AS)
+{
+    if(isA(AS))
+    {
+        return 'A';
+    }
+
+    else if(isE(AS))
+    {
+        return 'E';
+    }
+    else if(isI(AS))
+    {
+        return 'I';
+    }
+    else if(isO(AS))
+    {
+        return 'O';
+    }
 }
 
 //Retourne true si le sujet de la proposition est universel

@@ -1,6 +1,9 @@
 #ifndef SYLLOGISM_H_INCLUDED
 #define SYLLOGISM_H_INCLUDED
 
+#include "liste.h"
+#include <stdbool.h>
+
 //Structure de données représentant un syllogisme lors de sa saisie
 typedef struct us
 {
@@ -25,6 +28,7 @@ bool isNegative (analysis_proposition analysis_syllogism);
 char fstTerm (analysis_proposition analysis_syllogism);
 char scdTerm (analysis_proposition analysis_syllogism);
 
+void display_analysis(analysis_proposition p[3]);
 void display_syllogism(user_proposition user_syllogism[3]);
 
 void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3]);

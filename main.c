@@ -1,10 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "quantifier.h"
 #include "liste.h"
 #include "syllogism.h"
 #include "validation.h"
+#include "tableau.h"
 
 int main()
 {
+    /*
     //Création des listes de quantificateurs universels et existentiels
     T_liste quant_list_u = create_list_quantifier();
     T_liste quant_list_e = create_list_quantifier();
@@ -30,6 +35,18 @@ int main()
     free_user_syl(user_syllogism);
     free_list(quant_list_u);
     free_list(quant_list_e);
+    */
+
+   printf("Debut");
+
+    analysis_proposition** tab = fill_tab();
+
+    // printf("Fin");
+
+    // for(int i = 0; i < 256; i++)
+    // {  
+    //     display_analysis(tab[i]); 
+    // }
 
     return 0;
 }
