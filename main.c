@@ -29,32 +29,18 @@ int main()
     
     bool v_tab[10];
     validation(analysis_syllogism, user_syllogism, v_tab);
-
-
-    //Libération des ressources
-    free_user_syl(user_syllogism);
-    free_list(quant_list_u);
-    free_list(quant_list_e);
     */
 
-    printf("Debut");
+    analysis_proposition** tab = fill_tab();
 
-    analysis_proposition p[3];
+    validationTab(tab);
 
-    // for(int i = 0; i < 256; i++)
-    // {
-    //     analysis_proposition p;
-    //     impl_type(1, &p);
-    // }
-
-    create_syllogism(p, int figure, char type1, char type2, char type3);
-
-    printf("Fin");
-
-    // for(int i = 0; i < 256; i++)
-    // {  
-    //     display_analysis(tab[i]); 
-    // }
+    //Libération des ressources
+    // free_user_syl(user_syllogism);
+    // free_list(quant_list_u);
+    // free_list(quant_list_e);
+    
+    free_tab(tab);
 
     return 0;
 }

@@ -142,12 +142,12 @@ int get_type(user_proposition user_syllogism[3])
     return type;
 }      
 
-void display_analysis(analysis_proposition p[3]){
-   for(int i = 0; i < 3; i++)
-   {
-    printf("%c %c\n", p[i].first_term, p[i].second_term);
-   }
-}
+// void display_analysis(analysis_proposition p[3]){
+//    for(int i = 0; i < 3; i++)
+//    {
+//     printf("%c %c\n", p[i].first_term, p[i].second_term);
+//    }
+// }
 
 //Arthur
 //affichage d'un syllogisme de 3 user_proposition

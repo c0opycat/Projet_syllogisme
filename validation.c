@@ -213,6 +213,7 @@ void validationStep1 (analysis_proposition AS[3], bool v_tab[10])
     v_tab[6]=Rpp(AS);
     v_tab[7]=Ruu(AS);
     v_tab[8]=(v_tab[0] && v_tab[1] && v_tab[2] && v_tab[3] && v_tab[4] && v_tab[5] && v_tab[6]&&v_tab[7]);
+    v_tab[9] = true;
 }
 
 //Module de validation de l'intérêt
@@ -224,16 +225,18 @@ bool Ri(analysis_proposition AS[3])
     if (isParticular(AS[2]))
     {
         bool r_tab[10];
+
         AS[2].universal = true;
         validationStep1(AS, r_tab);
+
+        AS[2].universal = false;
+
         if (r_tab[8] == true)
         {
-            AS[2].universal = false;
             return false;
         }
         else 
         {
-            AS[2].universal = false;
             return true;
         }
     }
