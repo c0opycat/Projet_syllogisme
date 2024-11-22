@@ -37,11 +37,19 @@ int main()
     free_list(quant_list_e);
     */
 
-   printf("Debut");
+    printf("Debut");
 
-    analysis_proposition** tab = fill_tab();
+    analysis_proposition p[3];
 
-    // printf("Fin");
+    // for(int i = 0; i < 256; i++)
+    // {
+    //     analysis_proposition p;
+    //     impl_type(1, &p);
+    // }
+
+    create_syllogism(p, int figure, char type1, char type2, char type3);
+
+    printf("Fin");
 
     // for(int i = 0; i < 256; i++)
     // {  

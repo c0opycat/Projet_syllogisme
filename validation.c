@@ -49,7 +49,7 @@ char get_char_type(analysis_proposition AS)
     {
         return 'I';
     }
-    else if(isO(AS))
+    else
     {
         return 'O';
     }
