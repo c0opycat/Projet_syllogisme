@@ -9,64 +9,6 @@
 #include "validation.h"
 
 
-//Retourne true si la proposition est de type A
-bool isA(analysis_proposition AS)
-{
-    return (AS.universal == true && AS.affirmative == true);
-}
-
-
-//Retourne true si la proposition est de type E
-bool isE(analysis_proposition AS)
-{
-    return (AS.universal == true && AS.affirmative == false);
-}
-
-//Retourne true si la proposition est de type I
-bool isI(analysis_proposition AS)
-{
-    return (AS.universal == false && AS.affirmative == true);
-}
-
-//Retourne true si la proposition est de type O
-bool isO(analysis_proposition AS)
-{
-    return (AS.universal == false && AS.affirmative == false);
-}
-
-char get_char_type(analysis_proposition AS)
-{
-    if(isA(AS))
-    {
-        return 'A';
-    }
-
-    else if(isE(AS))
-    {
-        return 'E';
-    }
-    else if(isI(AS))
-    {
-        return 'I';
-    }
-    else
-    {
-        return 'O';
-    }
-}
-
-//Retourne true si le sujet de la proposition est universel
-bool isFstTermU(analysis_proposition AS)
-{
-    return (isA(AS)||isE(AS));
-}
-
-//Retourne true si le sujet de la proposition est existentiel
-bool isSecTermU(analysis_proposition AS)
-{
-    return (isE(AS)||isO(AS));
-}
-
 //convertit le résultat booleén d'un test de validité en une chaîne de caractère affichable
 char * boolToStr(bool valid){
     if(valid)
@@ -231,7 +173,7 @@ bool Ri(analysis_proposition AS[3])
 
         AS[2].universal = false;
 
-        if (r_tab[8] == true)
+        if (r_tab[8])
         {
             return false;
         }
@@ -247,7 +189,7 @@ bool Ri(analysis_proposition AS[3])
 //Fonction appelant la règle d'interêt d'un syllogisme dans le cas où ce syllogisme est valide
 void validationStep2 (analysis_proposition AS[3], bool v_tab[10])
 {
-    if (v_tab[8] == true)
+    if (v_tab[8])
     {
         v_tab[9] = Ri(AS);
     }
@@ -256,44 +198,44 @@ void validationStep2 (analysis_proposition AS[3], bool v_tab[10])
 //Fonction d'affichage du respect de chaque règle de validation d'un syllogisme
 void displayResults (bool v_tab[10],user_proposition US[3])
 {
-    if (v_tab[0] == false)
+    if (v_tab[0])
     {
         printf("la règle du moyen terme %s\n",boolToStr(v_tab[0]));
     }
-    if (v_tab[1] == false)
+    if (!v_tab[1])
     {
         printf("la règle du latius hos %s\n",boolToStr(v_tab[1]));
     }
-    if (v_tab[2] == false)
+    if (!v_tab[2])
     {
         printf("la règle des deux négations %s\n",boolToStr(v_tab[2]));
     }
-    if (v_tab[3] == false)
+    if (!v_tab[3])
     {
         printf("la règle de la passation de la négation %s\n",boolToStr(v_tab[3]));
     }
-    if (v_tab[4] == false)
+    if (!v_tab[4])
     {
         printf("la règle de la double affirmation %s\n",boolToStr(v_tab[4]));
     }
-    if (v_tab[5] == false)
+    if (!v_tab[5])
     {
         printf("la règle des deux particularités %s\n",boolToStr(v_tab[5]));
     }
-    if (v_tab[6] == false)
+    if (!v_tab[6])
     {
         printf("la règle de la passation de la particularité %s\n",boolToStr(v_tab[6]));
     }
-    if (v_tab[7] == false)
+    if (!v_tab[7])
     {
         printf("Attention : L'hypothèse d'existence %s\n",boolToStr(v_tab[6]));
     }
-    if (v_tab[9]== false)
+    if (!v_tab[9])
     {
         printf("Il n'est pas intéressant car sa conclusion pourrait être universelle\n");
     }
     
-    if (v_tab[8] == true)
+    if (v_tab[8])
     {
         printf("Le syllogisme\n");
         display_syllogism(US);
