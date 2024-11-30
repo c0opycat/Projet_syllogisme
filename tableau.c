@@ -321,6 +321,44 @@ void validationTab(analysis_proposition** AS)
     }
 }
 
+//Affiche une exemple pour chaque syllogisme valide
+void displayValid()
+{
+    printf("\nExemple pour chaque syllogisme valide :\n");
+    printf("Figure 1 :\n");
+    printf("    AAA : Tous les félidés sont sympathiques; Tous les chats sont des félidés; Donc tous les chats sont sympathiques.\n");
+    printf("    AAI : Tous les félidés sont sympathiques; Tous les chats sont des félidés; Donc quelques chats sont sympathiques.\n");
+    printf("    AII : Tous les félidés sont sympathiques; Quelques chats sont des félidés; Donc quelques chats sont sympathiques.\n");
+    printf("    EAE : Aucun félidé n'est sympatique; Tous les chats sont des félidés; Donc aucun chat n'est sympatique\n");
+    printf("    EAO : Aucun félidé n'est sympatique; Tous les chats sont des félidés; Donc quelques chats ne sont pas sympatiques\n");
+    printf("    EIO : Aucun félidé n'est sympatique; Quelques chats sont des félidés; Donc quelques chats ne sont pas sympatiques\n");
+
+    printf("Figure 2 :\n");
+    printf("    AEE : Tous les chats sont sympathiques; Ancun félidé n'est sympathique; Donc aucun félidé n'est un chat.\n");
+    printf("    AEO : Tous les chats sont sympathiques; Ancun félidé n'est sympathique; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    AOO : Tous les chats sont sympathiques; Quelques félidés ne sont pas sympathiques; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    EAE : Aucun chat n'est sympathique; Tous les félidés sont sympathiques; Donc aucun félidé n'est un chat.\n");
+    printf("    EAO : Aucun chat n'est sympathique; Tous les félidés sont sympathiques; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    EIO : Aucun chat n'est sympathique; Quelques félidés sont sympathiques; Donc quelques félidés ne sont pas des chats.\n");
+
+    printf("Figure 3 :\n");
+    printf("    AAI : Tous les chats sont sympathiques; Tous les chats sont des félidés; Donc quelques félidés sont sympathiques.\n");
+    printf("    AII : Tous les chats sont sympathiques; Quelques chats sont des félidés; Donc quelques félidés sont sympathiques.\n");
+    printf("    EAO : Aucun chat n'est sympathique; Tous les chats sont des félidés; Donc quelques félidés ne sont pas sympathiques.\n");
+    printf("    EIO : Aucun chat n'est sympathique; Quelques chats sont des félidés; Donc quelques félidés ne sont pas sympathiques.\n");
+    printf("    IAI : Quelques chats ne sont pas sympathiques; Tous les chats sont des félidés; Donc quelques félidés ne sont pas sympathiques.\n");
+    printf("    OAO : Quelques chats sont sympathiques; Tous les chats sont des félidés; Donc quelques félidés sont sympathiques.\n");
+
+    printf("Figure 4:\n");
+    printf("    AAI : Tous les chats sont sympathiques; Tous les animaux sympathiques sont des félidés; Donc quelques félidés sont des chats.\n");
+    printf("    AEE : Tous les chats sont sympathiques; Aucun animal sympathique n'est un félidé; Donc aucun félidé n'est un chat.\n");
+    printf("    AEO : Tous les chats sont sympathiques; Aucun animal sympathique n'est un félidé; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    EAO : Aucun chat n'est sympathique; Tous les animaux sympathiques sont des félidés; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    EIO : Aucun chat n'est sympathique; Quelques animaux sympathiques sont des félidés; Donc quelques félidés ne sont pas des chats.\n");
+    printf("    IAI : Quelques chats sont sympathiques; Tous les animaux sympathiques sont des félidés; Donc quelques félidés sont des chats.\n");
+    
+}
+
 //Fonction de libération de la mémoire allouée pour le tableau
 void free_tab(analysis_proposition** tab)
 {

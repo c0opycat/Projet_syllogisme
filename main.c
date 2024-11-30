@@ -71,6 +71,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         validationTab(tab);
 
         //Affichage d'un exemple pour chaque syllogisme valide
+        displayValid();
 
     }
 }

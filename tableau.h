@@ -13,5 +13,6 @@ void fill_tab_aux(analysis_proposition** tab, int min, int max, int figure);
 analysis_proposition** fill_tab();
 
 void validationTab(analysis_proposition** AS);
+void displayValid();
 
 void free_tab(analysis_proposition** tab);
