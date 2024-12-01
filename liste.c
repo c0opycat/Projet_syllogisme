@@ -30,7 +30,7 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
 
     if(!(listeVide(l))){
 
-       l->prec = tmp;
+        l->prec = tmp;
     }
 
     return tmp;

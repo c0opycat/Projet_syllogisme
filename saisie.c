@@ -164,7 +164,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     if(f1_or_f2)
     {
         printf("Le sujet de la conclusion est donc le sujet de la deuxième proposition.\n");
- 
+
         if(get_user_figure(user_syllogism) == 1)
         {
             set_user_prop(&(user_syllogism[2]), get_user_fst_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
@@ -183,7 +183,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
             set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
         }
         else
-        {   
+        {
             set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_fst_term(user_syllogism[0]));
         }
     }

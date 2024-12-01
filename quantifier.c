@@ -8,20 +8,6 @@
 #include "quantifier.h"
 #include "liste.h"
 
-//universal quantifier
-T_quantifier uq1 = {"Aucun", true, false};
-T_quantifier uq2 = {"Tout(e)", true, true};
-T_quantifier uq3 = {"N'importe quel(le)", true, true};
-T_quantifier uq4 = {"Chaque", true, true};
-T_quantifier uq5 = {"Nul", true, false};
-
-//existential quantifier
-T_quantifier eq1 = {"Certains", false, true};
-T_quantifier eq2 = {"Il existe", false, true};
-T_quantifier eq3 = {"Il n'y a pas", false, false};
-T_quantifier eq4 = {"Quelques", false, true};
-
-
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
 T_liste create_list_quantifier(){
@@ -44,8 +30,8 @@ T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
 //Renvoie la meme liste contenant les quantificateurs déclarés plus tot
 T_liste init_list_quanti(T_liste l, bool isUniversal)
 {
-    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
-    char * filenameqle = "QuantSave/quantifierExistential.bin";
+    char * filenameqlu = "QuantSave/quantifierUniversal.txt";
+    char * filenameqle = "QuantSave/quantifierExistential.txt";
 
     if(isUniversal)
     {
@@ -83,7 +69,7 @@ T_liste ajouterEtSauvegarder(T_liste liste, T_quantifier* quant, const char* fil
     liste = ajouterEnFin(liste, quant);
 
     // Sauvegarder dans le fichier
-    FILE* file = fopen(filename, "ab");
+    FILE* file = fopen(filename, "w");
     if (!file) {
         perror("Erreur lors de l'ouverture du fichier pour sauvegarde");
         return liste;
@@ -117,7 +103,7 @@ T_quantifier* lireQuantificateur(FILE* file) {
 }
 
 T_liste initialiserListeDepuisFichier(const char* filename) {
-    FILE* file = fopen(filename, "rb");
+    FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Fichier introuvable ou inaccessible, initialisation d'une liste vide");
         return NULL; // Fichier introuvable, liste vide
@@ -138,8 +124,8 @@ T_liste initialiserListeDepuisFichier(const char* filename) {
 void new_quantifier(T_liste *qlu, T_liste *qle)
 {
 
-    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
-    char * filenameqle = "QuantSave/quantifierExistential.bin";
+    char * filenameqlu = "QuantSave/quantifierUniversal.txt";
+    char * filenameqle = "QuantSave/quantifierExistential.txt";
 
     T_quantifier toAdd;
     char tmp[50];

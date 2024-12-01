@@ -14,7 +14,7 @@ typedef struct T_quant{
 typedef struct T_cell{
     struct T_cell *suiv;
     struct T_cell *prec;
-    T_quantifier* data;   
+    T_quantifier* data;
 } T_cellule;
 
 //Structure de données représentant une liste
@@ -39,7 +39,7 @@ int getNbreCell(T_liste l);
 
 void afficheListePos(T_liste l);
 
-void free_list(T_liste l); 
+void free_list(T_liste l);
 
 
 

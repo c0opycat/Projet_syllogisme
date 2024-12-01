@@ -30,7 +30,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
 
     //Module saisie d'un syllogisme
     if((a == 1) || (a == 2))
-    {   
+    {
         //Saisie du syllogisme
         if(a == 1)
         {
@@ -55,7 +55,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
     
     //Ajout d'un quantificateur
     else if(a == 3)
-    {   
+    {
         printf("Ajout d'un quantificateur choisi\n");
         new_quantifier(&uql, &eql);
 
