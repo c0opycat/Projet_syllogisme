@@ -36,6 +36,51 @@ T_liste ajoutEnTete(T_liste l, const T_quantifier mydata)
     return tmp;
 }
 
+T_liste ajouterEnFin(T_liste liste, T_quantifier* nouvDonnee) {
+    // Créer une nouvelle cellule
+    T_cellule* nouvelleCell = malloc(sizeof(T_cellule));
+    
+    // Vérifier l'allocation de mémoire pour la cellule
+    if (nouvelleCell == NULL) {
+        printf("Erreur d'allocation mémoire pour la nouvelle cellule\n");
+        return liste;
+    }
+    
+    // Allouer de la mémoire pour les données du quantificateur
+    nouvelleCell->data = malloc(sizeof(T_quantifier));
+    
+    // Vérifier l'allocation de mémoire pour les données
+    if (nouvelleCell->data == NULL) {
+        printf("Erreur d'allocation mémoire pour les données\n");
+        free(nouvelleCell);
+        return liste;
+    }
+    
+    // Copier les données du quantificateur
+    memcpy(nouvelleCell->data, nouvDonnee, sizeof(T_quantifier));
+    
+    // Initialiser les pointeurs de la nouvelle cellule
+    nouvelleCell->suiv = NULL;
+    nouvelleCell->prec = NULL;
+    
+    // Si la liste est vide, la nouvelle cellule devient la tête
+    if (liste == NULL) {
+        return nouvelleCell;
+    }
+    
+    // Trouver le dernier élément de la liste
+    T_cellule* dernier = liste;
+    while (dernier->suiv != NULL) {
+        dernier = dernier->suiv;
+    }
+    
+    // Chaînage de la nouvelle cellule
+    dernier->suiv = nouvelleCell;
+    nouvelleCell->prec = dernier;
+    
+    return liste;
+}
+
 //Retourne le pointeur vers la cellule suivante de la liste
 T_liste getptrNextCell(T_liste l)
 {
@@ -84,7 +129,7 @@ void afficheListePos(T_liste l)
 {
     if(listeVide(l)){
 
-        printf("Erreur afficheListe : liste vide");
+        printf("Erreur afficheListe : liste vide\n");
     }else{
 
         T_liste tmp = l;

@@ -27,6 +27,8 @@ bool listeVide( T_liste l);
 
 T_liste ajoutEnTete(T_liste l, const T_quantifier mydata);
 
+T_liste ajouterEnFin(T_liste liste, T_quantifier* nouvDonnee);
+
 T_liste getptrNextCell(T_liste l);
 
 T_quantifier* getPtrData(T_liste l);

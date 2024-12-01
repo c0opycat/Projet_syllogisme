@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #include "utils.h"
 #include "quantifier.h"
 #include "liste.h"
@@ -78,13 +79,22 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
 
 int main()
 {
-    //Création des listes de quantificateurs universels et existentiels
-    T_liste quant_list_u = create_list_quantifier();
-    T_liste quant_list_e = create_list_quantifier();
 
-    //initialisation des listes
-    quant_list_u = init_list_quanti(quant_list_u, true);
-    quant_list_e = init_list_quanti(quant_list_e, false);
+    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
+    char * filenameqle = "QuantSave/quantifierExistential.bin";
+
+    //first ajout
+    // T_liste tmp1 = init_list_quanti(tmp1, true);
+    // T_liste tmp2 = init_list_quanti(tmp2, false);
+
+    //Création des listes de quantificateurs universels et existentiels
+
+    T_liste quant_list_e = initialiserListeDepuisFichier(filenameqle);
+    T_liste quant_list_u = initialiserListeDepuisFichier(filenameqlu);
+
+    printf("affichage liste apres read\n");
+    display_quantifier(quant_list_e);
+    display_quantifier(quant_list_u);
 
     //Création des tableaux représentant le syllogisme
     user_proposition user_syllogism[3];

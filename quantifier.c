@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "utils.h"
 #include "quantifier.h"
@@ -20,6 +21,7 @@ T_quantifier eq2 = {"Il existe", false, true};
 T_quantifier eq3 = {"Il n'y a pas", false, false};
 T_quantifier eq4 = {"Quelques", false, true};
 
+
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
 T_liste create_list_quantifier(){
@@ -37,10 +39,108 @@ T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
     return ajoutEnTete(ql, quantifier);
 }
 
+//Arthur
+//Prend en parametre une liste de quantificateurs et un booleen(true si il s'agit de la liste de quantificateurs universels, false sinon)
+//Renvoie la meme liste contenant les quantificateurs déclarés plus tot
+T_liste init_list_quanti(T_liste l, bool isUniversal)
+{
+    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
+    char * filenameqle = "QuantSave/quantifierExistential.bin";
+
+    if(isUniversal)
+    {
+        l = ajouterEtSauvegarder(l , &uq1, filenameqlu);
+        l = ajouterEtSauvegarder(l , &uq2, filenameqlu);
+        l = ajouterEtSauvegarder(l , &uq3, filenameqlu);
+        l = ajouterEtSauvegarder(l , &uq4, filenameqlu);
+        l = ajouterEtSauvegarder(l , &uq5, filenameqlu);
+
+        return l;
+    }
+    else
+    {
+        l = ajouterEtSauvegarder(l , &eq1, filenameqle);
+        l = ajouterEtSauvegarder(l , &eq2, filenameqle);
+        l = ajouterEtSauvegarder(l , &eq3, filenameqle);
+        l = ajouterEtSauvegarder(l , &eq4, filenameqle);
+
+        return l;
+    }
+    
+}
+
+void sauvegarderQuantificateur(FILE* file, T_quantifier* quant) {
+    // Sauvegarder la longueur de la chaîne pour la lire correctement plus tard
+    size_t len = strlen(quant->quantifier_str) + 1;
+    fwrite(&len, sizeof(size_t), 1, file);
+    fwrite(quant->quantifier_str, sizeof(char), len, file);
+    fwrite(&quant->universal, sizeof(bool), 1, file);
+    fwrite(&quant->affirmative, sizeof(bool), 1, file);
+}
+
+T_liste ajouterEtSauvegarder(T_liste liste, T_quantifier* quant, const char* filename) {
+    // Ajouter à la liste en mémoire
+    liste = ajouterEnFin(liste, quant);
+
+    // Sauvegarder dans le fichier
+    FILE* file = fopen(filename, "ab");
+    if (!file) {
+        perror("Erreur lors de l'ouverture du fichier pour sauvegarde");
+        return liste;
+    }
+    sauvegarderQuantificateur(file, quant);
+    fclose(file);
+
+    return liste;
+}
+
+T_quantifier* lireQuantificateur(FILE* file) {
+    size_t len;
+    if (fread(&len, sizeof(size_t), 1, file) != 1) return NULL;
+
+    T_quantifier* quant = (T_quantifier*)malloc(sizeof(T_quantifier));
+    if (!quant) {
+        perror("Erreur d'allocation mémoire pour un quantificateur");
+        exit(EXIT_FAILURE);
+    }
+    quant->quantifier_str = (char*)malloc(len);
+    if (!quant->quantifier_str) {
+        perror("Erreur d'allocation mémoire pour la chaîne de quantificateur");
+        exit(EXIT_FAILURE);
+    }
+
+    fread(quant->quantifier_str, sizeof(char), len, file);
+    fread(&quant->universal, sizeof(bool), 1, file);
+    fread(&quant->affirmative, sizeof(bool), 1, file);
+
+    return quant;
+}
+
+T_liste initialiserListeDepuisFichier(const char* filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        perror("Fichier introuvable ou inaccessible, initialisation d'une liste vide");
+        return NULL; // Fichier introuvable, liste vide
+    }
+
+    T_liste liste = NULL;
+    T_quantifier* quant;
+    while ((quant = lireQuantificateur(file)) != NULL) {
+        liste = ajouterEnFin(liste, quant);
+    }
+
+    fclose(file);
+    return liste;
+}
+
 //Leïla
 //Ajout d'un quantificateur par saisie utilisateur
 void new_quantifier(T_liste *qlu, T_liste *qle)
 {
+
+    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
+    char * filenameqle = "QuantSave/quantifierExistential.bin";
+
     T_quantifier toAdd;
     char tmp[50];
     char toBool = 'a';
@@ -86,12 +186,14 @@ void new_quantifier(T_liste *qlu, T_liste *qle)
     if(toBool == 'o')
     {
         toAdd.universal = true;
-        *qlu = add_quantifier(toAdd, *qlu);
+        *qlu = ajouterEtSauvegarder(*qlu, &toAdd, filenameqlu);
+        display_quantifier(*qlu);
     }
     else
     {
         toAdd.universal = false;
-        *qle = add_quantifier(toAdd, *qle);
+        *qle = ajouterEtSauvegarder(*qle, &toAdd, filenameqle);
+        display_quantifier(*qle);
     }
 }
 
@@ -102,32 +204,7 @@ void display_quantifier(const T_liste ql)
     afficheListePos(ql);
 }
 
-//Arthur
-//Prend en parametre une liste de quantificateurs et un booleen(true si il s'agit de la liste de quantificateurs universels, false sinon)
-//Renvoie la meme liste contenant les quantificateurs déclarés plus tot
-T_liste init_list_quanti(T_liste l, bool isUniversal)
-{
-    if(isUniversal)
-    {
-        l = add_quantifier(uq1, l);
-        l = add_quantifier(uq2, l);
-        l = add_quantifier(uq3, l);
-        l = add_quantifier(uq4, l);
-        l = add_quantifier(uq5, l);
 
-        return l;
-    }
-    else
-    {
-        l = add_quantifier(eq1, l);
-        l = add_quantifier(eq2, l);
-        l = add_quantifier(eq3, l);
-        l = add_quantifier(eq4, l);
-
-        return l;
-    }
-    
-}
 
 //Leïla
 //Demande de choisir entre quantificateurs universels et existentiels
