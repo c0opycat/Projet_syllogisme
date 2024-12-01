@@ -83,18 +83,18 @@ int main()
     char * filenameqlu = "QuantSave/quantifierUniversal.bin";
     char * filenameqle = "QuantSave/quantifierExistential.bin";
 
-    //first ajout
-    // T_liste tmp1 = init_list_quanti(tmp1, true);
-    // T_liste tmp2 = init_list_quanti(tmp2, false);
+    //permet d'initialiser les quantifiacateur de base
+    // T_liste tmp1 = create_list_quantifier();
+    // T_liste tmp2 = create_list_quantifier();
 
+    // init_list_quanti(tmp1, true);
+    // init_list_quanti(tmp2, false);
+    
     //Création des listes de quantificateurs universels et existentiels
 
     T_liste quant_list_e = initialiserListeDepuisFichier(filenameqle);
     T_liste quant_list_u = initialiserListeDepuisFichier(filenameqlu);
 
-    printf("affichage liste apres read\n");
-    display_quantifier(quant_list_e);
-    display_quantifier(quant_list_u);
 
     //Création des tableaux représentant le syllogisme
     user_proposition user_syllogism[3];

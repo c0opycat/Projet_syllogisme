@@ -1,5 +1,0 @@
-T_quantifier uq1 = {"Aucun", true, false};
-T_quantifier uq2 = {"Tout(e)", true, true};
-T_quantifier uq3 = {"N'importe quel(le)", true, true};
-T_quantifier uq4 = {"Chaque", true, true};
-T_quantifier uq5 = {"Nul", true, false};
