@@ -32,7 +32,7 @@ T_liste init_list_quanti(T_liste l, bool isUniversal)
 {
     char * filenameqlu = "QuantSave/quantifierUniversal.txt";
     char * filenameqle = "QuantSave/quantifierExistential.txt";
-
+    
     if(isUniversal)
     {
         l = ajouterEtSauvegarder(l , &uq1, filenameqlu);
