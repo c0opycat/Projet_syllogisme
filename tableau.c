@@ -5,6 +5,7 @@
 
 #include "syllogism.h"
 #include "validation.h"
+#include "utils.h"
 
 #define MYPCHAR char*
 #define MYCHAR char

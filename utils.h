@@ -1,14 +1,20 @@
 #ifndef UTILS_H_INCLUDED
 #define UTILS_H_INCLUDED
 
+#include <stdbool.h>
+
+typedef int MYVAL;
+typedef bool MYBOOL;
+typedef char MYCHAR;
+typedef char* MYPCHAR;
 
 
 void clear_input_buffer();
 
-int myfgets(char* chaine);
+MYVAL myfgets(MYPCHAR chaine);
 
-char* read_str();
-char read_char();
-int read_int();
+MYPCHAR read_str();
+MYCHAR read_char();
+MYVAL read_int();
 
 #endif

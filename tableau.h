@@ -1,15 +1,15 @@
 #include "syllogism.h"
+#include "utils.h"
 
+void impl_type(analysis_proposition* syl, MYCHAR type1, MYCHAR type2, MYCHAR type3);
 
-void impl_type(analysis_proposition* syl, char type1, char type2, char type3);
+void create_syllogism(analysis_proposition* syl, MYVAL figure, MYCHAR type1, MYCHAR type2, MYCHAR type3);
 
-void create_syllogism(analysis_proposition* syl, int figure, char type1, char type2, char type3);
+MYCHAR get_syl_type1(MYVAL i);
+MYCHAR get_syl_type2(MYVAL i);
+MYCHAR get_syl_type3(MYVAL i);
 
-char get_syl_type1(int i);
-char get_syl_type2(int i);
-char get_syl_type3(int i);
-
-void fill_tab_aux(analysis_proposition** tab, int min, int max, int figure);
+void fill_tab_aux(analysis_proposition** tab, MYVAL min, MYVAL max, MYVAL figure);
 analysis_proposition** fill_tab();
 
 void validationTab(analysis_proposition** AS);

@@ -8,11 +8,6 @@
 #include "quantifier.h"
 #include "liste.h"
 
-#define MYVAL int
-#define MYBOOL bool
-#define MYPCHAR char*
-#define MYCHAR char
-
 
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
@@ -87,7 +82,7 @@ void sauvegarderQuantificateur(FILE* file, T_quantifier* quant) {
     fwrite(&quant->affirmative, sizeof(bool), 1, file);
 }
 
-T_liste ajouterEtSauvegarder(T_liste liste, T_quantifier* quant, const char* filename) {
+T_liste ajouterEtSauvegarder(T_liste liste, T_quantifier* quant, const MYPCHAR filename) {
     // Ajouter à la liste en mémoire
     liste = ajouterEnFin(liste, quant);
 
@@ -125,7 +120,7 @@ T_quantifier* lireQuantificateur(FILE* file) {
     return quant;
 }
 
-T_liste initialiserListeDepuisFichier(const char* filename) {
+T_liste initialiserListeDepuisFichier(const MYPCHAR filename) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
         perror("Fichier introuvable ou inaccessible, initialisation d'une liste vide");

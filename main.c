@@ -22,10 +22,11 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
     printf("Tapez 2 pour choisir le module de saisie pour novices\n");
     printf("Tapez 3 pour ajouter un quantificateur\n");
     printf("Tapez 4 pour choisir le module d'affichage de tous les syllogismes\n");
+    printf("Tapez 5 pour afficher les syllogismes sauvegardés\n");
     
     MYVAL a = 0;
 
-    while((a < 1) || (a > 4))
+    while((a < 1) || (a > 5))
     {
         a = read_int();
     }
@@ -48,8 +49,22 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
             //Validation du syllogisme saisi
             convert_to_analysis(user_syllogism, analysis_syllogism);
         
-            bool v_tab[10];
+            MYBOOL v_tab[10];
             validation(analysis_syllogism, user_syllogism, v_tab);
+            
+            //Affichage du syllogisme
+            display_syllogism(user_syllogism);
+
+            printf("Voulez sauvegarder ce syllogisme ? [o]:oui [n]:non\n");
+            while (a != 'o' && a != 'n')
+            {
+                a = read_char();
+            }
+            if (a == 'o')
+            {
+               int res = save_syllogism(user_syllogism, "SylloSave/syllogism.bin");
+            }
+            
     }
     
     //Ajout d'un quantificateur
@@ -63,7 +78,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
     }
 
     //Modle d'affichage de tous les syllogismes
-    else
+    else if (a == 4)
     {
         printf("Module d'affichage de tous les syllogismes choisi\n");
         
@@ -73,6 +88,24 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         //Affichage d'un exemple pour chaque syllogisme valide
         displayValid();
 
+    }
+    else
+    {
+        printf("Module d'affichage des syllogismes sauvegardés choisi\n");      
+     
+        list_syllogisms("SylloSave/syllogism.bin");
+
+        printf("Tapez le numero du syllogisme pour charger un syllogisme\n");
+        MYVAL nb_syllo = count_syllogisms("SylloSave/syllogism.bin");
+        MYVAL pos = -1;
+        while((pos < 1) || (pos > nb_syllo))
+        {
+            pos = read_int();
+        }
+        user_proposition load_syllogism[3];
+        load_syllogism_pos(load_syllogism, "SylloSave/syllogism.bin", pos);
+        printf("Syllogisme chargé :\n");
+        display_syllogism(load_syllogism);
     }
 }
 

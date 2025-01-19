@@ -5,12 +5,10 @@
 
 #include "syllogism.h"
 #include "quantifier.h"
+#include "utils.h"
 
 #define MAX_STR_LEN 100
-#define MYPCHAR char*
-#define MYCHAR char
-#define MYVAL int
-#define MYBOOL bool
+
 
 //Getter
 //Retourne le premier terme d'une user_proposition
@@ -69,38 +67,38 @@ MYCHAR scdTerm (analysis_proposition analysis_syllogism)
 
 //Setter
 //Setter du premier terme d'une user_proposition
-void set_user_fst_term(user_proposition* user_prop, char* term)
+void set_user_fst_term(user_proposition* user_prop, MYPCHAR term)
 {
     user_prop->first_term = term;
 }
 
 //Setter du second terme d'une user_proposition
-void set_user_scd_term(user_proposition* user_prop, char* term)
+void set_user_scd_term(user_proposition* user_prop, MYPCHAR term)
 {
     user_prop->second_term = term;
 }
 
 //Setter des termes d'une user_proposition
-void set_user_prop(user_proposition* user_prop, char* fst, char* scd)
+void set_user_prop(user_proposition* user_prop, MYPCHAR fst, MYPCHAR scd)
 {
     set_user_fst_term(user_prop, fst);
     set_user_scd_term(user_prop, scd);
 }
 
 //Setter du premier terme d'une analysis_proposition
-void set_analysis_fst_term(analysis_proposition* analysis_prop, char term)
+void set_analysis_fst_term(analysis_proposition* analysis_prop, MYCHAR term)
 {
     analysis_prop->first_term = term;
 }
 
 //Setter du second terme d'une analysis_proposition
-void set_analysis_scd_term(analysis_proposition* analysis_prop, char term)
+void set_analysis_scd_term(analysis_proposition* analysis_prop, MYCHAR term)
 {
     analysis_prop->second_term = term;
 }
 
 //Setter des termes d'une analysis_proposition
-void set_analysis_prop(analysis_proposition* analysis_prop, char fst, char scd)
+void set_analysis_prop(analysis_proposition* analysis_prop, MYCHAR fst, MYCHAR scd)
 {
     set_analysis_fst_term(analysis_prop, fst);
     set_analysis_scd_term(analysis_prop, scd);
@@ -298,4 +296,201 @@ void free_user_syl(user_proposition p[3])
     }
 }
 
+// Fonction pour sauvegarder un syllogisme dans un fichier binaire
+MYVAL save_syllogism(user_proposition p[3], const MYPCHAR filename) {
+    FILE* file = fopen(filename, "ab"); // Mode ajout binaire
+    if (!file) {
+        printf("Erreur lors de l'ouverture du fichier %s\n", filename);
+        return 0;
+    }
+
+    MYCHAR name[MAX_STR_LEN];
+    scanf("%s", name);
+
+    int len = strlen(name);
+    fwrite(&len, sizeof(int), 1, file);
+    fwrite(name, sizeof(char), len, file);
+
+    // Pour chaque proposition du syllogisme
+    for (int i = 0; i < 3; i++) {
+        // Sauvegarde des termes
+        size_t len1 = strlen(p[i].first_term) + 1;
+        size_t len2 = strlen(p[i].second_term) + 1;
+        size_t lenq = strlen(p[i].quantifier.quantifier_str) + 1;
+        
+        // Écriture des longueurs puis des données
+        fwrite(&len1, sizeof(size_t), 1, file);
+        fwrite(&len2, sizeof(size_t), 1, file);
+        fwrite(&lenq, sizeof(size_t), 1, file);
+        
+        fwrite(p[i].first_term, sizeof(char), len1, file);
+        fwrite(p[i].second_term, sizeof(char), len2, file);
+        fwrite(p[i].quantifier.quantifier_str, sizeof(char), lenq, file);
+        
+        // Sauvegarde des booléens du quantificateur
+        fwrite(&p[i].quantifier.universal, sizeof(bool), 1, file);
+        fwrite(&p[i].quantifier.affirmative, sizeof(bool), 1, file);
+    }
+
+    fclose(file);
+    return 1;
+}
+
+MYVAL load_syllogism_pos(user_proposition p[3], const MYPCHAR filename, int position) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
+        return 0;
+    }
+
+    // Sauter les syllogismes précédents
+    for (int pos = 1; pos < position; pos++) {
+        int name_len;
+        if (fread(&name_len, sizeof(int), 1, file) != 1) {
+            printf("Position invalide\n");
+            fclose(file);
+            return 0;
+        }
+        // Sauter le nom
+        fseek(file, name_len, SEEK_CUR);
+
+        // Sauter les 3 propositions
+        for (int i = 0; i < 3; i++) {
+            size_t len1, len2, lenq;
+            if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
+                fread(&len2, sizeof(size_t), 1, file) != 1 ||
+                fread(&lenq, sizeof(size_t), 1, file) != 1) {
+                printf("Position invalide\n");
+                fclose(file);
+                return 0;
+            }
+            fseek(file, len1 + len2 + lenq + 2*sizeof(bool), SEEK_CUR);
+        }
+    }
+
+    // Sauter le nom du syllogisme à charger
+    int name_len;
+    if (fread(&name_len, sizeof(int), 1, file) != 1) {
+        printf("Position invalide\n");
+        fclose(file);
+        return 0;
+    }
+    fseek(file, name_len, SEEK_CUR);
+
+    // Pour chaque proposition
+    for (int i = 0; i < 3; i++) {
+        size_t len1, len2, lenq;
+
+        // Lecture des longueurs
+        if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
+            fread(&len2, sizeof(size_t), 1, file) != 1 ||
+            fread(&lenq, sizeof(size_t), 1, file) != 1) {
+            fclose(file);
+            return 0;
+        }
+
+        // Allocation mémoire
+        p[i].first_term = (char*)malloc(len1);
+        p[i].second_term = (char*)malloc(len2);
+        p[i].quantifier.quantifier_str = (char*)malloc(lenq);
+
+        if (!p[i].first_term || !p[i].second_term || !p[i].quantifier.quantifier_str) {
+            printf("Erreur d'allocation mémoire\n");
+            fclose(file);
+            return 0;
+        }
+
+        // Lecture des données
+        if (fread(p[i].first_term, sizeof(char), len1, file) != len1 ||
+            fread(p[i].second_term, sizeof(char), len2, file) != len2 ||
+            fread(p[i].quantifier.quantifier_str, sizeof(char), lenq, file) != lenq ||
+            fread(&p[i].quantifier.universal, sizeof(bool), 1, file) != 1 ||
+            fread(&p[i].quantifier.affirmative, sizeof(bool), 1, file) != 1) {
+            
+            printf("Erreur de lecture du fichier\n");
+            fclose(file);
+            return 0;
+        }
+    }
+
+    fclose(file);
+    return 1;
+}
+
+void list_syllogisms(const MYPCHAR filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        printf("Aucun syllogisme sauvegardé\n");
+        return;
+    }
+
+    int count = 1;
+    while (!feof(file)) {
+        int name_len;
+        
+        // Lecture de la longueur du nom
+        if (fread(&name_len, sizeof(int), 1, file) != 1) {
+            break;  // Fin du fichier
+        }
+
+        // Lecture du nom
+        MYCHAR name[MAX_STR_LEN];
+        if (fread(name, sizeof(char), name_len, file) != name_len) {
+            break;
+        }
+        name[name_len] = '\0';
+        
+        // Affichage
+        printf("%d. %s\n", count++, name);
+
+        // Saut des données du syllogisme
+        for (int i = 0; i < 3; i++) {
+            size_t len1, len2, lenq;
+            fread(&len1, sizeof(size_t), 1, file);
+            fread(&len2, sizeof(size_t), 1, file);
+            fread(&lenq, sizeof(size_t), 1, file);
+            
+            // Saut des données
+            fseek(file, len1 + len2 + lenq + 2*sizeof(bool), SEEK_CUR);
+        }
+    }
+
+    fclose(file);
+}
+
+int count_syllogisms(const MYPCHAR filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        return 0;
+    }
+
+    int count = 0;
+    while (1) {
+        int name_len;
+        
+        // Lecture de la longueur du nom
+        if (fread(&name_len, sizeof(int), 1, file) != 1) {
+            break;
+        }
+
+        // Sauter le nom
+        fseek(file, name_len, SEEK_CUR);
+
+        // Sauter les données des 3 propositions
+        for (int i = 0; i < 3; i++) {
+            size_t len1, len2, lenq;
+            if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
+                fread(&len2, sizeof(size_t), 1, file) != 1 ||
+                fread(&lenq, sizeof(size_t), 1, file) != 1) {
+                fclose(file);
+                return count;
+            }
+            fseek(file, len1 + len2 + lenq + 2*sizeof(bool), SEEK_CUR);
+        }
+        count++;
+    }
+
+    fclose(file);
+    return count;
+}
 

@@ -7,12 +7,7 @@
 #include "quantifier.h"
 #include "syllogism.h"
 #include "validation.h"
-
-#define MYVAL int
-#define MYPCHAR char*
-#define MYCHAR char
-#define MYBOOL bool
-
+#include "utils.h"
 
 //convertit le résultat booleén d'un test de validité en une chaîne de caractère affichable
 MYPCHAR boolToStr(MYBOOL valid){

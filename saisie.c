@@ -8,11 +8,6 @@
 #include "liste.h"
 #include "syllogism.h"
 
-#define MYVAL int
-#define MYPCHAR char*
-#define MYCHAR char
-#define MYBOOL bool
-
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //modifie le tableau user_syllogism passé en parametres

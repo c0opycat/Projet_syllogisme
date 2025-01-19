@@ -5,9 +5,6 @@
 #include "utils.h"
 
 #define MAX_STR_LEN 100
-#define MYVAL int
-#define MYPCHAR char*
-#define MYCHAR char
 
 //Arthur
 //fonction pour vider le buffer
