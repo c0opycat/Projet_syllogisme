@@ -1,10 +1,12 @@
 {
     "files.associations": {
+        "*.embeddedhtml": "html",
         "syllogism.h": "c",
         "quantifier.h": "c",
         "validation.h": "c",
         "liste.h": "c",
         "struct.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "utils.h": "c"
     }
 }

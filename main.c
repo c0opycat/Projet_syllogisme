@@ -50,9 +50,6 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         
             bool v_tab[10];
             validation(analysis_syllogism, user_syllogism, v_tab);
-            
-            //Affichage du syllogisme
-            display_syllogism(user_syllogism);
     }
     
     //Ajout d'un quantificateur
