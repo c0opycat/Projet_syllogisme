@@ -253,23 +253,26 @@ analysis_proposition* get_p_i_aprop(analysis_syllogism* as, MYVAL i)
 //Fonction qui détermine et renvoie la figure du syllogisme
 MYVAL get_user_figure(user_syllogism us)
 {
-    MYVAL type;
-    
-    display_syllogism(us);
+    MYVAL type = 0;
 
-    if(get_user_fst_term(get_fst_uprop(us)) == get_user_scd_term(get_scd_uprop(us)))
+    const char* fst1 = get_user_fst_term(get_fst_uprop(us));
+    const char* scd1 = get_user_scd_term(get_fst_uprop(us));
+    const char* fst2 = get_user_fst_term(get_scd_uprop(us));
+    const char* scd2 = get_user_scd_term(get_scd_uprop(us));
+
+    if(strcmp(fst1, scd2) == 0)
     {
         type = 1;
     }
-    else if(get_user_scd_term(get_fst_uprop(us)) == get_user_scd_term(get_scd_uprop(us)))
+    else if(strcmp(scd1, scd2) == 0)
     {
         type = 2;
     }
-    else if(get_user_fst_term(get_fst_uprop(us)) == get_user_fst_term(get_scd_uprop(us)))
+    else if(strcmp(fst1, fst2) == 0)
     {
         type = 3;
     }
-    else if(get_user_scd_term(get_fst_uprop(us)) == get_user_fst_term(get_scd_uprop(us)))
+    else if(strcmp(scd1, fst2) == 0)
     {
         type = 4;
     }
@@ -280,7 +283,8 @@ MYVAL get_user_figure(user_syllogism us)
 //Fonction qui détermine et renvoie la figure du syllogisme
 MYVAL get_analysis_figure(analysis_syllogism as)
 {
-    MYVAL type;
+
+    MYVAL type = 0;
 
     if(fstTerm(get_fst_aprop(as)) == scdTerm(get_scd_aprop(as)))
     {
@@ -370,11 +374,6 @@ void convert_to_analysis(user_syllogism us, analysis_syllogism* as)
 {
     MYVAL type = get_user_figure(us);
 
-    printf("affichage du syllogisme\n");
-    display_syllogism(us);
-
-    printf("affichage du type\n");
-    printf("type : %d\n", type);
 
     if(type == 1 || type == 3)
     {
@@ -400,11 +399,6 @@ void convert_to_analysis(user_syllogism us, analysis_syllogism* as)
         set_analysis_prop_quantifier(get_p_i_aprop(as, i), isU_universal(get_i_uprop(us, i)));
         set_analysis_prop_qualifier(get_p_i_aprop(as, i), isU_affirmative(get_i_uprop(us, i)));
     } 
-
-    //TODO : A enlever
-    printf("%c, %c, %d, %d\n", get_fst_aprop(*as).first_term, get_fst_aprop(*as).second_term, get_fst_aprop(*as).universal, get_fst_aprop(*as).affirmative);
-    printf("%c, %c, %d, %d\n", get_scd_aprop(*as).first_term, get_scd_aprop(*as).second_term, get_scd_aprop(*as).universal, get_scd_aprop(*as).affirmative);
-    printf("%c, %c, %d, %d\n", get_conc_aprop(*as).first_term, get_conc_aprop(*as).second_term, get_conc_aprop(*as).universal, get_conc_aprop(*as).affirmative);
 }
 
 //Arthur
