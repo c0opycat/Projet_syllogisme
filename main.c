@@ -106,6 +106,24 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         load_syllogism_pos(load_syllogism, "SylloSave/syllogism.bin", pos);
         printf("Syllogisme chargé :\n");
         display_syllogism(load_syllogism);
+
+        printf("Souhaitez lancez la validation de ce syllogisme ? [o]:oui [n]:non\n");
+        while (a != 'o' && a != 'n')
+        {
+            a = read_char();
+        }
+        if (a == 'o')
+        {
+            analysis_proposition analysis_syllogism[3];
+            convert_to_analysis(load_syllogism, analysis_syllogism);
+            MYBOOL v_tab[10];
+            validation(analysis_syllogism, load_syllogism, v_tab);
+        }
+        else
+        {
+            choose_input(uql, eql, user_syllogism, analysis_syllogism, tab);
+        }
+
     }
 }
 
