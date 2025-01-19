@@ -254,7 +254,7 @@ analysis_proposition* get_p_i_aprop(analysis_syllogism* as, MYVAL i)
 MYVAL get_user_figure(user_syllogism us)
 {
     MYVAL type;
-
+    
     if(get_user_fst_term(get_fst_uprop(us)) == get_user_scd_term(get_scd_uprop(us)))
     {
         type = 1;
@@ -392,6 +392,11 @@ void convert_to_analysis(user_syllogism us, analysis_syllogism* as)
         set_analysis_prop_quantifier(get_p_i_aprop(as, i), isU_universal(get_i_uprop(us, i)));
         set_analysis_prop_qualifier(get_p_i_aprop(as, i), isU_affirmative(get_i_uprop(us, i)));
     } 
+
+    //TODO : A enlever
+    printf("%c, %c, %d, %d\n", get_fst_aprop(*as).first_term, get_fst_aprop(*as).second_term, get_fst_aprop(*as).universal, get_fst_aprop(*as).affirmative);
+    printf("%c, %c, %d, %d\n", get_scd_aprop(*as).first_term, get_scd_aprop(*as).second_term, get_scd_aprop(*as).universal, get_scd_aprop(*as).affirmative);
+    printf("%c, %c, %d, %d\n", get_conc_aprop(*as).first_term, get_conc_aprop(*as).second_term, get_conc_aprop(*as).universal, get_conc_aprop(*as).affirmative);
 }
 
 //Arthur
