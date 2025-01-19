@@ -255,6 +255,8 @@ MYVAL get_user_figure(user_syllogism us)
 {
     MYVAL type;
     
+    display_syllogism(us);
+
     if(get_user_fst_term(get_fst_uprop(us)) == get_user_scd_term(get_scd_uprop(us)))
     {
         type = 1;
@@ -367,6 +369,12 @@ void display_syllogism(user_syllogism us){
 void convert_to_analysis(user_syllogism us, analysis_syllogism* as)
 {
     MYVAL type = get_user_figure(us);
+
+    printf("affichage du syllogisme\n");
+    display_syllogism(us);
+
+    printf("affichage du type\n");
+    printf("type : %d\n", type);
 
     if(type == 1 || type == 3)
     {

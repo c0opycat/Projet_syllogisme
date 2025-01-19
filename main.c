@@ -109,10 +109,9 @@ void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogi
         }
         if (a == 'o')
         {
-            analysis_syllogism analysis_s;
-            convert_to_analysis(*us, &analysis_s);
+            convert_to_analysis(*us, as);
             MYBOOL v_tab[10];
-            validation(analysis_s, *us, v_tab);
+            validation(*as, *us, v_tab);
         }
         else
         {
