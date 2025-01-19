@@ -10,6 +10,8 @@
 #include "validation.h"
 #include "tableau.h"
 
+#define MYVAL int
+#define MYPCHAR char*
 
 //Arthur
 //Demande de choisir quel module lancer
@@ -21,7 +23,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
     printf("Tapez 3 pour ajouter un quantificateur\n");
     printf("Tapez 4 pour choisir le module d'affichage de tous les syllogismes\n");
     
-    int a = 0;
+    MYVAL a = 0;
 
     while((a < 1) || (a > 4))
     {
@@ -80,8 +82,8 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
 int main()
 {
 
-    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
-    char * filenameqle = "QuantSave/quantifierExistential.bin";
+    MYPCHAR filenameqlu = "QuantSave/quantifierUniversal.bin";
+    MYPCHAR filenameqle = "QuantSave/quantifierExistential.bin";
 
     //permet d'initialiser les quantifiacateur de base
     // T_liste tmp1 = create_list_quantifier();

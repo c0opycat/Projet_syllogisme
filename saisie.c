@@ -8,11 +8,16 @@
 #include "liste.h"
 #include "syllogism.h"
 
+#define MYVAL int
+#define MYPCHAR char*
+#define MYCHAR char
+#define MYBOOL bool
+
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //modifie le tableau user_syllogism passé en parametres
 void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
-    int type = 0;
+    MYVAL type = 0;
 
     ////Enregistrement des quantificateur des différentres parties du syllogisme
     printf("-----Première proposition-----\n");
@@ -30,17 +35,17 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
     //Enregistrement du sujet du syllogisme
     printf("Veuillez entrer le sujet de la conclusion : \n");
     
-    char* sujet = read_str();
+    MYPCHAR sujet = read_str();
     
     //Enregistrement du prédicat du syllogisme
     printf("Veuillez entrer le prédicat de la conclusion : \n");
     
-    char* predicat = read_str();
+    MYPCHAR predicat = read_str();
 
     //Enregistrement du moyen terme du syllogisme
     printf("Veuillez entrer le moyen terme : \n");
     
-    char* terme = read_str();
+    MYPCHAR terme = read_str();
 
     //Enregistrement du type du syllogisme
     printf("Entrez le type de votre syllogisme : \n");
@@ -73,9 +78,9 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
 //Fonction de saisie à 8 demandes (modifie le tableau user_syllogism en parametre)
 void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3])
 {
-    char s_or_p = 'a';
-    int s_or_p2 = 0;
-    bool f1_or_f2;
+    MYCHAR s_or_p = 'a';
+    MYVAL s_or_p2 = 0;
+    MYBOOL f1_or_f2;
 
     printf("-----Module à 8 demandes-----\n");
     printf("-----Première proposition-----\n");
@@ -84,11 +89,11 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 
     printf("Veuillez entrer le sujet de la première proposition\n");
     
-    char* term1 = read_str();
+    MYPCHAR term1 = read_str();
 
     printf("Veuillez entrer le prédicat de la première proposition\n");
     
-    char* term2 = read_str();
+    MYPCHAR term2 = read_str();
 
     set_user_prop(&(user_syllogism[0]), term1, term2);
 
@@ -119,7 +124,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 
         printf("Veuillez entrer le prédicat :\n");
         
-        char* term3 = read_str();
+        MYPCHAR term3 = read_str();
 
         if(s_or_p2 == 1)
         {
@@ -136,7 +141,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 
         printf("Veuillez entrer le sujet : \n");
         
-        char* term3 = read_str();
+        MYPCHAR term3 = read_str();
 
         printf("Veuillez choisir le prédicat :\n");
         printf("[1]:%s\n", get_user_fst_term(user_syllogism[0]));

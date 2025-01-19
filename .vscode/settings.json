@@ -4,6 +4,7 @@
         "quantifier.h": "c",
         "validation.h": "c",
         "liste.h": "c",
-        "struct.h": "c"
+        "struct.h": "c",
+        "stdio.h": "c"
     }
 }

@@ -3,11 +3,14 @@
 #include <string.h>
 
 #define MAX_STR_LEN 100
+#define MYVAL int
+#define MYPCHAR char*
+#define MYCHAR char
 
 //Arthur
 //fonction pour vider le buffer
 void clear_input_buffer() {
-    int c;
+    MYVAL c;
     // Lire et jeter tous les caractères dans le tampon jusqu'à rencontrer un '\n' ou EOF
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -16,9 +19,9 @@ void clear_input_buffer() {
 //Leïla
 //fonction pour lire une chaîne de caractères (espaces inclus)
 //retourne 0 si la chaîne a été lu correctement
-int myfgets(char* chaine)
+MYVAL myfgets(MYPCHAR chaine)
 {
-    char* rc = NULL;
+    MYPCHAR rc = NULL;
 
     //récupère la chaîne de caractère
     if(fgets(chaine, MAX_STR_LEN, stdin) != NULL)
@@ -50,14 +53,14 @@ int myfgets(char* chaine)
 
 //Fonction de récupération de la chaîne de caractère saisie par l'utilisateur
 //Retourne la chaîne de caractère lue
-char* read_str()
+MYPCHAR read_str()
 {
-    char term_tmp[MAX_STR_LEN];
+    MYCHAR term_tmp[MAX_STR_LEN];
     
     myfgets(term_tmp);
-    int len = strlen(term_tmp);
+    MYVAL len = strlen(term_tmp);
     
-    char * term = (char*)malloc((len + 1) * sizeof(char));
+    MYPCHAR term = (MYPCHAR)malloc((len + 1) * sizeof(MYCHAR));
     strcpy(term, term_tmp);
 
     return term;
@@ -65,9 +68,9 @@ char* read_str()
 
 //Fonction de récupération du caractère saisi par l'utilisateur
 //Retourne le caractère lu
-char read_char()
+MYCHAR read_char()
 {
-    char res;
+    MYCHAR res;
 
     scanf("%c", &res);
     clear_input_buffer();
@@ -77,9 +80,9 @@ char read_char()
 
 //Fonction de récupération de l'entier saisi par l'utilisateur
 //Retourne l'entier lu
-int read_int()
+MYVAL read_int()
 {
-    int res;
+    MYVAL res;
 
     scanf("%d", &res);
     clear_input_buffer();

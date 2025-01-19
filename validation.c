@@ -8,18 +8,23 @@
 #include "syllogism.h"
 #include "validation.h"
 
+#define MYVAL int
+#define MYPCHAR char*
+#define MYCHAR char
+#define MYBOOL bool
+
 
 //convertit le résultat booleén d'un test de validité en une chaîne de caractère affichable
-char * boolToStr(bool valid){
+MYPCHAR boolToStr(MYBOOL valid){
     if(valid)
     {return "est respectée";}
     else {return "n'est pas respectée";}
 }
 
 //Règles du moyen terme : vérifie si le moyen terme est universel dans une prémisse au moins
-bool Rmt (analysis_proposition AS[3])
+MYBOOL Rmt (analysis_proposition AS[3])
 {
-    bool valid = false;
+    MYBOOL valid = false;
 
     for (int i = 0; i < 2; i++)
     {
@@ -34,13 +39,13 @@ bool Rmt (analysis_proposition AS[3])
 }
 
 //Règle du latius hos : vérifie que si un terme est universel dans la conclusion il l'est dans la prémisse
-bool Rlhfst(analysis_proposition AS[3])
+MYBOOL Rlhfst(analysis_proposition AS[3])
 {
-    bool valid = true;
+    MYBOOL valid = true;
 
     if (isFstTermU(AS[2]))
     {
-        char a = fstTerm(AS[2]);
+        MYCHAR a = fstTerm(AS[2]);
         if ((isFstTermU(AS[1])&&fstTerm(AS[1])==a) || (isSecTermU(AS[1])&&scdTerm(AS[1])==a))
         {  
             valid = true;
@@ -51,12 +56,12 @@ bool Rlhfst(analysis_proposition AS[3])
     return valid;
 }
 
-bool Rlhsec(analysis_proposition AS[3])
+MYBOOL Rlhsec(analysis_proposition AS[3])
 {
-    bool valid = true;
+    MYBOOL valid = true;
     if (isSecTermU(AS[2]))
     {
-        char a = scdTerm(AS[2]);
+        MYCHAR a = scdTerm(AS[2]);
         if ((isFstTermU(AS[0])&&fstTerm(AS[0])==a) || (isSecTermU(AS[0])&&scdTerm(AS[0])==a))
         {
             valid = true;
@@ -67,23 +72,23 @@ bool Rlhsec(analysis_proposition AS[3])
     return valid;
 }
 
-bool Rlh (analysis_proposition AS[3])
+MYBOOL Rlh (analysis_proposition AS[3])
 {
     return Rlhfst(AS) && Rlhsec(AS);
 }
 
 //Règle des deux négations : Vérifie si au moins une des deux prémisses est positive
-bool Rnn (analysis_proposition AS[3])
+MYBOOL Rnn (analysis_proposition AS[3])
 {
-    bool valid = (isAffirmative(AS[0]) || isAffirmative(AS[1]));
+    MYBOOL valid = (isAffirmative(AS[0]) || isAffirmative(AS[1]));
     return valid;
 }
 //Règle de passation de la négation :Vérifie que si une prémisse est négative, la conclusion est négative
-bool Rpn (analysis_proposition AS[3])
+MYBOOL Rpn (analysis_proposition AS[3])
 {
     if (isNegative(AS[0]) || isNegative(AS[1]))
     {
-        bool valid = (isNegative(AS[2]));
+        MYBOOL valid = (isNegative(AS[2]));
         return valid;
     }
     else
@@ -93,11 +98,11 @@ bool Rpn (analysis_proposition AS[3])
     }
 }
 //Règle de passation de la double affirmation : vérifie si les deux prémisses sont affirmative que la conclusion le soit
-bool Raa (analysis_proposition AS[3])
+MYBOOL Raa (analysis_proposition AS[3])
 {
     if (isAffirmative(AS[0]) && isAffirmative(AS[1]))
     {
-        bool valid = (isAffirmative(AS[2]));
+        MYBOOL valid = (isAffirmative(AS[2]));
         return valid;
     }
     else
@@ -107,18 +112,18 @@ bool Raa (analysis_proposition AS[3])
     }
 }
 //Règle des deux particularités Vérifie si au moins une des prémisses est universelle
-bool Rpu (analysis_proposition AS[3])
+MYBOOL Rpu (analysis_proposition AS[3])
 {
-    bool valid = (isUniversal(AS[0]) || isUniversal(AS[1]));
+    MYBOOL valid = (isUniversal(AS[0]) || isUniversal(AS[1]));
     return valid;
 
 }
 //Règle des la passation de particularité : Vérifie que si une prémisse est particulière, la conclusion aussi
-bool Rpp (analysis_proposition AS[3])
+MYBOOL Rpp (analysis_proposition AS[3])
 {
     if (isParticular(AS[0]) || isParticular(AS[1]))
     {
-        bool valid = (isParticular(AS[2]));
+        MYBOOL valid = (isParticular(AS[2]));
         return valid;
     }
     else
@@ -128,7 +133,7 @@ bool Rpp (analysis_proposition AS[3])
     }
 }
 //Module de validation de l'hypothèse d'existence
-bool Ruu (analysis_proposition AS[3])
+MYBOOL Ruu (analysis_proposition AS[3])
 {
     if (isUniversal(AS[0]) && isUniversal(AS[1]))
     {
@@ -162,11 +167,11 @@ void validationStep1 (analysis_proposition AS[3], bool v_tab[10])
     //Pour les syllogisme ayant une conclusion particulière
     //Teste la validité avec une conclusion universelle
 
-bool Ri(analysis_proposition AS[3])
+MYBOOL Ri(analysis_proposition AS[3])
 {
     if (isParticular(AS[2]))
     {
-        bool r_tab[10];
+        MYBOOL r_tab[10];
 
         AS[2].universal = true;
         validationStep1(AS, r_tab);

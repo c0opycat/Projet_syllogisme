@@ -6,12 +6,17 @@
 #include "syllogism.h"
 #include "validation.h"
 
+#define MYPCHAR char*
+#define MYCHAR char
+#define MYVAL int
+#define MYBOOL bool
+
 //Fonction qui détermine la qualité et la quantité d'une proposition en fonction de son type
 //Modifie la poposition passée en paramètre
-void impl_prop_type(analysis_proposition* p, char type)
+void impl_prop_type(analysis_proposition* p, MYCHAR type)
 {
-    bool universal;
-    bool affirmative;
+    MYBOOL universal;
+    MYBOOL affirmative;
 
     switch(type)
     {
@@ -50,7 +55,7 @@ void impl_prop_type(analysis_proposition* p, char type)
 
 //Fonction qui détermine la qualité et la quantité des propositions d'un syllogisme en fonction de leurs types
 //Modifie la poposition passée en paramètre
-void impl_type(analysis_proposition* syl, char type1, char type2, char type3)
+void impl_type(analysis_proposition* syl, MYCHAR type1, MYCHAR type2, MYCHAR type3)
 {
     impl_prop_type(&(syl[0]), type1);
     impl_prop_type(&(syl[1]), type2);
@@ -58,7 +63,7 @@ void impl_type(analysis_proposition* syl, char type1, char type2, char type3)
 }
 
 //Fonction qui créé un syllogisme de 3 analysis_proposition en fonction de sa figure et de son mode
-void create_syllogism(analysis_proposition* syl, int figure, char type1, char type2, char type3)
+void create_syllogism(analysis_proposition* syl, MYVAL figure, MYCHAR type1, MYCHAR type2, MYCHAR type3)
 {
     if(figure == 1 || figure == 3)
     {
@@ -83,7 +88,7 @@ void create_syllogism(analysis_proposition* syl, int figure, char type1, char ty
 }
 
 //Fonction qui retourne le type de la première proposition en fonction de l'indice du syllogisme dans le tableau (par figure)
-char get_syl_type1(int i)
+MYCHAR get_syl_type1(MYVAL i)
 {
     if((i >= 0) && (i <= 15))
     {
@@ -104,7 +109,7 @@ char get_syl_type1(int i)
 }
 
 //Fonction qui retourne le type de la seconde proposition en fonction de l'indice du syllogisme dans le tableau (par figure)
-char get_syl_type2(int i)
+MYCHAR get_syl_type2(MYVAL i)
 {
     if(((i % 16) >= 0) && ((i % 16) <= 3))
     {
@@ -125,7 +130,7 @@ char get_syl_type2(int i)
 }
 
 //Fonction qui retourne le type de la conclusion en fonction de l'indice du syllogisme dans le tableau (par figure)
-char get_syl_type3(int i)
+MYCHAR get_syl_type3(MYVAL i)
 {
     if((i % 4) == 0)
     {
@@ -146,11 +151,11 @@ char get_syl_type3(int i)
 }
 
 //Fonction auxiliaire de fill_tab qui remplit le tableau des indices min à max (correspond à une figure)
-void fill_tab_aux(analysis_proposition** tab, int min, int max, int figure)
+void fill_tab_aux(analysis_proposition** tab, MYVAL min, MYVAL max, MYVAL figure)
 {
     char type1, type2, type3;
 
-    int i = 0;
+    MYVAL i = 0;
     
     for(int j = min; j <= max; j++)
     {
@@ -188,7 +193,7 @@ analysis_proposition** fill_tab()
 }
 
 //Fonction de validation appelant les premières règles
-void validationStep1Tab(analysis_proposition AS[3], bool v_tab[11])
+void validationStep1Tab(analysis_proposition AS[3], MYBOOL v_tab[11])
 {
     v_tab[0]=Rmt(AS);
     v_tab[1]=Rlh(AS);
@@ -206,11 +211,11 @@ void validationStep1Tab(analysis_proposition AS[3], bool v_tab[11])
 //Module de validation de l'intérêt
     //Pour les syllogisme ayant une conclusion particulière
     //Teste la validité avec une conclusion universelle
-bool RiTab(analysis_proposition AS[3])
+MYBOOL RiTab(analysis_proposition AS[3])
 {
     if (isParticular(AS[2]))
     {
-        bool r_tab[11];
+        MYBOOL r_tab[11];
         
         AS[2].universal = true;
 
@@ -232,7 +237,7 @@ bool RiTab(analysis_proposition AS[3])
 }
 
 //Fonction appelant la règle d'interêt d'un syllogisme dans le cas où ce syllogisme est valide
-void validationStep2Tab(analysis_proposition AS[3], bool v_tab[11])
+void validationStep2Tab(analysis_proposition AS[3], MYBOOL v_tab[11])
 {
     if (v_tab[9])
     {   
@@ -241,7 +246,7 @@ void validationStep2Tab(analysis_proposition AS[3], bool v_tab[11])
 }
 
 //Fonction d'affichage d'un syllogisme du tableau de syllogismes
-void displayTab(bool v_tab[11], analysis_proposition AS[3])
+void displayTab(MYBOOL v_tab[11], analysis_proposition AS[3])
 {
     printf("Figure %d ; ", get_analysis_figure(AS));
 
@@ -310,7 +315,7 @@ void displayTab(bool v_tab[11], analysis_proposition AS[3])
 //Et affichage du résultat
 void validationTab(analysis_proposition** AS)
 {   
-    bool v_tab[11];
+    MYBOOL v_tab[11];
 
     for(int i = 0; i < 256; i++)
     {

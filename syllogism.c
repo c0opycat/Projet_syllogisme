@@ -7,16 +7,20 @@
 #include "quantifier.h"
 
 #define MAX_STR_LEN 100
+#define MYPCHAR char*
+#define MYCHAR char
+#define MYVAL int
+#define MYBOOL bool
 
 //Getter
 //Retourne le premier terme d'une user_proposition
-char* get_user_fst_term(user_proposition user_prop)
+MYPCHAR get_user_fst_term(user_proposition user_prop)
 {
     return user_prop.first_term;
 }
 
 //Retourne le second terme d'une user_proposition
-char* get_user_scd_term(user_proposition user_prop)
+MYPCHAR get_user_scd_term(user_proposition user_prop)
 {
     return user_prop.second_term;
 }
@@ -28,37 +32,37 @@ T_quantifier get_user_quantifier(user_proposition user_prop)
 }
 
 //Retourne true si la proposition est universelle
-bool isUniversal (analysis_proposition analysis_syllogism)
+MYBOOL isUniversal (analysis_proposition analysis_syllogism)
 {
     return analysis_syllogism.universal;
 }
 
 //Retourne true si la proposition est particulière
-bool isParticular (analysis_proposition analysis_syllogism)
+MYBOOL isParticular (analysis_proposition analysis_syllogism)
 {
     return !(analysis_syllogism.universal);
 }
 
 //Retourne true si la proposition est affirmative
-bool isAffirmative (analysis_proposition analysis_syllogism)
+MYBOOL isAffirmative (analysis_proposition analysis_syllogism)
 {
     return analysis_syllogism.affirmative;
 }
 
 //Retourne true si la proposition est négative
-bool isNegative (analysis_proposition analysis_syllogism)
+MYBOOL isNegative (analysis_proposition analysis_syllogism)
 {
     return !(analysis_syllogism.affirmative);
 }
 
 //Retourne le type (SPM) du premier terme
-char fstTerm (analysis_proposition analysis_syllogism)
+MYCHAR fstTerm (analysis_proposition analysis_syllogism)
 {
     return analysis_syllogism.first_term;
 }
 
 //Retourne le type (SPM) du second terme
-char scdTerm (analysis_proposition analysis_syllogism)
+MYCHAR scdTerm (analysis_proposition analysis_syllogism)
 {
     return analysis_syllogism.second_term;
 }
@@ -103,45 +107,45 @@ void set_analysis_prop(analysis_proposition* analysis_prop, char fst, char scd)
 }
 
 //Setter du quantificateur d'une analysis_proposition
-void set_analysis_prop_quantifier(analysis_proposition* analysis_prop, bool universal)
+void set_analysis_prop_quantifier(analysis_proposition* analysis_prop, MYBOOL universal)
 {
     analysis_prop->universal = universal;
 }
 
 //Setter du qualificateur d'une analysis_proposition
-void set_analysis_prop_qualifier(analysis_proposition* analysis_prop, bool affirmative)
+void set_analysis_prop_qualifier(analysis_proposition* analysis_prop, MYBOOL affirmative)
 {
     analysis_prop->affirmative = affirmative;
 }
 
 
 //Retourne true si la proposition est de type A
-bool isA(analysis_proposition AS)
+MYBOOL isA(analysis_proposition AS)
 {
     return (AS.universal == true && AS.affirmative == true);
 }
 
 
 //Retourne true si la proposition est de type E
-bool isE(analysis_proposition AS)
+MYBOOL isE(analysis_proposition AS)
 {
     return (AS.universal == true && AS.affirmative == false);
 }
 
 //Retourne true si la proposition est de type I
-bool isI(analysis_proposition AS)
+MYBOOL isI(analysis_proposition AS)
 {
     return (AS.universal == false && AS.affirmative == true);
 }
 
 //Retourne true si la proposition est de type O
-bool isO(analysis_proposition AS)
+MYBOOL isO(analysis_proposition AS)
 {
     return (AS.universal == false && AS.affirmative == false);
 }
 
 //retourne le type de la proposition
-char get_char_type(analysis_proposition AS)
+MYCHAR get_char_type(analysis_proposition AS)
 {
     if(isA(AS))
     {
@@ -163,21 +167,21 @@ char get_char_type(analysis_proposition AS)
 }
 
 //Retourne true si le sujet de la proposition est universel
-bool isFstTermU(analysis_proposition AS)
+MYBOOL isFstTermU(analysis_proposition AS)
 {
     return (isA(AS)||isE(AS));
 }
 
 //Retourne true si le sujet de la proposition est existentiel
-bool isSecTermU(analysis_proposition AS)
+MYBOOL isSecTermU(analysis_proposition AS)
 {
     return (isE(AS)||isO(AS));
 }
 
 //Fonction qui détermine et renvoie la figure du syllogisme
-int get_user_figure(user_proposition user_syllogism[3])
+MYVAL get_user_figure(user_proposition user_syllogism[3])
 {
-    int type;
+    MYVAL type;
 
     if(get_user_fst_term(user_syllogism[0]) == get_user_scd_term(user_syllogism[1]))
     {
@@ -200,9 +204,9 @@ int get_user_figure(user_proposition user_syllogism[3])
 }      
 
 //Fonction qui détermine et renvoie la figure du syllogisme
-int get_analysis_figure(analysis_proposition analysis_syllogism[3])
+MYVAL get_analysis_figure(analysis_proposition analysis_syllogism[3])
 {
-    int type;
+    MYVAL type;
 
     if(fstTerm(analysis_syllogism[0]) == scdTerm(analysis_syllogism[1]))
     {
@@ -239,7 +243,7 @@ void display_syllogism(user_proposition p[3]){
 //Converti un tableau de 3 user_proposition et un tableau de 3 analysis_proposition
 void convert_to_analysis(user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3])
 {
-    int type = get_user_figure(user_syllogism);
+    MYVAL type = get_user_figure(user_syllogism);
 
     if(type == 1 || type == 3)
     {
@@ -274,7 +278,7 @@ void free_user_syl(user_proposition p[3])
     free(p[2].first_term);
     free(p[2].second_term);
 
-    int type = get_user_figure(p);
+    MYVAL type = get_user_figure(p);
 
     if(type == 1)
     {

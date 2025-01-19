@@ -8,6 +8,11 @@
 #include "quantifier.h"
 #include "liste.h"
 
+#define MYVAL int
+#define MYBOOL bool
+#define MYPCHAR char*
+#define MYCHAR char
+
 
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
@@ -142,12 +147,12 @@ T_liste initialiserListeDepuisFichier(const char* filename) {
 void new_quantifier(T_liste *qlu, T_liste *qle)
 {
 
-    char * filenameqlu = "QuantSave/quantifierUniversal.bin";
-    char * filenameqle = "QuantSave/quantifierExistential.bin";
+    MYPCHAR filenameqlu = "QuantSave/quantifierUniversal.bin";
+    MYPCHAR filenameqle = "QuantSave/quantifierExistential.bin";
 
     T_quantifier toAdd;
-    char tmp[50];
-    char toBool = 'a';
+    MYCHAR tmp[50];
+    MYCHAR toBool = 'a';
 
 
     printf("Veuillez rentrer le quantificateur\n");
@@ -155,7 +160,7 @@ void new_quantifier(T_liste *qlu, T_liste *qle)
     scanf("%s", tmp);
     clear_input_buffer();
 
-    toAdd.quantifier_str = (char*)malloc(sizeof(char) * strlen(tmp));
+    toAdd.quantifier_str = (MYPCHAR)malloc(sizeof(MYCHAR) * strlen(tmp));
     strcpy(toAdd.quantifier_str, tmp);
 
         
@@ -213,11 +218,11 @@ void display_quantifier(const T_liste ql)
 //Leïla
 //Demande de choisir entre quantificateurs universels et existentiels
 //Renvoie true si quantificateurs universels choisi
-bool choose_universal_quantifiers()
+MYBOOL choose_universal_quantifiers()
 {
-    bool res = false;
+    MYBOOL res = false;
 
-    int a = 0;
+    MYVAL a = 0;
 
     printf("Tapez 1 pour ouvrir la liste des quantificateurs universels\n");
     printf("Tapez 2 pour ouvrir la liste des quantificateurs existentiels\n");
@@ -240,8 +245,8 @@ bool choose_universal_quantifiers()
 //Renvoie le quantificateur choisi
 T_quantifier choose_quantifier(T_liste ql)
 {
-    const int ql_len = getNbreCell(ql);
-    int choice = 0;
+    const MYVAL ql_len = getNbreCell(ql);
+    MYVAL choice = 0;
 
     afficheListePos(ql);
 
