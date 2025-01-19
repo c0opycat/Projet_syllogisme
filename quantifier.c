@@ -4,10 +4,26 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "types.h"
 #include "utils.h"
 #include "quantifier.h"
 #include "liste.h"
 
+//Getter
+MYPCHAR get_quant_str(T_quantifier quant)
+{
+    return quant.quantifier_str;
+}
+
+MYBOOL get_quant_universal(T_quantifier quant)
+{
+    return quant.universal;
+}
+
+MYBOOL get_quant_affirmative(T_quantifier quant)
+{
+    return quant.affirmative;
+}
 
 //Création et initialisation d'une liste
 //Renvoie la liste initialisée
@@ -77,9 +93,9 @@ void sauvegarderQuantificateur(FILE* file, T_quantifier* quant) {
     // Sauvegarder la longueur de la chaîne pour la lire correctement plus tard
     size_t len = strlen(quant->quantifier_str) + 1;
     fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(quant->quantifier_str, sizeof(char), len, file);
-    fwrite(&quant->universal, sizeof(bool), 1, file);
-    fwrite(&quant->affirmative, sizeof(bool), 1, file);
+    fwrite(quant->quantifier_str, sizeof(MYCHAR), len, file);
+    fwrite(&quant->universal, sizeof(MYBOOL), 1, file);
+    fwrite(&quant->affirmative, sizeof(MYBOOL), 1, file);
 }
 
 T_liste ajouterEtSauvegarder(T_liste liste, T_quantifier* quant, const MYPCHAR filename) {
@@ -107,15 +123,15 @@ T_quantifier* lireQuantificateur(FILE* file) {
         perror("Erreur d'allocation mémoire pour un quantificateur");
         exit(EXIT_FAILURE);
     }
-    quant->quantifier_str = (char*)malloc(len);
+    quant->quantifier_str = (MYPCHAR)malloc(len);
     if (!quant->quantifier_str) {
         perror("Erreur d'allocation mémoire pour la chaîne de quantificateur");
         exit(EXIT_FAILURE);
     }
 
-    fread(quant->quantifier_str, sizeof(char), len, file);
-    fread(&quant->universal, sizeof(bool), 1, file);
-    fread(&quant->affirmative, sizeof(bool), 1, file);
+    fread(quant->quantifier_str, sizeof(MYCHAR), len, file);
+    fread(&quant->universal, sizeof(MYBOOL), 1, file);
+    fread(&quant->affirmative, sizeof(MYBOOL), 1, file);
 
     return quant;
 }
@@ -254,7 +270,7 @@ T_quantifier choose_quantifier(T_liste ql)
 
     T_liste tmp = ql;
 
-    for(int i = 1; i < choice; i++)
+    for(MYVAL i = 1; i < choice; i++)
     {
         tmp = getptrNextCell(tmp);
     }

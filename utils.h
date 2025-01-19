@@ -2,12 +2,7 @@
 #define UTILS_H_INCLUDED
 
 #include <stdbool.h>
-
-typedef int MYVAL;
-typedef bool MYBOOL;
-typedef char MYCHAR;
-typedef char* MYPCHAR;
-
+#include "types.h"
 
 void clear_input_buffer();
 

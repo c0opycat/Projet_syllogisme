@@ -7,6 +7,9 @@
         "liste.h": "c",
         "struct.h": "c",
         "stdio.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "stdbool.h": "c",
+        "string.h": "c",
+        "types.h": "c"
     }
 }

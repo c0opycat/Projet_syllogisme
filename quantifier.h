@@ -2,8 +2,13 @@
 #define QUANTIFIER_H_INCLUDED
 
 #include <stdbool.h>
+#include "types.h"
 #include "liste.h"
 #include "utils.h"
+
+MYPCHAR get_quant_str(T_quantifier quant);
+MYBOOL get_quant_universal(T_quantifier quant);
+MYBOOL get_quant_affirmative(T_quantifier quant);
 
 T_liste create_list_quantifier();
 T_liste add_quantifier(const T_quantifier quantifier, T_liste ql);
@@ -11,7 +16,7 @@ void new_quantifier(T_liste *qlu, T_liste *qle);
 
 void display_quantifier(const T_liste ql);
 
-T_liste init_list_quanti(T_liste l, MYBOOL isUniversal);
+T_liste initialiserListeDepuisFichier(const MYPCHAR filename);
 
 MYBOOL choose_universal_quantifiers();
 T_quantifier choose_quantifier(T_liste ql);

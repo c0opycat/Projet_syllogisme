@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "types.h"
 #include "utils.h"
 #include "quantifier.h"
 #include "liste.h"
@@ -11,21 +12,21 @@
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //modifie le tableau user_syllogism passé en parametres
-void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3]){
+void input_advanced_syllogism(T_liste uql, T_liste eql, user_syllogism* us){
     MYVAL type = 0;
 
     ////Enregistrement des quantificateur des différentres parties du syllogisme
     printf("-----Première proposition-----\n");
 
-    set_quantifier(&(user_syllogism[0].quantifier), uql, eql);
+    set_quantifier(&(us->up[0].quantifier), uql, eql); 
 
     printf("-----Deuxième proposition-----\n");
 
-    set_quantifier(&(user_syllogism[1].quantifier), uql, eql);
+    set_quantifier(&(us->up[1].quantifier), uql, eql);
 
     printf("-----Conclusion-----\n");
 
-    set_quantifier(&(user_syllogism[2].quantifier), uql, eql);
+    set_quantifier(&(us->up[2].quantifier), uql, eql);
 
     //Enregistrement du sujet du syllogisme
     printf("Veuillez entrer le sujet de la conclusion : \n");
@@ -51,27 +52,27 @@ void input_advanced_syllogism(T_liste uql, T_liste eql, user_proposition user_sy
 
     if(type == 1 || type == 3)
     {
-        set_user_prop(&(user_syllogism[0]), terme, predicat);
+        set_user_prop(get_p_fst_uprop(us), terme, predicat);
     }
     if(type == 1 || type == 2)
     {
-        set_user_prop(&(user_syllogism[1]), sujet, terme);
+        set_user_prop(get_p_scd_uprop(us), sujet, terme);
     }
     if(type == 2 || type == 4)
     {
-        set_user_prop(&(user_syllogism[0]), predicat, terme);
+        set_user_prop(get_p_fst_uprop(us), predicat, terme);
     }
     if(type == 3 || type == 4)
     {
-        set_user_prop(&(user_syllogism[1]), terme, sujet);
+        set_user_prop(get_p_scd_uprop(us), terme, sujet);
     }
     
-    set_user_prop(&(user_syllogism[2]), sujet, predicat);
+    set_user_prop(get_p_conc_uprop(us), sujet, predicat);
 }
 
 //Leïla
 //Fonction de saisie à 8 demandes (modifie le tableau user_syllogism en parametre)
-void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syllogism[3])
+void input_simple_syllogism(T_liste uql, T_liste eql, user_syllogism* us)
 {
     MYCHAR s_or_p = 'a';
     MYVAL s_or_p2 = 0;
@@ -80,7 +81,7 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     printf("-----Module à 8 demandes-----\n");
     printf("-----Première proposition-----\n");
 
-    set_quantifier(&(user_syllogism[0].quantifier), uql, eql);
+    set_quantifier(&(us->up[0].quantifier), uql, eql);
 
     printf("Veuillez entrer le sujet de la première proposition\n");
     
@@ -90,11 +91,11 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
     
     MYPCHAR term2 = read_str();
 
-    set_user_prop(&(user_syllogism[0]), term1, term2);
+    set_user_prop(get_p_fst_uprop(us), term1, term2);
 
     printf("-----Deuxième proposition-----\n");
 
-    set_quantifier(&(user_syllogism[1].quantifier), uql, eql);
+    set_quantifier(&(us->up[1].quantifier), uql, eql);
 
     printf("Le sujet est-il le sujet ou le prédicat de la première proposition ? \n");
     printf("[o]:oui [n]:non\n");
@@ -109,8 +110,8 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         f1_or_f2 = false;
 
         printf("Veuillez choisir le sujet :\n");
-        printf("[1]:%s\n", get_user_fst_term(user_syllogism[0]));
-        printf("[2]:%s\n", get_user_scd_term(user_syllogism[0]));
+        printf("[1]:%s\n", get_user_fst_term(get_fst_uprop(*us)));
+        printf("[2]:%s\n", get_user_scd_term(get_fst_uprop(*us)));
 
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
@@ -123,11 +124,11 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 
         if(s_or_p2 == 1)
         {
-            set_user_prop(&(user_syllogism[1]), term1, term3);
+            set_user_prop(get_p_scd_uprop(us), term1, term3);
         }
         else
         {
-            set_user_prop(&(user_syllogism[1]), term2, term3);
+            set_user_prop(get_p_scd_uprop(us), term2, term3);
         }
     }
     else
@@ -139,8 +140,8 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
         MYPCHAR term3 = read_str();
 
         printf("Veuillez choisir le prédicat :\n");
-        printf("[1]:%s\n", get_user_fst_term(user_syllogism[0]));
-        printf("[2]:%s\n", get_user_scd_term(user_syllogism[0]));
+        printf("[1]:%s\n", get_user_fst_term(get_fst_uprop(*us)));
+        printf("[2]:%s\n", get_user_scd_term(get_fst_uprop(*us)));
 
         while((s_or_p2 != 1) && (s_or_p2 != 2))
         {
@@ -149,42 +150,42 @@ void input_simple_syllogism(T_liste uql, T_liste eql, user_proposition user_syll
 
         if(s_or_p2 == 1)
         {
-            set_user_prop(&(user_syllogism[1]), term3, term1);
+            set_user_prop(get_p_scd_uprop(us), term3, term1);
         }
         else
         {
-            set_user_prop(&(user_syllogism[1]), term3, term2);
+            set_user_prop(get_p_scd_uprop(us), term3, term2);
         }
     }
 
     printf("-----Conclusion-----\n");
 
-    set_quantifier(&(user_syllogism[2].quantifier), uql, eql);
+    set_quantifier(&(us->up[2].quantifier), uql, eql);
 
     if(f1_or_f2)
     {
         printf("Le sujet de la conclusion est donc le sujet de la deuxième proposition.\n");
 
-        if(get_user_figure(user_syllogism) == 1)
+        if(get_user_figure(*us) == 1)
         {
-            set_user_prop(&(user_syllogism[2]), get_user_fst_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
+            set_user_prop(get_p_conc_uprop(us), get_user_fst_term(get_scd_uprop(*us)), get_user_scd_term(get_fst_uprop(*us)));
         }
         else
         {
-            set_user_prop(&(user_syllogism[2]), get_user_fst_term(user_syllogism[1]), get_user_fst_term(user_syllogism[0]));
+            set_user_prop(get_p_conc_uprop(us), get_user_fst_term(get_scd_uprop(*us)), get_user_fst_term(get_fst_uprop(*us)));
         }
     }
     else
     {
         printf("Le sujet de la conclusion est donc le prédicat de la deuxième proposition.\n");
 
-        if(get_user_figure(user_syllogism) == 3)
+        if(get_user_figure(*us) == 3)
         {
-            set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_scd_term(user_syllogism[0]));
+            set_user_prop(get_p_conc_uprop(us), get_user_scd_term(get_scd_uprop(*us)), get_user_scd_term(get_fst_uprop(*us)));
         }
         else
         {
-            set_user_prop(&(user_syllogism[2]), get_user_scd_term(user_syllogism[1]), get_user_fst_term(user_syllogism[0]));
+            set_user_prop(get_p_conc_uprop(us), get_user_scd_term(get_scd_uprop(*us)), get_user_fst_term(get_fst_uprop(*us)));
         }
     }
 }

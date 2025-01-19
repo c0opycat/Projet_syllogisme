@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "liste.h"
+#include "types.h"
+#include "utils.h"
 
 
 //Initialisation d'une liste
@@ -11,7 +13,7 @@ void initListe(T_liste *l){
 }
 
 //Retourne true si la liste est vide
-bool listeVide(T_liste l){
+MYBOOL listeVide(T_liste l){
     return (l==NULL);
 }
 
@@ -104,12 +106,12 @@ T_quantifier* getPtrData(T_liste l)
 
 
 //Retourne le nombre d'éléments dans la liste
-int getNbreCell(T_liste l)
+MYVAL getNbreCell(T_liste l)
 {
     if(listeVide(l)){
         return 0;
     }else{
-        int i = 0;
+        MYVAL i = 0;
 
         //copie et parcours de la liste avec incrémentation du nombre de cellule
         T_liste tmp = l;
@@ -134,11 +136,11 @@ void afficheListePos(T_liste l)
 
         T_liste tmp = l;
 
-        int tmpLen = getNbreCell(tmp);
+        MYVAL tmpLen = getNbreCell(tmp);
 
         T_quantifier* ptrData;
 
-        for(int i = 1; i <= tmpLen; i++){
+        for(MYVAL i = 1; i <= tmpLen; i++){
 
             ptrData = getPtrData(tmp);
 

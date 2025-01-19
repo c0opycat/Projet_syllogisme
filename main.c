@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
-
+#include "types.h"
 #include "utils.h"
 #include "quantifier.h"
 #include "liste.h"
@@ -10,13 +11,10 @@
 #include "validation.h"
 #include "tableau.h"
 
-#define MYVAL int
-#define MYPCHAR char*
-
 //Arthur
 //Demande de choisir quel module lancer
 //Puis lance le module choisi
-void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], analysis_proposition analysis_syllogism[3], analysis_proposition** tab){
+void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogism* as, analysis_syllogism* tab){
     
     printf("Tapez 1 pour choisir le module de saisie pour experts\n");
     printf("Tapez 2 pour choisir le module de saisie pour novices\n");
@@ -38,22 +36,19 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         if(a == 1)
         {
             printf("Module de saisie pour experts choisi\n");
-            input_advanced_syllogism(uql, eql, user_syllogism);
+            input_advanced_syllogism(uql, eql, us);
         }
         else if (a == 2)
         {
             printf("Module de saisie pour novices choisi\n");
-            input_simple_syllogism(uql, eql, user_syllogism);
+            input_simple_syllogism(uql, eql, us);
         }
 
             //Validation du syllogisme saisi
-            convert_to_analysis(user_syllogism, analysis_syllogism);
+            convert_to_analysis(*us, as);
         
             MYBOOL v_tab[10];
-            validation(analysis_syllogism, user_syllogism, v_tab);
-            
-            //Affichage du syllogisme
-            display_syllogism(user_syllogism);
+            validation(*as, *us, v_tab);
 
             printf("Voulez sauvegarder ce syllogisme ? [o]:oui [n]:non\n");
             while (a != 'o' && a != 'n')
@@ -62,7 +57,8 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
             }
             if (a == 'o')
             {
-               int res = save_syllogism(user_syllogism, "SylloSave/syllogism.bin");
+               int res = save_syllogism(us, "SylloSave/syllogism.bin");
+               assert(res == 1);
             }
             
     }
@@ -74,7 +70,7 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         new_quantifier(&uql, &eql);
 
         //Retour au choix d'un module
-        choose_input(uql, eql, user_syllogism, analysis_syllogism, tab);
+        choose_input(uql, eql, us, as, tab);
     }
 
     //Modle d'affichage de tous les syllogismes
@@ -102,8 +98,8 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         {
             pos = read_int();
         }
-        user_proposition load_syllogism[3];
-        load_syllogism_pos(load_syllogism, "SylloSave/syllogism.bin", pos);
+        user_syllogism load_syllogism;
+        load_syllogism_pos(&load_syllogism, "SylloSave/syllogism.bin", pos);
         printf("Syllogisme chargé :\n");
         display_syllogism(load_syllogism);
 
@@ -114,14 +110,14 @@ void choose_input(T_liste uql, T_liste eql, user_proposition user_syllogism[3], 
         }
         if (a == 'o')
         {
-            analysis_proposition analysis_syllogism[3];
-            convert_to_analysis(load_syllogism, analysis_syllogism);
+            analysis_syllogism analysis_s;
+            convert_to_analysis(load_syllogism, &analysis_s);
             MYBOOL v_tab[10];
-            validation(analysis_syllogism, load_syllogism, v_tab);
+            validation(analysis_s, load_syllogism, v_tab);
         }
         else
         {
-            choose_input(uql, eql, user_syllogism, analysis_syllogism, tab);
+            choose_input(uql, eql, us, as, tab);
         }
 
     }
@@ -147,20 +143,20 @@ int main()
 
 
     //Création des tableaux représentant le syllogisme
-    user_proposition user_syllogism[3];
-    analysis_proposition analysis_syllogism[3];
+    user_syllogism us;
+    analysis_syllogism as;
 
     //Création du tableau de tous les syllogismes
-    analysis_proposition** tab = fill_tab();
+    analysis_syllogism* tab = fill_tab();
 
     //Choix du module et lancement du module
-    choose_input(quant_list_u, quant_list_e, user_syllogism, analysis_syllogism, tab);
+    choose_input(quant_list_u, quant_list_e, &us, &as, tab);
     
 
     //Libération des ressources
     free_list(quant_list_u);
     free_list(quant_list_e);
-    free_user_syl(user_syllogism);
+    free_user_syl(us);
     free_tab(tab);
 
     return 0;

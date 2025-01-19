@@ -1,20 +1,21 @@
 #ifndef VALIDATION_H_INCLUDED
 #define VALIDATION_H_INCLUDED
 
+#include "types.h"
 #include "utils.h"
 
 MYCHAR get_char_type(analysis_proposition AS);
 
-MYBOOL Rmt (analysis_proposition AS[3]);
-MYBOOL Rlh (analysis_proposition AS[3]);
-MYBOOL Rnn (analysis_proposition AS[3]);
-MYBOOL Rpn (analysis_proposition AS[3]);
-MYBOOL Raa (analysis_proposition AS[3]);
-MYBOOL Rpu (analysis_proposition AS[3]);
-MYBOOL Rpp (analysis_proposition AS[3]);
-MYBOOL Ruu (analysis_proposition AS[3]);
-MYBOOL Ri (analysis_proposition AS[3]);
+MYBOOL Rmt (analysis_syllogism AS);
+MYBOOL Rlh (analysis_syllogism AS);
+MYBOOL Rnn (analysis_syllogism AS);
+MYBOOL Rpn (analysis_syllogism AS);
+MYBOOL Raa (analysis_syllogism AS);
+MYBOOL Rpu (analysis_syllogism AS);
+MYBOOL Rpp (analysis_syllogism AS);
+MYBOOL Ruu (analysis_syllogism AS);
+MYBOOL Ri (analysis_syllogism AS, MYCHAR hyp_existence);
 
-void validation(analysis_proposition AS[3],user_proposition US[3], MYBOOL v_tab[10]);
+void validation(analysis_syllogism AS,user_syllogism US, MYBOOL v_tab[10]);
 
 #endif

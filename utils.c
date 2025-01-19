@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "types.h"
 #include "utils.h"
 
 #define MAX_STR_LEN 100
