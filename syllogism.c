@@ -255,24 +255,19 @@ MYVAL get_user_figure(user_syllogism us)
 {
     MYVAL type = 0;
 
-    const char* fst1 = get_user_fst_term(get_fst_uprop(us));
-    const char* scd1 = get_user_scd_term(get_fst_uprop(us));
-    const char* fst2 = get_user_fst_term(get_scd_uprop(us));
-    const char* scd2 = get_user_scd_term(get_scd_uprop(us));
-
-    if(strcmp(fst1, scd2) == 0)
+    if(strcmp(get_user_fst_term(get_fst_uprop(us)), get_user_scd_term(get_scd_uprop(us))) == 0)
     {
         type = 1;
     }
-    else if(strcmp(scd1, scd2) == 0)
+    else if(strcmp(get_user_scd_term(get_fst_uprop(us)), get_user_scd_term(get_scd_uprop(us))) == 0)
     {
         type = 2;
     }
-    else if(strcmp(fst1, fst2) == 0)
+    else if(strcmp(get_user_fst_term(get_fst_uprop(us)), get_user_fst_term(get_scd_uprop(us))) == 0)
     {
         type = 3;
     }
-    else if(strcmp(scd1, fst2) == 0)
+    else if(strcmp(get_user_scd_term(get_fst_uprop(us)), get_user_fst_term(get_scd_uprop(us))) == 0)
     {
         type = 4;
     }
@@ -430,7 +425,7 @@ void free_user_syl(user_syllogism us)
 
 // Fonction pour sauvegarder un syllogisme dans un fichier binaire
 MYVAL save_syllogism(user_syllogism* us, const MYPCHAR filename) {
-    FILE* file = fopen(filename, "ab"); // Mode ajout binaire
+    FILE* file = fopen(filename, "ab");
     if (!file) {
         printf("Erreur lors de l'ouverture du fichier %s\n", filename);
         return 0;
@@ -444,14 +439,11 @@ MYVAL save_syllogism(user_syllogism* us, const MYPCHAR filename) {
     fwrite(&len, sizeof(MYVAL), 1, file);
     fwrite(name, sizeof(MYCHAR), len, file);
 
-    // Pour chaque proposition du syllogisme
     for (MYVAL i = 0; i < 3; i++) {
-        // Sauvegarde des termes
         size_t len1 = strlen(get_user_fst_term(get_i_uprop(*us, i))) + 1; 
         size_t len2 = strlen(get_user_scd_term(get_i_uprop(*us, i))) + 1;
         size_t lenq = strlen(get_quant_str(get_user_quantifier(get_i_uprop(*us, i)))) + 1; 
         
-        // Écriture des longueurs puis des données
         fwrite(&len1, sizeof(size_t), 1, file);
         fwrite(&len2, sizeof(size_t), 1, file);
         fwrite(&lenq, sizeof(size_t), 1, file);
@@ -460,7 +452,7 @@ MYVAL save_syllogism(user_syllogism* us, const MYPCHAR filename) {
         fwrite(us->up[i].second_term, sizeof(MYCHAR), len2, file);
         fwrite(us->up[i].quantifier.quantifier_str, sizeof(MYCHAR), lenq, file);
         
-        // Sauvegarde des booléens du quantificateur
+
         fwrite(&us->up[i].quantifier.universal, sizeof(MYBOOL), 1, file);
         fwrite(&us->up[i].quantifier.affirmative, sizeof(MYBOOL), 1, file);
     }
@@ -476,7 +468,6 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
         return 0;
     }
 
-    // Sauter les syllogismes précédents
     for (MYVAL pos = 1; pos < position; pos++) {
         MYVAL name_len;
         if (fread(&name_len, sizeof(MYVAL), 1, file) != 1) {
@@ -484,10 +475,9 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
             fclose(file);
             return 0;
         }
-        // Sauter le nom
+
         fseek(file, name_len, SEEK_CUR);
 
-        // Sauter les 3 propositions
         for (MYVAL i = 0; i < 3; i++) {
             size_t len1, len2, lenq;
             if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
@@ -501,7 +491,6 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
         }
     }
 
-    // Sauter le nom du syllogisme à charger
     MYVAL name_len;
     if (fread(&name_len, sizeof(MYVAL), 1, file) != 1) {
         printf("Position invalide\n");
@@ -510,11 +499,9 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
     }
     fseek(file, name_len, SEEK_CUR);
 
-    // Pour chaque proposition
     for (MYVAL i = 0; i < 3; i++) {
         size_t len1, len2, lenq;
 
-        // Lecture des longueurs
         if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
             fread(&len2, sizeof(size_t), 1, file) != 1 ||
             fread(&lenq, sizeof(size_t), 1, file) != 1) {
@@ -522,7 +509,6 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
             return 0;
         }
 
-        // Allocation mémoire
         us->up[i].first_term = (MYPCHAR)malloc(len1);
         us->up[i].second_term = (MYPCHAR)malloc(len2);
         us->up[i].quantifier.quantifier_str = (MYPCHAR)malloc(lenq);
@@ -533,7 +519,6 @@ MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL posit
             return 0;
         }
 
-        // Lecture des données
         if (fread(us->up[i].first_term, sizeof(MYCHAR), len1, file) != len1 ||
             fread(us->up[i].second_term, sizeof(MYCHAR), len2, file) != len2 ||
             fread(us->up[i].quantifier.quantifier_str, sizeof(MYCHAR), lenq, file) != lenq ||
@@ -561,29 +546,24 @@ void list_syllogisms(const MYPCHAR filename) {
     while (!feof(file)) {
         MYVAL name_len;
         
-        // Lecture de la longueur du nom
         if (fread(&name_len, sizeof(MYVAL), 1, file) != 1) {
             break;  // Fin du fichier
         }
 
-        // Lecture du nom
         MYCHAR name[MAX_STR_LEN];
         if ((int)fread(name, sizeof(MYCHAR), name_len, file) != name_len) {
             break;
         }
         name[name_len] = '\0';
         
-        // Affichage
         printf("%d. %s\n", count++, name);
 
-        // Saut des données du syllogisme
         for (MYVAL i = 0; i < 3; i++) {
             size_t len1, len2, lenq;
             fread(&len1, sizeof(size_t), 1, file);
             fread(&len2, sizeof(size_t), 1, file);
             fread(&lenq, sizeof(size_t), 1, file);
             
-            // Saut des données
             fseek(file, len1 + len2 + lenq + 2*sizeof(MYBOOL), SEEK_CUR);
         }
     }
@@ -601,15 +581,12 @@ MYVAL count_syllogisms(const MYPCHAR filename) {
     while (1) {
         MYVAL name_len;
         
-        // Lecture de la longueur du nom
         if (fread(&name_len, sizeof(MYVAL), 1, file) != 1) {
             break;
         }
 
-        // Sauter le nom
         fseek(file, name_len, SEEK_CUR);
 
-        // Sauter les données des 3 propositions
         for (MYVAL i = 0; i < 3; i++) {
             size_t len1, len2, lenq;
             if (fread(&len1, sizeof(size_t), 1, file) != 1 ||
