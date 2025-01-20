@@ -6,6 +6,7 @@
 #include "types.h"
 
 
+
 void initListe(T_liste *l);
 
 MYBOOL listeVide( T_liste l);

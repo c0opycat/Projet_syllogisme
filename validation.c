@@ -10,6 +10,7 @@
 #include "validation.h"
 #include "utils.h"
 
+
 //convertit le résultat booleén d'un test de validité en une chaîne de caractère affichable
 MYPCHAR boolToStr(MYBOOL valid){
     if(valid)

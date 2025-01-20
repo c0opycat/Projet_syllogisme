@@ -9,6 +9,7 @@
 #include "quantifier.h"
 #include "liste.h"
 
+
 //Getter
 MYPCHAR get_quant_str(T_quantifier quant)
 {

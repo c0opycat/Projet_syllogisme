@@ -4,6 +4,7 @@
 #include "types.h"
 #include "utils.h"
 
+
 MYCHAR get_char_type(analysis_proposition AS);
 
 MYBOOL Rmt (analysis_syllogism AS);

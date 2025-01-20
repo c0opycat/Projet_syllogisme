@@ -3,12 +3,12 @@
 
 #include <stdbool.h>
 
+
 //Types élémentaires
 typedef int MYVAL;
 typedef bool MYBOOL;
 typedef char MYCHAR;
 typedef char* MYPCHAR;
-
 
 //Structure de données représentant un quantificateur
 typedef struct T_quant{

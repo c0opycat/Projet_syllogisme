@@ -7,6 +7,7 @@
 #include "utils.h"
 
 
+
 //Initialisation d'une liste
 void initListe(T_liste *l){
     *l=NULL;

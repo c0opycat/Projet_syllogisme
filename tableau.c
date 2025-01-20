@@ -8,6 +8,7 @@
 #include "validation.h"
 #include "utils.h"
 
+
 //Fonction qui détermine la qualité et la quantité d'une proposition en fonction de son type
 //Modifie la poposition passée en paramètre
 void impl_prop_type(analysis_proposition* p, MYCHAR type)

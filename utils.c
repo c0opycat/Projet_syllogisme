@@ -7,6 +7,7 @@
 
 #define MAX_STR_LEN 100
 
+
 //Arthur
 //fonction pour vider le buffer
 void clear_input_buffer() {
@@ -14,7 +15,6 @@ void clear_input_buffer() {
     // Lire et jeter tous les caractères dans le tampon jusqu'à rencontrer un '\n' ou EOF
     while ((c = getchar()) != '\n' && c != EOF);
 }
-
 
 //Leïla
 //fonction pour lire une chaîne de caractères (espaces inclus)

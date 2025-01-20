@@ -66,5 +66,4 @@ void list_syllogisms(const MYPCHAR filename);
 MYVAL load_syllogism_pos(user_syllogism* us, const MYPCHAR filename, MYVAL position);
 MYVAL count_syllogisms(const MYPCHAR filename);
 
-
 #endif //SYLLOGISM_H_INCLUDED

@@ -1,6 +1,10 @@
+#ifndef TABLEAU_H_INCLUDED
+#define TABLEAU_H_INCLUDED
+
 #include "syllogism.h"
 #include "types.h"
 #include "utils.h"
+
 
 void impl_type(analysis_syllogism* syl, MYCHAR type1, MYCHAR type2, MYCHAR type3);
 
@@ -17,3 +21,5 @@ void validationTab(analysis_syllogism* AS);
 void displayValid();
 
 void free_tab(analysis_syllogism* tab);
+
+#endif

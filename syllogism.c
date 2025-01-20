@@ -8,6 +8,7 @@
 #include "quantifier.h"
 #include "utils.h"
 
+
 #define MAX_STR_LEN 100
 
 

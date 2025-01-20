@@ -6,6 +6,7 @@
 #include "liste.h"
 #include "utils.h"
 
+
 MYPCHAR get_quant_str(T_quantifier quant);
 MYBOOL get_quant_universal(T_quantifier quant);
 MYBOOL get_quant_affirmative(T_quantifier quant);

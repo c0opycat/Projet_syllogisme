@@ -9,6 +9,7 @@
 #include "liste.h"
 #include "syllogism.h"
 
+
 //Arthur
 //Fonction de saisie d'un syllogisme avec le module a 7 demandes
 //modifie le tableau user_syllogism passé en parametres

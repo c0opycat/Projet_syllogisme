@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "types.h"
 
+
 void clear_input_buffer();
 
 MYVAL myfgets(MYPCHAR chaine);
