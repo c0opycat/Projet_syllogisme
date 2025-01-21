@@ -22,10 +22,11 @@ void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogi
     printf("Tapez 3 pour ajouter un quantificateur\n");
     printf("Tapez 4 pour choisir le module d'affichage de tous les syllogismes\n");
     printf("Tapez 5 pour afficher les syllogismes sauvegardés\n");
+    printf("Tapez 6 pour quitter le logiciel\n");
     
     MYVAL a = 0;
 
-    while((a < 1) || (a > 5))
+    while((a < 1) || (a > 6))
     {
         a = read_int();
     }
@@ -61,7 +62,7 @@ void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogi
                int res = save_syllogism(us, "SylloSave/syllogism.bin");
                assert(res == 1);
             }
-            
+            choose_input(uql, eql, us, as, tab);
     }
     
     //Ajout d'un quantificateur
@@ -84,9 +85,11 @@ void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogi
 
         //Affichage d'un exemple pour chaque syllogisme valide
         displayValid();
+        
+        choose_input(uql, eql, us, as, tab);
 
     }
-    else
+    else if(a == 5)
     {
         printf("Module d'affichage des syllogismes sauvegardés choisi\n");      
      
@@ -114,11 +117,11 @@ void choose_input(T_liste uql, T_liste eql, user_syllogism* us, analysis_syllogi
             MYBOOL v_tab[10];
             validation(*as, *us, v_tab);
         }
-        else
-        {
-            choose_input(uql, eql, us, as, tab);
-        }
-
+        choose_input(uql, eql, us, as, tab);
+    }
+    else
+    {
+        exit(EXIT_SUCCESS);
     }
 }
 
@@ -128,13 +131,14 @@ int main()
     MYPCHAR filenameqlu = "QuantSave/quantifierUniversal.bin";
     MYPCHAR filenameqle = "QuantSave/quantifierExistential.bin";
 
+    /*
     //permet d'initialiser les quantifiacateur de base
-    // T_liste tmp1 = create_list_quantifier();
-    // T_liste tmp2 = create_list_quantifier();
+    T_liste tmp1 = create_list_quantifier();
+    T_liste tmp2 = create_list_quantifier();
 
-    // init_list_quanti(tmp1, true);
-    // init_list_quanti(tmp2, false);
-    
+    init_list_quanti(tmp1, true);
+    init_list_quanti(tmp2, false);
+    */
     //Création des listes de quantificateurs universels et existentiels
 
     T_liste quant_list_e = initialiserListeDepuisFichier(filenameqle);

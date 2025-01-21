@@ -46,9 +46,9 @@ T_liste add_quantifier(const T_quantifier quantifier, T_liste ql)
 //Arthur
 //Prend en parametre une liste de quantificateurs et un booleen(true si il s'agit de la liste de quantificateurs universels, false sinon)
 //Renvoie la meme liste contenant les quantificateurs déclarés plus tot
-/*
-//Fonction pour initialiser le fichier de sauvegarde avec les quantificateurs de base
 
+//Fonction pour initialiser le fichier de sauvegarde avec les quantificateurs de base
+/*
 T_quantifier uq1 = {"Aucun", true, false};
 T_quantifier uq2 = {"Tout(e)", true, true};
 T_quantifier uq3 = {"N'importe quel(le)", true, true};
@@ -93,6 +93,7 @@ T_liste init_list_quanti(T_liste l, bool isUniversal)
 void sauvegarderQuantificateur(FILE* file, T_quantifier* quant) {
     // Sauvegarder la longueur de la chaîne pour la lire correctement plus tard
     size_t len = strlen(quant->quantifier_str) + 1;
+    //size_t len = 15;
     fwrite(&len, sizeof(size_t), 1, file);
     fwrite(quant->quantifier_str, sizeof(MYCHAR), len, file);
     fwrite(&quant->universal, sizeof(MYBOOL), 1, file);
@@ -163,14 +164,13 @@ void new_quantifier(T_liste *qlu, T_liste *qle)
     MYPCHAR filenameqle = "QuantSave/quantifierExistential.bin";
 
     T_quantifier toAdd;
-    MYCHAR tmp[50];
+    MYPCHAR tmp;
     MYCHAR toBool = 'a';
 
 
     printf("Veuillez rentrer le quantificateur\n");
 
-    scanf("%s", tmp);
-    clear_input_buffer();
+    tmp = read_str();
 
     toAdd.quantifier_str = (MYPCHAR)malloc(sizeof(MYCHAR) * strlen(tmp));
     strcpy(toAdd.quantifier_str, tmp);
